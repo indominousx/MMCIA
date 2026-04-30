@@ -1,0 +1,2 @@
+credit_cap_inr,baseline_outstanding_payables_inr,baseline_credit_utilized_inr,approved_po_value_inr,projected_outstanding_after_approved_inr,projected_credit_utilized_after_approved_inr,remaining_available_credit_inr,latest_capital_month,credit_gate_rule
+3000000.0,1414385.0,2175977.0,813357.1499999999,2227742.15,2989334.1500000004,10665.849999999627,2023-11,approved only when projected outstanding and credit utilized stay within cap

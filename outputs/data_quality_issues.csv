@@ -1,0 +1,4 @@
+severity,file,issue_type,detail
+warning,working_capital_log.csv,duplicate_months_keep_last_file_occurrence,"2022-01, 2022-05"
+warning,working_capital_log.csv,capital_snapshot_trails_analysis_date,"latest=2023-11, analysis_date=2024-01-01"
+info,inventory_transactions.csv,stockout_event_markers,3 rows use po_number=STOCKOUT-EVENT

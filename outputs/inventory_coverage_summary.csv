@@ -1,0 +1,15 @@
+material_id,material_name,category,unit,current_stock,reorder_point_current,total_demand_21d,total_demand_4w,total_demand_planning_window,min_projected_stock_42d,projected_shortage_qty,first_stockout_date,days_to_stockout,days_of_cover,under_3_days_stock,stockout_within_21d,substitute_material_ids,coverage_note
+M01,Kraft Paper - Grade A (180 GSM),Paper,rolls,18.0,40.0,376557.1446,427240.5306,534726.8866,-534708.8866,534708.8866,2024-01-02,1,1.0,True,True,M02,projected stockout
+M04,White Top Liner,Paper,rolls,30.0,15.0,227722.20900000003,335434.6710000001,383567.5910000001,-383537.5910000001,383537.5910000001,2024-01-02,1,1.0,True,True,,projected stockout
+M05,Corrugating Medium,Paper,rolls,44.0,25.0,588547.0656,733975.1484000001,846268.6763999999,-846224.6763999999,846224.6763999999,2024-01-02,1,1.0,True,True,,projected stockout
+M06,Adhesive WF-200 (Water-based),Adhesive,kg,1840.0,200.0,26572.10556,31000.7724,36034.7004,-34194.7004,34194.7004,2024-01-02,1,1.0,True,True,M07,projected stockout
+M07,Adhesive PF-100 (Premium),Adhesive,kg,620.0,100.0,9108.888359999999,13417.38684,15342.70364,-14722.70364,14722.70364,2024-01-02,1,1.0,True,True,M06,projected stockout
+M08,Starch Adhesive Powder,Adhesive,kg,920.0,500.0,28068.151800000003,31849.829700000002,40337.2387,-39417.2387,39417.2387,2024-01-02,1,1.0,True,True,,projected stockout
+M09,Ink - Cyan,Ink,kg,480.0,50.0,7866.8031,10384.74684,11234.23564,-10754.23564,10754.23564,2024-01-02,1,1.0,True,True,,projected stockout
+M10,Ink - Magenta,Ink,kg,510.0,50.0,7866.8031,10384.74684,11234.23564,-10724.23564,10724.23564,2024-01-02,1,1.0,True,True,,projected stockout
+M11,Ink - Black,Ink,kg,390.0,60.0,6038.4129,7042.359480000001,8219.10628,-7829.106280000001,7829.106280000001,2024-01-02,1,1.0,True,True,,projected stockout
+M12,Specialty Ink - Gold,Ink,kg,340.0,20.0,1656.16152,2439.52488,2789.58248,-2449.58248,2449.58248,2024-01-02,1,1.0,True,True,,projected stockout
+M13,PP Strapping Band 12mm,Strapping,rolls,85.0,30.0,90258.3864,108218.2374,132297.3554,-132212.3554,132212.3554,2024-01-02,1,1.0,True,True,M14,projected stockout
+M14,PP Strapping Band 16mm,Strapping,rolls,70.0,20.0,111298.4496,142341.8256,158526.84960000002,-158456.84960000002,158456.84960000002,2024-01-02,1,1.0,True,True,M13,projected stockout
+M02,Kraft Paper - Grade B (150 GSM),Paper,rolls,55.0,30.0,253033.7004,306170.2176,315132.6336,-315077.6336,315077.6336,2024-01-03,2,2.0,True,True,M01,projected stockout
+M03,Kraft Paper - Grade C (120 GSM),Paper,rolls,62.0,20.0,0.0,0.0,0.0,62.0,0.0,,,9999.0,False,False,,no stockout within 42 days

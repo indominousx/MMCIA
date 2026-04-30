@@ -1,0 +1,475 @@
+order_id,client_id,product_type,box_size,delivery_date,material_id,bom_qty_per_box,order_quantity,raw_required_qty,seasonal_multiplier,seasonal_required_qty,material_name,category,canonical_unit
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M04,0.55,116703.0,64186.65000000001,0.78,50065.58700000001,White Top Liner,Paper,rolls
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M05,0.38,116703.0,44347.14,0.78,34590.7692,Corrugating Medium,Paper,rolls
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M07,0.022,116703.0,2567.466,0.78,2002.62348,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M09,0.008,116703.0,933.624,0.78,728.22672,Ink - Cyan,Ink,kg
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M10,0.008,116703.0,933.624,0.78,728.22672,Ink - Magenta,Ink,kg
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M12,0.004,116703.0,466.812,0.78,364.11336,Specialty Ink - Gold,Ink,kg
+PO-2023-0828,Godrej Consumer,large_premium,large,2024-01-02,M14,0.12,116703.0,14004.359999999999,0.78,10923.4008,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1132,Parle Products,large_std,large,2024-01-02,M01,0.55,82346.0,45290.3,0.78,35326.434,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1132,Parle Products,large_std,large,2024-01-02,M05,0.38,82346.0,31291.48,0.78,24407.3544,Corrugating Medium,Paper,rolls
+PO-2023-1132,Parle Products,large_std,large,2024-01-02,M06,0.022,82346.0,1811.6119999999999,0.78,1413.05736,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1132,Parle Products,large_std,large,2024-01-02,M08,0.04,82346.0,3293.84,0.78,2569.1952,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1132,Parle Products,large_std,large,2024-01-02,M11,0.005,82346.0,411.73,0.78,321.1494,Ink - Black,Ink,kg
+PO-2023-1132,Parle Products,large_std,large,2024-01-02,M14,0.12,82346.0,9881.52,0.78,7707.5856,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1137,Hindustan Unilever,medium_std,medium,2024-01-02,M01,0.32,71265.0,22804.8,0.78,17787.744,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1137,Hindustan Unilever,medium_std,medium,2024-01-02,M05,0.22,71265.0,15678.3,0.78,12229.074,Corrugating Medium,Paper,rolls
+PO-2023-1137,Hindustan Unilever,medium_std,medium,2024-01-02,M06,0.014,71265.0,997.71,0.78,778.2138000000001,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1137,Hindustan Unilever,medium_std,medium,2024-01-02,M08,0.025,71265.0,1781.625,0.78,1389.6675,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1137,Hindustan Unilever,medium_std,medium,2024-01-02,M11,0.003,71265.0,213.79500000000002,0.78,166.76010000000002,Ink - Black,Ink,kg
+PO-2023-1137,Hindustan Unilever,medium_std,medium,2024-01-02,M13,0.08,71265.0,5701.2,0.78,4446.936,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M02,0.18,67568.0,12162.24,0.78,9486.5472,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M05,0.12,67568.0,8108.16,0.78,6324.3648,Corrugating Medium,Paper,rolls
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M06,0.008,67568.0,540.544,0.78,421.62432,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M09,0.003,67568.0,202.704,0.78,158.10912000000002,Ink - Cyan,Ink,kg
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M10,0.003,67568.0,202.704,0.78,158.10912000000002,Ink - Magenta,Ink,kg
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M11,0.002,67568.0,135.136,0.78,105.40608,Ink - Black,Ink,kg
+PO-2022-0574,Godrej Consumer,small_printed,small,2024-01-03,M13,0.05,67568.0,3378.4,0.78,2635.152,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M02,0.18,83644.0,15055.92,0.78,11743.6176,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M05,0.12,83644.0,10037.279999999999,0.78,7829.078399999999,Corrugating Medium,Paper,rolls
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M06,0.008,83644.0,669.152,0.78,521.93856,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M09,0.003,83644.0,250.93200000000002,0.78,195.72696000000002,Ink - Cyan,Ink,kg
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M10,0.003,83644.0,250.93200000000002,0.78,195.72696000000002,Ink - Magenta,Ink,kg
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M11,0.002,83644.0,167.288,0.78,130.48464,Ink - Black,Ink,kg
+PO-2022-0611,Nestle India,small_printed,small,2024-01-03,M13,0.05,83644.0,4182.2,0.78,3262.116,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0750,Nestle India,large_std,large,2024-01-03,M01,0.55,87612.0,48186.600000000006,0.78,37585.548,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0750,Nestle India,large_std,large,2024-01-03,M05,0.38,87612.0,33292.56,0.78,25968.196799999998,Corrugating Medium,Paper,rolls
+PO-2023-0750,Nestle India,large_std,large,2024-01-03,M06,0.022,87612.0,1927.464,0.78,1503.42192,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0750,Nestle India,large_std,large,2024-01-03,M08,0.04,87612.0,3504.48,0.78,2733.4944,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0750,Nestle India,large_std,large,2024-01-03,M11,0.005,87612.0,438.06,0.78,341.6868,Ink - Black,Ink,kg
+PO-2023-0750,Nestle India,large_std,large,2024-01-03,M14,0.12,87612.0,10513.44,0.78,8200.4832,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M04,0.55,96555.0,53105.25000000001,0.78,41422.09500000001,White Top Liner,Paper,rolls
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M05,0.38,96555.0,36690.9,0.78,28618.902000000002,Corrugating Medium,Paper,rolls
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M07,0.022,96555.0,2124.21,0.78,1656.8838,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M09,0.008,96555.0,772.44,0.78,602.5032000000001,Ink - Cyan,Ink,kg
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M10,0.008,96555.0,772.44,0.78,602.5032000000001,Ink - Magenta,Ink,kg
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M12,0.004,96555.0,386.22,0.78,301.25160000000005,Specialty Ink - Gold,Ink,kg
+PO-2022-0065,Marico,large_premium,large,2024-01-04,M14,0.12,96555.0,11586.6,0.78,9037.548,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M02,0.32,23273.0,7447.360000000001,0.78,5808.9408,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M05,0.22,23273.0,5120.06,0.78,3993.6468000000004,Corrugating Medium,Paper,rolls
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M06,0.014,23273.0,325.822,0.78,254.14116,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M09,0.006,23273.0,139.638,0.78,108.91764,Ink - Cyan,Ink,kg
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M10,0.006,23273.0,139.638,0.78,108.91764,Ink - Magenta,Ink,kg
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M11,0.003,23273.0,69.819,0.78,54.45882,Ink - Black,Ink,kg
+PO-2023-1016,Hindustan Unilever,medium_printed,medium,2024-01-04,M13,0.08,23273.0,1861.8400000000001,0.78,1452.2352,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M02,0.18,79696.0,14345.279999999999,0.78,11189.3184,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M05,0.12,79696.0,9563.52,0.78,7459.5456,Corrugating Medium,Paper,rolls
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M06,0.008,79696.0,637.568,0.78,497.30304,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M09,0.003,79696.0,239.088,0.78,186.48864,Ink - Cyan,Ink,kg
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M10,0.003,79696.0,239.088,0.78,186.48864,Ink - Magenta,Ink,kg
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M11,0.002,79696.0,159.392,0.78,124.32576,Ink - Black,Ink,kg
+PO-2023-1280,Nestle India,small_printed,small,2024-01-04,M13,0.05,79696.0,3984.8,0.78,3108.1440000000002,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M02,0.18,80562.0,14501.16,0.78,11310.9048,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M05,0.12,80562.0,9667.44,0.78,7540.6032000000005,Corrugating Medium,Paper,rolls
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M06,0.008,80562.0,644.496,0.78,502.70688,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M09,0.003,80562.0,241.686,0.78,188.51508,Ink - Cyan,Ink,kg
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M10,0.003,80562.0,241.686,0.78,188.51508,Ink - Magenta,Ink,kg
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M11,0.002,80562.0,161.124,0.78,125.67672,Ink - Black,Ink,kg
+PO-2022-0022,Britannia,small_printed,small,2024-01-05,M13,0.05,80562.0,4028.1000000000004,0.78,3141.9180000000006,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M02,0.32,87990.0,28156.8,0.78,21962.304,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M05,0.22,87990.0,19357.8,0.78,15099.084,Corrugating Medium,Paper,rolls
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M06,0.014,87990.0,1231.8600000000001,0.78,960.8508000000002,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M09,0.006,87990.0,527.94,0.78,411.79320000000007,Ink - Cyan,Ink,kg
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M10,0.006,87990.0,527.94,0.78,411.79320000000007,Ink - Magenta,Ink,kg
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M11,0.003,87990.0,263.97,0.78,205.89660000000003,Ink - Black,Ink,kg
+PO-2023-1190,Britannia,medium_printed,medium,2024-01-06,M13,0.08,87990.0,7039.2,0.78,5490.576,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1257,Hindustan Unilever,large_std,large,2024-01-06,M01,0.55,56774.0,31225.7,0.78,24356.046000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1257,Hindustan Unilever,large_std,large,2024-01-06,M05,0.38,56774.0,21574.12,0.78,16827.8136,Corrugating Medium,Paper,rolls
+PO-2023-1257,Hindustan Unilever,large_std,large,2024-01-06,M06,0.022,56774.0,1249.028,0.78,974.24184,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1257,Hindustan Unilever,large_std,large,2024-01-06,M08,0.04,56774.0,2270.96,0.78,1771.3488,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1257,Hindustan Unilever,large_std,large,2024-01-06,M11,0.005,56774.0,283.87,0.78,221.4186,Ink - Black,Ink,kg
+PO-2023-1257,Hindustan Unilever,large_std,large,2024-01-06,M14,0.12,56774.0,6812.88,0.78,5314.0464,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M04,0.55,20706.0,11388.300000000001,0.78,8882.874000000002,White Top Liner,Paper,rolls
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M05,0.38,20706.0,7868.28,0.78,6137.2584,Corrugating Medium,Paper,rolls
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M07,0.022,20706.0,455.532,0.78,355.31496,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M09,0.008,20706.0,165.648,0.78,129.20544,Ink - Cyan,Ink,kg
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M10,0.008,20706.0,165.648,0.78,129.20544,Ink - Magenta,Ink,kg
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M12,0.004,20706.0,82.824,0.78,64.60272,Specialty Ink - Gold,Ink,kg
+PO-2023-1269,Parle Products,large_premium,large,2024-01-06,M14,0.12,20706.0,2484.72,0.78,1938.0816,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0121,Parle Products,large_std,large,2024-01-08,M01,0.55,87523.0,48137.65,0.78,37547.367000000006,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0121,Parle Products,large_std,large,2024-01-08,M05,0.38,87523.0,33258.74,0.78,25941.817199999998,Corrugating Medium,Paper,rolls
+PO-2022-0121,Parle Products,large_std,large,2024-01-08,M06,0.022,87523.0,1925.5059999999999,0.78,1501.8946799999999,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0121,Parle Products,large_std,large,2024-01-08,M08,0.04,87523.0,3500.92,0.78,2730.7176,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0121,Parle Products,large_std,large,2024-01-08,M11,0.005,87523.0,437.615,0.78,341.3397,Ink - Black,Ink,kg
+PO-2022-0121,Parle Products,large_std,large,2024-01-08,M14,0.12,87523.0,10502.76,0.78,8192.1528,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0415,Parle Products,medium_std,medium,2024-01-08,M01,0.32,8728.0,2792.96,0.78,2178.5088,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0415,Parle Products,medium_std,medium,2024-01-08,M05,0.22,8728.0,1920.16,0.78,1497.7248000000002,Corrugating Medium,Paper,rolls
+PO-2022-0415,Parle Products,medium_std,medium,2024-01-08,M06,0.014,8728.0,122.19200000000001,0.78,95.30976000000001,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0415,Parle Products,medium_std,medium,2024-01-08,M08,0.025,8728.0,218.20000000000002,0.78,170.19600000000003,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0415,Parle Products,medium_std,medium,2024-01-08,M11,0.003,8728.0,26.184,0.78,20.42352,Ink - Black,Ink,kg
+PO-2022-0415,Parle Products,medium_std,medium,2024-01-08,M13,0.08,8728.0,698.24,0.78,544.6272,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M02,0.32,114185.0,36539.200000000004,0.78,28500.576000000005,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M05,0.22,114185.0,25120.7,0.78,19594.146,Corrugating Medium,Paper,rolls
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M06,0.014,114185.0,1598.5900000000001,0.78,1246.9002000000003,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M09,0.006,114185.0,685.11,0.78,534.3858,Ink - Cyan,Ink,kg
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M10,0.006,114185.0,685.11,0.78,534.3858,Ink - Magenta,Ink,kg
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M11,0.003,114185.0,342.555,0.78,267.1929,Ink - Black,Ink,kg
+PO-2022-0436,Hindustan Unilever,medium_printed,medium,2024-01-09,M13,0.08,114185.0,9134.800000000001,0.78,7125.144000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1136,Britannia,large_std,large,2024-01-09,M01,0.55,41566.0,22861.300000000003,0.78,17831.814000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1136,Britannia,large_std,large,2024-01-09,M05,0.38,41566.0,15795.08,0.78,12320.162400000001,Corrugating Medium,Paper,rolls
+PO-2023-1136,Britannia,large_std,large,2024-01-09,M06,0.022,41566.0,914.452,0.78,713.27256,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1136,Britannia,large_std,large,2024-01-09,M08,0.04,41566.0,1662.64,0.78,1296.8592,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1136,Britannia,large_std,large,2024-01-09,M11,0.005,41566.0,207.83,0.78,162.1074,Ink - Black,Ink,kg
+PO-2023-1136,Britannia,large_std,large,2024-01-09,M14,0.12,41566.0,4987.92,0.78,3890.5776,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M04,0.55,87837.0,48310.350000000006,0.78,37682.073000000004,White Top Liner,Paper,rolls
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M05,0.38,87837.0,33378.06,0.78,26034.8868,Corrugating Medium,Paper,rolls
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M07,0.022,87837.0,1932.414,0.78,1507.28292,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M09,0.008,87837.0,702.696,0.78,548.10288,Ink - Cyan,Ink,kg
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M10,0.008,87837.0,702.696,0.78,548.10288,Ink - Magenta,Ink,kg
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M12,0.004,87837.0,351.348,0.78,274.05144,Specialty Ink - Gold,Ink,kg
+PO-2023-1244,ITC Foods,large_premium,large,2024-01-09,M14,0.12,87837.0,10540.44,0.78,8221.5432,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-0729,Marico,small_std,small,2024-01-10,M01,0.18,37494.0,6748.92,0.78,5264.1576000000005,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0729,Marico,small_std,small,2024-01-10,M05,0.12,37494.0,4499.28,0.78,3509.4384,Corrugating Medium,Paper,rolls
+PO-2023-0729,Marico,small_std,small,2024-01-10,M06,0.008,37494.0,299.952,0.78,233.96256,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0729,Marico,small_std,small,2024-01-10,M08,0.015,37494.0,562.41,0.78,438.6798,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0729,Marico,small_std,small,2024-01-10,M11,0.002,37494.0,74.988,0.78,58.49064,Ink - Black,Ink,kg
+PO-2023-0729,Marico,small_std,small,2024-01-10,M13,0.05,37494.0,1874.7,0.78,1462.266,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1169,Parle Products,large_std,large,2024-01-10,M01,0.55,67278.0,37002.9,0.78,28862.262000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1169,Parle Products,large_std,large,2024-01-10,M05,0.38,67278.0,25565.64,0.78,19941.1992,Corrugating Medium,Paper,rolls
+PO-2023-1169,Parle Products,large_std,large,2024-01-10,M06,0.022,67278.0,1480.116,0.78,1154.49048,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1169,Parle Products,large_std,large,2024-01-10,M08,0.04,67278.0,2691.12,0.78,2099.0736,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1169,Parle Products,large_std,large,2024-01-10,M11,0.005,67278.0,336.39,0.78,262.3842,Ink - Black,Ink,kg
+PO-2023-1169,Parle Products,large_std,large,2024-01-10,M14,0.12,67278.0,8073.36,0.78,6297.2208,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M02,0.32,26437.0,8459.84,0.78,6598.675200000001,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M05,0.22,26437.0,5816.14,0.78,4536.5892,Corrugating Medium,Paper,rolls
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M06,0.014,26437.0,370.118,0.78,288.69204,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M09,0.006,26437.0,158.622,0.78,123.72516000000002,Ink - Cyan,Ink,kg
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M10,0.006,26437.0,158.622,0.78,123.72516000000002,Ink - Magenta,Ink,kg
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M11,0.003,26437.0,79.311,0.78,61.86258000000001,Ink - Black,Ink,kg
+PO-2023-1393,Hindustan Unilever,medium_printed,medium,2024-01-10,M13,0.08,26437.0,2114.96,0.78,1649.6688000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M02,0.18,99827.0,17968.86,0.78,14015.7108,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M05,0.12,99827.0,11979.24,0.78,9343.8072,Corrugating Medium,Paper,rolls
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M06,0.008,99827.0,798.616,0.78,622.92048,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M09,0.003,99827.0,299.481,0.78,233.59518,Ink - Cyan,Ink,kg
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M10,0.003,99827.0,299.481,0.78,233.59518,Ink - Magenta,Ink,kg
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M11,0.002,99827.0,199.654,0.78,155.73012,Ink - Black,Ink,kg
+PO-2023-0921,Britannia,small_printed,small,2024-01-11,M13,0.05,99827.0,4991.35,0.78,3893.2530000000006,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1367,Dabur India,small_std,small,2024-01-11,M01,0.18,46186.0,8313.48,0.78,6484.5144,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1367,Dabur India,small_std,small,2024-01-11,M05,0.12,46186.0,5542.32,0.78,4323.0096,Corrugating Medium,Paper,rolls
+PO-2023-1367,Dabur India,small_std,small,2024-01-11,M06,0.008,46186.0,369.488,0.78,288.20064,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1367,Dabur India,small_std,small,2024-01-11,M08,0.015,46186.0,692.79,0.78,540.3762,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1367,Dabur India,small_std,small,2024-01-11,M11,0.002,46186.0,92.372,0.78,72.05016,Ink - Black,Ink,kg
+PO-2023-1367,Dabur India,small_std,small,2024-01-11,M13,0.05,46186.0,2309.3,0.78,1801.2540000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1369,Dabur India,medium_std,medium,2024-01-11,M01,0.32,44524.0,14247.68,0.78,11113.190400000001,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1369,Dabur India,medium_std,medium,2024-01-11,M05,0.22,44524.0,9795.28,0.78,7640.318400000001,Corrugating Medium,Paper,rolls
+PO-2023-1369,Dabur India,medium_std,medium,2024-01-11,M06,0.014,44524.0,623.336,0.78,486.20208,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1369,Dabur India,medium_std,medium,2024-01-11,M08,0.025,44524.0,1113.1000000000001,0.78,868.2180000000002,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1369,Dabur India,medium_std,medium,2024-01-11,M11,0.003,44524.0,133.572,0.78,104.18616,Ink - Black,Ink,kg
+PO-2023-1369,Dabur India,medium_std,medium,2024-01-11,M13,0.08,44524.0,3561.92,0.78,2778.2976000000003,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M02,0.18,42725.0,7690.5,0.78,5998.59,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M05,0.12,42725.0,5127.0,0.78,3999.06,Corrugating Medium,Paper,rolls
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M06,0.008,42725.0,341.8,0.78,266.60400000000004,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M09,0.003,42725.0,128.175,0.78,99.97650000000002,Ink - Cyan,Ink,kg
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M10,0.003,42725.0,128.175,0.78,99.97650000000002,Ink - Magenta,Ink,kg
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M11,0.002,42725.0,85.45,0.78,66.65100000000001,Ink - Black,Ink,kg
+PO-2022-0005,Parle Products,small_printed,small,2024-01-12,M13,0.05,42725.0,2136.25,0.78,1666.275,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M02,0.18,54103.0,9738.539999999999,0.78,7596.061199999999,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M05,0.12,54103.0,6492.36,0.78,5064.0408,Corrugating Medium,Paper,rolls
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M06,0.008,54103.0,432.824,0.78,337.60272000000003,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M09,0.003,54103.0,162.309,0.78,126.60102,Ink - Cyan,Ink,kg
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M10,0.003,54103.0,162.309,0.78,126.60102,Ink - Magenta,Ink,kg
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M11,0.002,54103.0,108.206,0.78,84.40068000000001,Ink - Black,Ink,kg
+PO-2022-0318,Dabur India,small_printed,small,2024-01-12,M13,0.05,54103.0,2705.15,0.78,2110.0170000000003,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M02,0.32,80894.0,25886.08,0.78,20191.1424,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M05,0.22,80894.0,17796.68,0.78,13881.4104,Corrugating Medium,Paper,rolls
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M06,0.014,80894.0,1132.516,0.78,883.3624800000001,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M09,0.006,80894.0,485.36400000000003,0.78,378.58392000000003,Ink - Cyan,Ink,kg
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M10,0.006,80894.0,485.36400000000003,0.78,378.58392000000003,Ink - Magenta,Ink,kg
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M11,0.003,80894.0,242.68200000000002,0.78,189.29196000000002,Ink - Black,Ink,kg
+PO-2022-0472,Britannia,medium_printed,medium,2024-01-12,M13,0.08,80894.0,6471.52,0.78,5047.7856,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1037,Godrej Consumer,small_std,small,2024-01-12,M01,0.18,93482.0,16826.76,0.78,13124.8728,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1037,Godrej Consumer,small_std,small,2024-01-12,M05,0.12,93482.0,11217.84,0.78,8749.915200000001,Corrugating Medium,Paper,rolls
+PO-2023-1037,Godrej Consumer,small_std,small,2024-01-12,M06,0.008,93482.0,747.856,0.78,583.32768,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1037,Godrej Consumer,small_std,small,2024-01-12,M08,0.015,93482.0,1402.23,0.78,1093.7394000000002,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1037,Godrej Consumer,small_std,small,2024-01-12,M11,0.002,93482.0,186.964,0.78,145.83192,Ink - Black,Ink,kg
+PO-2023-1037,Godrej Consumer,small_std,small,2024-01-12,M13,0.05,93482.0,4674.1,0.78,3645.7980000000002,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M02,0.32,93178.0,29816.96,0.78,23257.2288,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M05,0.22,93178.0,20499.16,0.78,15989.3448,Corrugating Medium,Paper,rolls
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M06,0.014,93178.0,1304.492,0.78,1017.50376,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M09,0.006,93178.0,559.068,0.78,436.07304,Ink - Cyan,Ink,kg
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M10,0.006,93178.0,559.068,0.78,436.07304,Ink - Magenta,Ink,kg
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M11,0.003,93178.0,279.534,0.78,218.03652,Ink - Black,Ink,kg
+PO-2023-1198,ITC Foods,medium_printed,medium,2024-01-12,M13,0.08,93178.0,7454.24,0.78,5814.3072,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1276,Marico,large_std,large,2024-01-13,M01,0.55,65106.0,35808.3,0.78,27930.474000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1276,Marico,large_std,large,2024-01-13,M05,0.38,65106.0,24740.28,0.78,19297.4184,Corrugating Medium,Paper,rolls
+PO-2023-1276,Marico,large_std,large,2024-01-13,M06,0.022,65106.0,1432.3319999999999,0.78,1117.21896,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1276,Marico,large_std,large,2024-01-13,M08,0.04,65106.0,2604.2400000000002,0.78,2031.3072000000002,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1276,Marico,large_std,large,2024-01-13,M11,0.005,65106.0,325.53000000000003,0.78,253.91340000000002,Ink - Black,Ink,kg
+PO-2023-1276,Marico,large_std,large,2024-01-13,M14,0.12,65106.0,7812.719999999999,0.78,6093.9216,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M04,0.55,109211.0,60066.05,0.78,46851.519,White Top Liner,Paper,rolls
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M05,0.38,109211.0,41500.18,0.78,32370.1404,Corrugating Medium,Paper,rolls
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M07,0.022,109211.0,2402.642,0.78,1874.0607599999998,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M09,0.008,109211.0,873.688,0.78,681.47664,Ink - Cyan,Ink,kg
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M10,0.008,109211.0,873.688,0.78,681.47664,Ink - Magenta,Ink,kg
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M12,0.004,109211.0,436.844,0.78,340.73832,Specialty Ink - Gold,Ink,kg
+PO-2023-0794,Parle Products,large_premium,large,2024-01-15,M14,0.12,109211.0,13105.32,0.78,10222.1496,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M04,0.55,58554.0,32204.700000000004,0.78,25119.666000000005,White Top Liner,Paper,rolls
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M05,0.38,58554.0,22250.52,0.78,17355.405600000002,Corrugating Medium,Paper,rolls
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M07,0.022,58554.0,1288.1879999999999,0.78,1004.7866399999999,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M09,0.008,58554.0,468.432,0.78,365.37696,Ink - Cyan,Ink,kg
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M10,0.008,58554.0,468.432,0.78,365.37696,Ink - Magenta,Ink,kg
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M12,0.004,58554.0,234.216,0.78,182.68848,Specialty Ink - Gold,Ink,kg
+PO-2022-0524,Nestle India,large_premium,large,2024-01-16,M14,0.12,58554.0,7026.48,0.78,5480.654399999999,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M02,0.32,82812.0,26499.84,0.78,20669.875200000002,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M05,0.22,82812.0,18218.64,0.78,14210.5392,Corrugating Medium,Paper,rolls
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M06,0.014,82812.0,1159.368,0.78,904.30704,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M09,0.006,82812.0,496.872,0.78,387.56016,Ink - Cyan,Ink,kg
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M10,0.006,82812.0,496.872,0.78,387.56016,Ink - Magenta,Ink,kg
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M11,0.003,82812.0,248.436,0.78,193.78008,Ink - Black,Ink,kg
+PO-2022-0695,Godrej Consumer,medium_printed,medium,2024-01-16,M13,0.08,82812.0,6624.96,0.78,5167.468800000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1106,Nestle India,large_std,large,2024-01-16,M01,0.55,98011.0,53906.05,0.78,42046.719000000005,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1106,Nestle India,large_std,large,2024-01-16,M05,0.38,98011.0,37244.18,0.78,29050.4604,Corrugating Medium,Paper,rolls
+PO-2023-1106,Nestle India,large_std,large,2024-01-16,M06,0.022,98011.0,2156.2419999999997,0.78,1681.8687599999998,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1106,Nestle India,large_std,large,2024-01-16,M08,0.04,98011.0,3920.44,0.78,3057.9432,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1106,Nestle India,large_std,large,2024-01-16,M11,0.005,98011.0,490.055,0.78,382.2429,Ink - Black,Ink,kg
+PO-2023-1106,Nestle India,large_std,large,2024-01-16,M14,0.12,98011.0,11761.32,0.78,9173.829600000001,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M02,0.18,50640.0,9115.199999999999,0.78,7109.856,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M05,0.12,50640.0,6076.8,0.78,4739.904,Corrugating Medium,Paper,rolls
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M06,0.008,50640.0,405.12,0.78,315.9936,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M09,0.003,50640.0,151.92000000000002,0.78,118.49760000000002,Ink - Cyan,Ink,kg
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M10,0.003,50640.0,151.92000000000002,0.78,118.49760000000002,Ink - Magenta,Ink,kg
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M11,0.002,50640.0,101.28,0.78,78.9984,Ink - Black,Ink,kg
+PO-2022-0560,Marico,small_printed,small,2024-01-17,M13,0.05,50640.0,2532.0,0.78,1974.96,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0207,Britannia,large_std,large,2024-01-18,M01,0.55,9303.0,5116.650000000001,0.78,3990.9870000000005,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0207,Britannia,large_std,large,2024-01-18,M05,0.38,9303.0,3535.14,0.78,2757.4092,Corrugating Medium,Paper,rolls
+PO-2022-0207,Britannia,large_std,large,2024-01-18,M06,0.022,9303.0,204.666,0.78,159.63948,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0207,Britannia,large_std,large,2024-01-18,M08,0.04,9303.0,372.12,0.78,290.2536,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0207,Britannia,large_std,large,2024-01-18,M11,0.005,9303.0,46.515,0.78,36.2817,Ink - Black,Ink,kg
+PO-2022-0207,Britannia,large_std,large,2024-01-18,M14,0.12,9303.0,1116.36,0.78,870.7607999999999,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M02,0.32,102842.0,32909.44,0.78,25669.363200000003,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M05,0.22,102842.0,22625.24,0.78,17647.6872,Corrugating Medium,Paper,rolls
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M06,0.014,102842.0,1439.788,0.78,1123.03464,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M09,0.006,102842.0,617.052,0.78,481.30056,Ink - Cyan,Ink,kg
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M10,0.006,102842.0,617.052,0.78,481.30056,Ink - Magenta,Ink,kg
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M11,0.003,102842.0,308.526,0.78,240.65028,Ink - Black,Ink,kg
+PO-2022-0435,Nestle India,medium_printed,medium,2024-01-18,M13,0.08,102842.0,8227.36,0.78,6417.340800000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0573,ITC Foods,medium_std,medium,2024-01-18,M01,0.32,33215.0,10628.800000000001,0.78,8290.464000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0573,ITC Foods,medium_std,medium,2024-01-18,M05,0.22,33215.0,7307.3,0.78,5699.694,Corrugating Medium,Paper,rolls
+PO-2022-0573,ITC Foods,medium_std,medium,2024-01-18,M06,0.014,33215.0,465.01,0.78,362.7078,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0573,ITC Foods,medium_std,medium,2024-01-18,M08,0.025,33215.0,830.375,0.78,647.6925,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0573,ITC Foods,medium_std,medium,2024-01-18,M11,0.003,33215.0,99.645,0.78,77.7231,Ink - Black,Ink,kg
+PO-2022-0573,ITC Foods,medium_std,medium,2024-01-18,M13,0.08,33215.0,2657.2000000000003,0.78,2072.6160000000004,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0591,Nestle India,medium_std,medium,2024-01-19,M01,0.32,57157.0,18290.24,0.78,14266.387200000001,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0591,Nestle India,medium_std,medium,2024-01-19,M05,0.22,57157.0,12574.54,0.78,9808.141200000002,Corrugating Medium,Paper,rolls
+PO-2022-0591,Nestle India,medium_std,medium,2024-01-19,M06,0.014,57157.0,800.198,0.78,624.15444,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0591,Nestle India,medium_std,medium,2024-01-19,M08,0.025,57157.0,1428.9250000000002,0.78,1114.5615000000003,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0591,Nestle India,medium_std,medium,2024-01-19,M11,0.003,57157.0,171.471,0.78,133.74738000000002,Ink - Black,Ink,kg
+PO-2022-0591,Nestle India,medium_std,medium,2024-01-19,M13,0.08,57157.0,4572.56,0.78,3566.5968000000003,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M04,0.55,41255.0,22690.250000000004,0.78,17698.395000000004,White Top Liner,Paper,rolls
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M05,0.38,41255.0,15676.9,0.78,12227.982,Corrugating Medium,Paper,rolls
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M07,0.022,41255.0,907.6099999999999,0.78,707.9358,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M09,0.008,41255.0,330.04,0.78,257.43120000000005,Ink - Cyan,Ink,kg
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M10,0.008,41255.0,330.04,0.78,257.43120000000005,Ink - Magenta,Ink,kg
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M12,0.004,41255.0,165.02,0.78,128.71560000000002,Specialty Ink - Gold,Ink,kg
+PO-2022-0640,Marico,large_premium,large,2024-01-19,M14,0.12,41255.0,4950.599999999999,0.78,3861.468,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1315,Godrej Consumer,large_std,large,2024-01-19,M01,0.55,62746.0,34510.3,0.78,26918.034000000003,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1315,Godrej Consumer,large_std,large,2024-01-19,M05,0.38,62746.0,23843.48,0.78,18597.9144,Corrugating Medium,Paper,rolls
+PO-2023-1315,Godrej Consumer,large_std,large,2024-01-19,M06,0.022,62746.0,1380.4119999999998,0.78,1076.7213599999998,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1315,Godrej Consumer,large_std,large,2024-01-19,M08,0.04,62746.0,2509.84,0.78,1957.6752000000001,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1315,Godrej Consumer,large_std,large,2024-01-19,M11,0.005,62746.0,313.73,0.78,244.70940000000002,Ink - Black,Ink,kg
+PO-2023-1315,Godrej Consumer,large_std,large,2024-01-19,M14,0.12,62746.0,7529.5199999999995,0.78,5873.0256,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1384,Marico,small_std,small,2024-01-19,M01,0.18,15161.0,2728.98,0.78,2128.6044,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1384,Marico,small_std,small,2024-01-19,M05,0.12,15161.0,1819.32,0.78,1419.0696,Corrugating Medium,Paper,rolls
+PO-2023-1384,Marico,small_std,small,2024-01-19,M06,0.008,15161.0,121.288,0.78,94.60464,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1384,Marico,small_std,small,2024-01-19,M08,0.015,15161.0,227.415,0.78,177.3837,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1384,Marico,small_std,small,2024-01-19,M11,0.002,15161.0,30.322,0.78,23.65116,Ink - Black,Ink,kg
+PO-2023-1384,Marico,small_std,small,2024-01-19,M13,0.05,15161.0,758.0500000000001,0.78,591.2790000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M02,0.18,74818.0,13467.24,0.78,10504.4472,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M05,0.12,74818.0,8978.16,0.78,7002.9648,Corrugating Medium,Paper,rolls
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M06,0.008,74818.0,598.544,0.78,466.86432,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M09,0.003,74818.0,224.454,0.78,175.07412000000002,Ink - Cyan,Ink,kg
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M10,0.003,74818.0,224.454,0.78,175.07412000000002,Ink - Magenta,Ink,kg
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M11,0.002,74818.0,149.636,0.78,116.71608,Ink - Black,Ink,kg
+PO-2022-0137,Marico,small_printed,small,2024-01-20,M13,0.05,74818.0,3740.9,0.78,2917.902,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0373,Britannia,small_std,small,2024-01-20,M01,0.18,23598.0,4247.639999999999,0.78,3313.1591999999996,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0373,Britannia,small_std,small,2024-01-20,M05,0.12,23598.0,2831.7599999999998,0.78,2208.7727999999997,Corrugating Medium,Paper,rolls
+PO-2022-0373,Britannia,small_std,small,2024-01-20,M06,0.008,23598.0,188.784,0.78,147.25152,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0373,Britannia,small_std,small,2024-01-20,M08,0.015,23598.0,353.96999999999997,0.78,276.09659999999997,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0373,Britannia,small_std,small,2024-01-20,M11,0.002,23598.0,47.196,0.78,36.81288,Ink - Black,Ink,kg
+PO-2022-0373,Britannia,small_std,small,2024-01-20,M13,0.05,23598.0,1179.9,0.78,920.3220000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M02,0.18,15654.0,2817.72,0.78,2197.8215999999998,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M05,0.12,15654.0,1878.48,0.78,1465.2144,Corrugating Medium,Paper,rolls
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M06,0.008,15654.0,125.232,0.78,97.68096,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M09,0.003,15654.0,46.962,0.78,36.63036,Ink - Cyan,Ink,kg
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M10,0.003,15654.0,46.962,0.78,36.63036,Ink - Magenta,Ink,kg
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M11,0.002,15654.0,31.308,0.78,24.42024,Ink - Black,Ink,kg
+PO-2022-0608,Parle Products,small_printed,small,2024-01-20,M13,0.05,15654.0,782.7,0.78,610.5060000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1211,Godrej Consumer,small_std,small,2024-01-21,M01,0.18,21918.0,3945.24,0.78,3077.2871999999998,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1211,Godrej Consumer,small_std,small,2024-01-21,M05,0.12,21918.0,2630.16,0.78,2051.5248,Corrugating Medium,Paper,rolls
+PO-2023-1211,Godrej Consumer,small_std,small,2024-01-21,M06,0.008,21918.0,175.344,0.78,136.76832,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1211,Godrej Consumer,small_std,small,2024-01-21,M08,0.015,21918.0,328.77,0.78,256.4406,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1211,Godrej Consumer,small_std,small,2024-01-21,M11,0.002,21918.0,43.836,0.78,34.19208,Ink - Black,Ink,kg
+PO-2023-1211,Godrej Consumer,small_std,small,2024-01-21,M13,0.05,21918.0,1095.9,0.78,854.8020000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0775,Dabur India,medium_std,medium,2024-01-22,M01,0.32,28576.0,9144.32,0.78,7132.5696,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0775,Dabur India,medium_std,medium,2024-01-22,M05,0.22,28576.0,6286.72,0.78,4903.6416,Corrugating Medium,Paper,rolls
+PO-2023-0775,Dabur India,medium_std,medium,2024-01-22,M06,0.014,28576.0,400.064,0.78,312.04992000000004,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0775,Dabur India,medium_std,medium,2024-01-22,M08,0.025,28576.0,714.4000000000001,0.78,557.2320000000001,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0775,Dabur India,medium_std,medium,2024-01-22,M11,0.003,28576.0,85.72800000000001,0.78,66.86784000000002,Ink - Black,Ink,kg
+PO-2023-0775,Dabur India,medium_std,medium,2024-01-22,M13,0.08,28576.0,2286.08,0.78,1783.1424,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M02,0.32,36950.0,11824.0,0.78,9222.720000000001,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M05,0.22,36950.0,8129.0,0.78,6340.62,Corrugating Medium,Paper,rolls
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M06,0.014,36950.0,517.3,0.78,403.49399999999997,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M09,0.006,36950.0,221.70000000000002,0.78,172.92600000000002,Ink - Cyan,Ink,kg
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M10,0.006,36950.0,221.70000000000002,0.78,172.92600000000002,Ink - Magenta,Ink,kg
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M11,0.003,36950.0,110.85000000000001,0.78,86.46300000000001,Ink - Black,Ink,kg
+PO-2023-1337,Parle Products,medium_printed,medium,2024-01-22,M13,0.08,36950.0,2956.0,0.78,2305.6800000000003,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1223,Dabur India,medium_std,medium,2024-01-23,M01,0.32,57915.0,18532.8,0.78,14455.584,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1223,Dabur India,medium_std,medium,2024-01-23,M05,0.22,57915.0,12741.3,0.78,9938.214,Corrugating Medium,Paper,rolls
+PO-2023-1223,Dabur India,medium_std,medium,2024-01-23,M06,0.014,57915.0,810.8100000000001,0.78,632.4318000000001,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1223,Dabur India,medium_std,medium,2024-01-23,M08,0.025,57915.0,1447.875,0.78,1129.3425,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1223,Dabur India,medium_std,medium,2024-01-23,M11,0.003,57915.0,173.745,0.78,135.52110000000002,Ink - Black,Ink,kg
+PO-2023-1223,Dabur India,medium_std,medium,2024-01-23,M13,0.08,57915.0,4633.2,0.78,3613.896,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0010,Nestle India,small_std,small,2024-01-24,M01,0.18,11810.0,2125.7999999999997,0.78,1658.1239999999998,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0010,Nestle India,small_std,small,2024-01-24,M05,0.12,11810.0,1417.2,0.78,1105.4160000000002,Corrugating Medium,Paper,rolls
+PO-2022-0010,Nestle India,small_std,small,2024-01-24,M06,0.008,11810.0,94.48,0.78,73.6944,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0010,Nestle India,small_std,small,2024-01-24,M08,0.015,11810.0,177.15,0.78,138.17700000000002,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0010,Nestle India,small_std,small,2024-01-24,M11,0.002,11810.0,23.62,0.78,18.4236,Ink - Black,Ink,kg
+PO-2022-0010,Nestle India,small_std,small,2024-01-24,M13,0.05,11810.0,590.5,0.78,460.59000000000003,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M02,0.18,104531.0,18815.579999999998,0.78,14676.152399999999,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M05,0.12,104531.0,12543.72,0.78,9784.1016,Corrugating Medium,Paper,rolls
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M06,0.008,104531.0,836.248,0.78,652.27344,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M09,0.003,104531.0,313.593,0.78,244.60254000000003,Ink - Cyan,Ink,kg
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M10,0.003,104531.0,313.593,0.78,244.60254000000003,Ink - Magenta,Ink,kg
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M11,0.002,104531.0,209.062,0.78,163.06836,Ink - Black,Ink,kg
+PO-2022-0499,Godrej Consumer,small_printed,small,2024-01-24,M13,0.05,104531.0,5226.55,0.78,4076.7090000000003,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M04,0.55,105228.0,57875.4,0.78,45142.812000000005,White Top Liner,Paper,rolls
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M05,0.38,105228.0,39986.64,0.78,31189.5792,Corrugating Medium,Paper,rolls
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M07,0.022,105228.0,2315.016,0.78,1805.7124800000001,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M09,0.008,105228.0,841.8240000000001,0.78,656.6227200000001,Ink - Cyan,Ink,kg
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M10,0.008,105228.0,841.8240000000001,0.78,656.6227200000001,Ink - Magenta,Ink,kg
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M12,0.004,105228.0,420.91200000000003,0.78,328.31136000000004,Specialty Ink - Gold,Ink,kg
+PO-2023-0824,Nestle India,large_premium,large,2024-01-25,M14,0.12,105228.0,12627.359999999999,0.78,9849.3408,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1381,Hindustan Unilever,large_std,large,2024-01-25,M01,0.55,10018.0,5509.900000000001,0.78,4297.722000000001,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1381,Hindustan Unilever,large_std,large,2024-01-25,M05,0.38,10018.0,3806.84,0.78,2969.3352000000004,Corrugating Medium,Paper,rolls
+PO-2023-1381,Hindustan Unilever,large_std,large,2024-01-25,M06,0.022,10018.0,220.396,0.78,171.90887999999998,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1381,Hindustan Unilever,large_std,large,2024-01-25,M08,0.04,10018.0,400.72,0.78,312.56160000000006,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1381,Hindustan Unilever,large_std,large,2024-01-25,M11,0.005,10018.0,50.09,0.78,39.07020000000001,Ink - Black,Ink,kg
+PO-2023-1381,Hindustan Unilever,large_std,large,2024-01-25,M14,0.12,10018.0,1202.1599999999999,0.78,937.6847999999999,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M02,0.32,25587.0,8187.84,0.78,6386.515200000001,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M05,0.22,25587.0,5629.14,0.78,4390.729200000001,Corrugating Medium,Paper,rolls
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M06,0.014,25587.0,358.218,0.78,279.41004000000004,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M09,0.006,25587.0,153.522,0.78,119.74716,Ink - Cyan,Ink,kg
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M10,0.006,25587.0,153.522,0.78,119.74716,Ink - Magenta,Ink,kg
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M11,0.003,25587.0,76.761,0.78,59.87358,Ink - Black,Ink,kg
+PO-2023-0987,Marico,medium_printed,medium,2024-01-26,M13,0.08,25587.0,2046.96,0.78,1596.6288000000002,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M02,0.18,49632.0,8933.76,0.78,6968.3328,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M05,0.12,49632.0,5955.84,0.78,4645.555200000001,Corrugating Medium,Paper,rolls
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M06,0.008,49632.0,397.056,0.78,309.70368,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M09,0.003,49632.0,148.89600000000002,0.78,116.13888000000001,Ink - Cyan,Ink,kg
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M10,0.003,49632.0,148.89600000000002,0.78,116.13888000000001,Ink - Magenta,Ink,kg
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M11,0.002,49632.0,99.264,0.78,77.42592,Ink - Black,Ink,kg
+PO-2023-1200,Britannia,small_printed,small,2024-01-26,M13,0.05,49632.0,2481.6000000000004,0.78,1935.6480000000004,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M04,0.55,48536.0,26694.800000000003,0.78,20821.944000000003,White Top Liner,Paper,rolls
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M05,0.38,48536.0,18443.68,0.78,14386.0704,Corrugating Medium,Paper,rolls
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M07,0.022,48536.0,1067.792,0.78,832.87776,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M09,0.008,48536.0,388.288,0.78,302.86464,Ink - Cyan,Ink,kg
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M10,0.008,48536.0,388.288,0.78,302.86464,Ink - Magenta,Ink,kg
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M12,0.004,48536.0,194.144,0.78,151.43232,Specialty Ink - Gold,Ink,kg
+PO-2022-0675,Hindustan Unilever,large_premium,large,2024-01-27,M14,0.12,48536.0,5824.32,0.78,4542.9696,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M02,0.32,100583.0,32186.56,0.78,25105.5168,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M05,0.22,100583.0,22128.26,0.78,17260.0428,Corrugating Medium,Paper,rolls
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M06,0.014,100583.0,1408.162,0.78,1098.36636,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M09,0.006,100583.0,603.498,0.78,470.72844000000003,Ink - Cyan,Ink,kg
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M10,0.006,100583.0,603.498,0.78,470.72844000000003,Ink - Magenta,Ink,kg
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M11,0.003,100583.0,301.749,0.78,235.36422000000002,Ink - Black,Ink,kg
+PO-2023-1173,Marico,medium_printed,medium,2024-01-28,M13,0.08,100583.0,8046.64,0.78,6276.3792,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M04,0.55,90172.0,49594.600000000006,0.78,38683.78800000001,White Top Liner,Paper,rolls
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M05,0.38,90172.0,34265.36,0.78,26726.9808,Corrugating Medium,Paper,rolls
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M07,0.022,90172.0,1983.7839999999999,0.78,1547.35152,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M09,0.008,90172.0,721.376,0.78,562.67328,Ink - Cyan,Ink,kg
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M10,0.008,90172.0,721.376,0.78,562.67328,Ink - Magenta,Ink,kg
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M12,0.004,90172.0,360.688,0.78,281.33664,Specialty Ink - Gold,Ink,kg
+PO-2023-0771,Britannia,large_premium,large,2024-01-29,M14,0.12,90172.0,10820.64,0.78,8440.0992,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-0976,Britannia,large_std,large,2024-01-29,M01,0.55,70564.0,38810.200000000004,0.78,30271.956000000006,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0976,Britannia,large_std,large,2024-01-29,M05,0.38,70564.0,26814.32,0.78,20915.1696,Corrugating Medium,Paper,rolls
+PO-2023-0976,Britannia,large_std,large,2024-01-29,M06,0.022,70564.0,1552.408,0.78,1210.87824,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0976,Britannia,large_std,large,2024-01-29,M08,0.04,70564.0,2822.56,0.78,2201.5968000000003,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0976,Britannia,large_std,large,2024-01-29,M11,0.005,70564.0,352.82,0.78,275.19960000000003,Ink - Black,Ink,kg
+PO-2023-0976,Britannia,large_std,large,2024-01-29,M14,0.12,70564.0,8467.68,0.78,6604.790400000001,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M04,0.55,7142.0,3928.1000000000004,0.78,3063.9180000000006,White Top Liner,Paper,rolls
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M05,0.38,7142.0,2713.96,0.78,2116.8888,Corrugating Medium,Paper,rolls
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M07,0.022,7142.0,157.124,0.78,122.55672,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M09,0.008,7142.0,57.136,0.78,44.56608000000001,Ink - Cyan,Ink,kg
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M10,0.008,7142.0,57.136,0.78,44.56608000000001,Ink - Magenta,Ink,kg
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M12,0.004,7142.0,28.568,0.78,22.283040000000003,Specialty Ink - Gold,Ink,kg
+PO-2023-1314,Hindustan Unilever,large_premium,large,2024-01-29,M14,0.12,7142.0,857.04,0.78,668.4912,PP Strapping Band 16mm,Strapping,rolls
+PO-2022-0246,Nestle India,small_std,small,2024-01-30,M01,0.18,96542.0,17377.559999999998,0.78,13554.496799999999,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0246,Nestle India,small_std,small,2024-01-30,M05,0.12,96542.0,11585.039999999999,0.78,9036.331199999999,Corrugating Medium,Paper,rolls
+PO-2022-0246,Nestle India,small_std,small,2024-01-30,M06,0.008,96542.0,772.336,0.78,602.42208,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0246,Nestle India,small_std,small,2024-01-30,M08,0.015,96542.0,1448.1299999999999,0.78,1129.5413999999998,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0246,Nestle India,small_std,small,2024-01-30,M11,0.002,96542.0,193.084,0.78,150.60552,Ink - Black,Ink,kg
+PO-2022-0246,Nestle India,small_std,small,2024-01-30,M13,0.05,96542.0,4827.1,0.78,3765.1380000000004,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0354,Godrej Consumer,small_std,small,2024-01-30,M01,0.18,64748.0,11654.64,0.78,9090.6192,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0354,Godrej Consumer,small_std,small,2024-01-30,M05,0.12,64748.0,7769.759999999999,0.78,6060.4128,Corrugating Medium,Paper,rolls
+PO-2022-0354,Godrej Consumer,small_std,small,2024-01-30,M06,0.008,64748.0,517.984,0.78,404.02752000000004,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0354,Godrej Consumer,small_std,small,2024-01-30,M08,0.015,64748.0,971.2199999999999,0.78,757.5516,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0354,Godrej Consumer,small_std,small,2024-01-30,M11,0.002,64748.0,129.496,0.78,101.00688000000001,Ink - Black,Ink,kg
+PO-2022-0354,Godrej Consumer,small_std,small,2024-01-30,M13,0.05,64748.0,3237.4,0.78,2525.172,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M04,0.55,109393.0,60166.15,0.8,48132.920000000006,White Top Liner,Paper,rolls
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M05,0.38,109393.0,41569.340000000004,0.8,33255.472,Corrugating Medium,Paper,rolls
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M07,0.022,109393.0,2406.6459999999997,0.8,1925.3167999999998,Adhesive PF-100 (Premium),Adhesive,kg
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M09,0.008,109393.0,875.144,0.8,700.1152000000001,Ink - Cyan,Ink,kg
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M10,0.008,109393.0,875.144,0.8,700.1152000000001,Ink - Magenta,Ink,kg
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M12,0.004,109393.0,437.572,0.8,350.05760000000004,Specialty Ink - Gold,Ink,kg
+PO-2023-0826,Parle Products,large_premium,large,2024-02-01,M14,0.12,109393.0,13127.16,0.8,10501.728000000001,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-0812,Parle Products,small_std,small,2024-02-03,M01,0.18,11806.0,2125.08,0.8,1700.064,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0812,Parle Products,small_std,small,2024-02-03,M05,0.12,11806.0,1416.72,0.8,1133.376,Corrugating Medium,Paper,rolls
+PO-2023-0812,Parle Products,small_std,small,2024-02-03,M06,0.008,11806.0,94.44800000000001,0.8,75.5584,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0812,Parle Products,small_std,small,2024-02-03,M08,0.015,11806.0,177.09,0.8,141.672,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0812,Parle Products,small_std,small,2024-02-03,M11,0.002,11806.0,23.612000000000002,0.8,18.8896,Ink - Black,Ink,kg
+PO-2023-0812,Parle Products,small_std,small,2024-02-03,M13,0.05,11806.0,590.3000000000001,0.8,472.24000000000007,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1240,Parle Products,small_std,small,2024-02-03,M01,0.18,16069.0,2892.42,0.8,2313.936,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1240,Parle Products,small_std,small,2024-02-03,M05,0.12,16069.0,1928.28,0.8,1542.624,Corrugating Medium,Paper,rolls
+PO-2023-1240,Parle Products,small_std,small,2024-02-03,M06,0.008,16069.0,128.552,0.8,102.8416,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1240,Parle Products,small_std,small,2024-02-03,M08,0.015,16069.0,241.035,0.8,192.828,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1240,Parle Products,small_std,small,2024-02-03,M11,0.002,16069.0,32.138,0.8,25.7104,Ink - Black,Ink,kg
+PO-2023-1240,Parle Products,small_std,small,2024-02-03,M13,0.05,16069.0,803.45,0.8,642.7600000000001,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0177,Dabur India,medium_std,medium,2024-02-06,M01,0.32,39628.0,12680.960000000001,0.8,10144.768000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0177,Dabur India,medium_std,medium,2024-02-06,M05,0.22,39628.0,8718.16,0.8,6974.528,Corrugating Medium,Paper,rolls
+PO-2022-0177,Dabur India,medium_std,medium,2024-02-06,M06,0.014,39628.0,554.792,0.8,443.83360000000005,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0177,Dabur India,medium_std,medium,2024-02-06,M08,0.025,39628.0,990.7,0.8,792.5600000000001,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0177,Dabur India,medium_std,medium,2024-02-06,M11,0.003,39628.0,118.884,0.8,95.1072,Ink - Black,Ink,kg
+PO-2022-0177,Dabur India,medium_std,medium,2024-02-06,M13,0.08,39628.0,3170.2400000000002,0.8,2536.1920000000005,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M02,0.18,62239.0,11203.02,0.8,8962.416000000001,Kraft Paper - Grade B (150 GSM),Paper,rolls
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M05,0.12,62239.0,7468.679999999999,0.8,5974.9439999999995,Corrugating Medium,Paper,rolls
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M06,0.008,62239.0,497.91200000000003,0.8,398.3296,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M09,0.003,62239.0,186.717,0.8,149.3736,Ink - Cyan,Ink,kg
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M10,0.003,62239.0,186.717,0.8,149.3736,Ink - Magenta,Ink,kg
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M11,0.002,62239.0,124.47800000000001,0.8,99.5824,Ink - Black,Ink,kg
+PO-2022-0353,ITC Foods,small_printed,small,2024-02-06,M13,0.05,62239.0,3111.9500000000003,0.8,2489.5600000000004,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0402,ITC Foods,medium_std,medium,2024-02-06,M01,0.32,61461.0,19667.52,0.8,15734.016000000001,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0402,ITC Foods,medium_std,medium,2024-02-06,M05,0.22,61461.0,13521.42,0.8,10817.136,Corrugating Medium,Paper,rolls
+PO-2022-0402,ITC Foods,medium_std,medium,2024-02-06,M06,0.014,61461.0,860.4540000000001,0.8,688.3632000000001,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0402,ITC Foods,medium_std,medium,2024-02-06,M08,0.025,61461.0,1536.525,0.8,1229.2200000000003,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0402,ITC Foods,medium_std,medium,2024-02-06,M11,0.003,61461.0,184.383,0.8,147.5064,Ink - Black,Ink,kg
+PO-2022-0402,ITC Foods,medium_std,medium,2024-02-06,M13,0.08,61461.0,4916.88,0.8,3933.5040000000004,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0661,Marico,large_std,large,2024-02-06,M01,0.55,31961.0,17578.550000000003,0.8,14062.840000000004,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0661,Marico,large_std,large,2024-02-06,M05,0.38,31961.0,12145.18,0.8,9716.144,Corrugating Medium,Paper,rolls
+PO-2022-0661,Marico,large_std,large,2024-02-06,M06,0.022,31961.0,703.1419999999999,0.8,562.5136,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0661,Marico,large_std,large,2024-02-06,M08,0.04,31961.0,1278.44,0.8,1022.7520000000001,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0661,Marico,large_std,large,2024-02-06,M11,0.005,31961.0,159.805,0.8,127.84400000000001,Ink - Black,Ink,kg
+PO-2022-0661,Marico,large_std,large,2024-02-06,M14,0.12,31961.0,3835.3199999999997,0.8,3068.256,PP Strapping Band 16mm,Strapping,rolls
+PO-2023-0747,Marico,medium_std,medium,2024-02-06,M01,0.32,44048.0,14095.36,0.8,11276.288,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0747,Marico,medium_std,medium,2024-02-06,M05,0.22,44048.0,9690.56,0.8,7752.448,Corrugating Medium,Paper,rolls
+PO-2023-0747,Marico,medium_std,medium,2024-02-06,M06,0.014,44048.0,616.672,0.8,493.33760000000007,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0747,Marico,medium_std,medium,2024-02-06,M08,0.025,44048.0,1101.2,0.8,880.96,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0747,Marico,medium_std,medium,2024-02-06,M11,0.003,44048.0,132.144,0.8,105.71520000000001,Ink - Black,Ink,kg
+PO-2023-0747,Marico,medium_std,medium,2024-02-06,M13,0.08,44048.0,3523.84,0.8,2819.072,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-0827,Marico,small_std,small,2024-02-07,M01,0.18,86881.0,15638.58,0.8,12510.864000000001,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-0827,Marico,small_std,small,2024-02-07,M05,0.12,86881.0,10425.72,0.8,8340.576,Corrugating Medium,Paper,rolls
+PO-2023-0827,Marico,small_std,small,2024-02-07,M06,0.008,86881.0,695.048,0.8,556.0384,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-0827,Marico,small_std,small,2024-02-07,M08,0.015,86881.0,1303.215,0.8,1042.572,Starch Adhesive Powder,Adhesive,kg
+PO-2023-0827,Marico,small_std,small,2024-02-07,M11,0.002,86881.0,173.762,0.8,139.0096,Ink - Black,Ink,kg
+PO-2023-0827,Marico,small_std,small,2024-02-07,M13,0.05,86881.0,4344.05,0.8,3475.2400000000002,PP Strapping Band 12mm,Strapping,rolls
+PO-2023-1155,Hindustan Unilever,small_std,small,2024-02-11,M01,0.18,35506.0,6391.08,0.8,5112.8640000000005,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2023-1155,Hindustan Unilever,small_std,small,2024-02-11,M05,0.12,35506.0,4260.72,0.8,3408.5760000000005,Corrugating Medium,Paper,rolls
+PO-2023-1155,Hindustan Unilever,small_std,small,2024-02-11,M06,0.008,35506.0,284.048,0.8,227.2384,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2023-1155,Hindustan Unilever,small_std,small,2024-02-11,M08,0.015,35506.0,532.59,0.8,426.07200000000006,Starch Adhesive Powder,Adhesive,kg
+PO-2023-1155,Hindustan Unilever,small_std,small,2024-02-11,M11,0.002,35506.0,71.012,0.8,56.8096,Ink - Black,Ink,kg
+PO-2023-1155,Hindustan Unilever,small_std,small,2024-02-11,M13,0.05,35506.0,1775.3000000000002,0.8,1420.2400000000002,PP Strapping Band 12mm,Strapping,rolls
+PO-2022-0034,ITC Foods,large_std,large,2024-02-12,M01,0.55,27240.0,14982.000000000002,0.8,11985.600000000002,Kraft Paper - Grade A (180 GSM),Paper,rolls
+PO-2022-0034,ITC Foods,large_std,large,2024-02-12,M05,0.38,27240.0,10351.2,0.8,8280.960000000001,Corrugating Medium,Paper,rolls
+PO-2022-0034,ITC Foods,large_std,large,2024-02-12,M06,0.022,27240.0,599.28,0.8,479.424,Adhesive WF-200 (Water-based),Adhesive,kg
+PO-2022-0034,ITC Foods,large_std,large,2024-02-12,M08,0.04,27240.0,1089.6,0.8,871.68,Starch Adhesive Powder,Adhesive,kg
+PO-2022-0034,ITC Foods,large_std,large,2024-02-12,M11,0.005,27240.0,136.2,0.8,108.96,Ink - Black,Ink,kg
+PO-2022-0034,ITC Foods,large_std,large,2024-02-12,M14,0.12,27240.0,3268.7999999999997,0.8,2615.04,PP Strapping Band 16mm,Strapping,rolls

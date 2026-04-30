@@ -1,0 +1,4 @@
+material_id,name,category,unit,current_stock,forecast_demand_4w,days_cover_from_4w_forecast,watchlist_reason
+M06,Adhesive WF-200 (Water-based),Adhesive,kg,1840,31000.7724,1.6618940759037344,business background watch item; avoid ordering unless demand/stockout logic requires it
+M12,Specialty Ink - Gold,Ink,kg,340,2439.52488,3.9023992245572012,business background watch item; avoid ordering unless demand/stockout logic requires it
+M03,Kraft Paper - Grade C (120 GSM),Paper,rolls,62,0.0,9999.0,no 4-week forecast demand with stock on hand

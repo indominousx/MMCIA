@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PackRight Inventory Intelligence</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">PR</div>
+          <div>
+            <strong>PackRight</strong>
+            <span>Inventory Intelligence</span>
+          </div>
+        </div>
+
+        <nav class="module-nav" aria-label="Dashboard modules">
+          <button class="nav-item active" data-tab="decision">Decision Board</button>
+          <button class="nav-item" data-tab="demand">Demand Planning</button>
+          <button class="nav-item" data-tab="inventory">Inventory</button>
+          <button class="nav-item" data-tab="procurement">Procurement</button>
+          <button class="nav-item" data-tab="substitutions">Substitutions</button>
+          <button class="nav-item" data-tab="quality">Data Quality</button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <span id="analysisDate">Analysis date</span>
+          <span id="refreshState">Loading</span>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <h1>Decision Dashboard</h1>
+            <p>Credit-aware procurement, BOM demand, and stockout response for committed production.</p>
+          </div>
+          <div class="topbar-actions">
+            <a class="button secondary" href="/api/report">Report</a>
+            <button class="button primary" id="recomputeButton">Recompute</button>
+          </div>
+        </header>
+
+        <section class="tab-panel active" id="tab-decision">
+          <div class="kpi-grid" id="kpiGrid"></div>
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Credit Gate</h2>
+                <span id="creditBadge" class="status-badge">Loading</span>
+              </div>
+              <div class="credit-meter">
+                <div class="credit-fill" id="creditFill"></div>
+              </div>
+              <div class="metric-row">
+                <span>Utilized</span>
+                <strong id="creditUtilized">-</strong>
+              </div>
+              <div class="metric-row">
+                <span>Available</span>
+                <strong id="creditAvailable">-</strong>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>System Modules</h2>
+              </div>
+              <div class="module-list" id="moduleList"></div>
+            </div>
+          </section>
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Immediate Actions</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Material</th>
+                      <th>Supplier</th>
+                      <th>Qty</th>
+                      <th>Credit</th>
+                    </tr>
+                  </thead>
+                  <tbody id="immediateActions"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Top Stockout Risks</h2>
+              </div>
+              <div id="riskList" class="risk-list"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-demand">
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>4-Week Demand</h2>
+              </div>
+              <div class="bar-chart" id="weekDemandChart"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Material Demand Rank</h2>
+              </div>
+              <div class="bar-chart compact" id="materialDemandChart"></div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>BOM Calculation Trace</h2>
+              <input id="bomSearch" class="search-input" type="search" placeholder="Filter material or order">
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Material</th>
+                    <th>Box</th>
+                    <th>BOM / box</th>
+                    <th>Order qty</th>
+                    <th>Seasonal qty</th>
+                  </tr>
+                </thead>
+                <tbody id="bomTraceRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-inventory">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Inventory Risk Board</h2>
+              <input id="inventorySearch" class="search-input" type="search" placeholder="Filter material">
+            </div>
+            <div class="risk-grid" id="inventoryCards"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Slow-Moving Watchlist</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Stock</th>
+                    <th>4W Demand</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody id="slowMovingRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-procurement">
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Approved Supplier Plan</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Supplier</th>
+                      <th>Material</th>
+                      <th>Qty</th>
+                      <th>Value</th>
+                      <th>After Credit</th>
+                    </tr>
+                  </thead>
+                  <tbody id="approvedRows"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Blocked Requirements</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Material</th>
+                      <th>Supplier</th>
+                      <th>Qty</th>
+                      <th>Blocked Value</th>
+                    </tr>
+                  </thead>
+                  <tbody id="blockedRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-substitutions">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Substitution Decisions</h2>
+            </div>
+            <div class="substitution-grid" id="substitutionCards"></div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-quality">
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Data Quality</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Severity</th>
+                      <th>File</th>
+                      <th>Issue</th>
+                    </tr>
+                  </thead>
+                  <tbody id="qualityRows"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Unit Normalization</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Material</th>
+                      <th>Original</th>
+                      <th>Target</th>
+                      <th>Confidence</th>
+                    </tr>
+                  </thead>
+                  <tbody id="unitRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

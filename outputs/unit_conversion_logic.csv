@@ -1,0 +1,71 @@
+material_id,target_unit,original_unit,source_unit_normalized,normalized_unit,conversion_factor,conversion_confidence,conversion_note
+M01,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M01,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M01,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M01,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M01,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
+M02,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M02,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M02,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M02,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M02,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
+M03,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M03,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M03,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M03,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M03,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
+M04,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M04,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M04,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M04,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M04,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
+M05,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M05,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M05,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M05,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M05,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
+M06,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M06,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M06,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M06,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M06,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M07,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M07,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M07,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M07,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M07,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M08,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M08,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M08,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M08,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M08,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M09,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M09,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M09,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M09,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M09,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M10,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M10,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M10,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M10,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M10,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M11,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M11,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M11,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M11,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M11,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M12,kg,KG,kg,kg,1.0,high,kg spelling/case normalization
+M12,kg,Kg,kg,kg,1.0,high,kg spelling/case normalization
+M12,kg,kg,kg,kg,1.0,high,kg spelling/case normalization
+M12,kg,kgs,kgs,kg,1.0,high,kg spelling/case normalization
+M12,kg,kilograms,kilograms,kg,1.0,high,kg spelling/case normalization
+M13,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M13,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M13,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M13,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M13,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
+M14,rolls,Rolls,rolls,rolls,1.0,high,roll spelling normalization
+M14,rolls,nos,nos,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M14,rolls,pcs,pcs,rolls,1.0,low,assumption: 1 piece/nos equals 1 roll
+M14,rolls,roll,roll,rolls,1.0,high,roll spelling normalization
+M14,rolls,rolls,rolls,rolls,1.0,high,roll spelling normalization
