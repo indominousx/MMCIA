@@ -1,0 +1,13 @@
+month,month_name,fmcg_demand_multiplier,notes
+1,Jan,0.78,Post-festival lull
+2,Feb,0.8,Slow season
+3,Mar,0.92,Normal demand
+4,Apr,0.95,Normal demand
+5,May,0.88,Normal demand
+6,Jun,0.82,Monsoon onset dip
+7,Jul,0.85,Normal demand
+8,Aug,0.9,Normal demand
+9,Sep,0.95,Normal demand
+10,Oct,1.35,Pre-Diwali surge
+11,Nov,1.62,Diwali peak
+12,Dec,1.4,Year-end + Christmas

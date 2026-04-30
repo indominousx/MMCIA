@@ -1,0 +1,10 @@
+supplier_id,supplier_name,material_supplied,lead_time_days,moq,moq_unit,payment_terms_days,reliability_score
+SUP01,West Coast Paper Mills,"M01,M02,M03",7,20,rolls,30,0.92
+SUP02,BILT Graphic Paper,"M04,M05",10,15,rolls,45,0.88
+SUP03,Pidilite Industries Ltd,"M06,M07",5,100,kg,30,0.95
+SUP04,National Starch India,M08,4,500,kg,30,0.9
+SUP05,Toyo Inks India,"M09,M10,M11",12,25,kg,45,0.87
+SUP06,Siegwerk India,M12,21,10,kg,60,0.82
+SUP07,Supreme Industries,"M13,M14",6,20,rolls,30,0.94
+SUP08,ITC Paper Division,"M01,M04",8,25,rolls,30,0.91
+SUP09,Hindustan Paper Corp,"M02,M03",14,20,rolls,60,0.79

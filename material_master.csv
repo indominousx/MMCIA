@@ -1,0 +1,15 @@
+material_id,name,category,unit,reorder_point_current,current_stock,warehouse_location,substitute_material_ids
+M01,Kraft Paper - Grade A (180 GSM),Paper,rolls,40,18,A1,M02
+M02,Kraft Paper - Grade B (150 GSM),Paper,rolls,30,55,A2,M01
+M03,Kraft Paper - Grade C (120 GSM),Paper,rolls,20,62,A3,
+M04,White Top Liner,Paper,rolls,15,30,A4,
+M05,Corrugating Medium,Paper,rolls,25,44,A5,
+M06,Adhesive WF-200 (Water-based),Adhesive,kg,200,1840,B1,M07
+M07,Adhesive PF-100 (Premium),Adhesive,kg,100,620,B2,M06
+M08,Starch Adhesive Powder,Adhesive,kg,500,920,B3,
+M09,Ink - Cyan,Ink,kg,50,480,C1,
+M10,Ink - Magenta,Ink,kg,50,510,C2,
+M11,Ink - Black,Ink,kg,60,390,C3,
+M12,Specialty Ink - Gold,Ink,kg,20,340,C4,
+M13,PP Strapping Band 12mm,Strapping,rolls,30,85,D1,M14
+M14,PP Strapping Band 16mm,Strapping,rolls,20,70,D2,M13
