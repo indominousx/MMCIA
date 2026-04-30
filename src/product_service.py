@@ -241,8 +241,11 @@ class ProductService:
 
     def send_alerts(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
         self.ensure_loaded()
+        payload = payload or {}
+        simulate = payload.get("simulate") is True
+
         settings, status = load_email_settings()
-        if settings is None:
+        if not simulate and settings is None:
             return {
                 "ok": False,
                 "error": "missing_email_settings",
@@ -250,7 +253,7 @@ class ProductService:
                 "status": status,
             }
 
-        if payload and isinstance(payload.get("recipients"), list):
+        if payload and isinstance(payload.get("recipients"), list) and settings is not None:
             settings = with_recipients(settings, payload["recipients"])
 
         digest = build_alert_digest(
@@ -262,8 +265,22 @@ class ProductService:
             self._frame("substitution_recommendations"),
         )
         subject, text, html = build_alert_email(digest)
+        
+        if simulate:
+            return {
+                "ok": True,
+                "simulated": True,
+                "subject": subject,
+                "text": text,
+                "html": html,
+                "summary": digest.get("summary", {}),
+            }
+
         try:
-            send_alert_email(settings, subject, text, html)
+            if settings:
+                send_alert_email(settings, subject, text, html)
+            else:
+                raise ValueError("Settings not available.")
         except Exception as exc:
             return {"ok": False, "error": "send_failed", "detail": str(exc)}
 

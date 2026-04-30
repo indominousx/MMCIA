@@ -243,16 +243,17 @@ function renderAlertCenter() {
 
 function renderEmailPanel() {
   const config = state.alertConfig || {};
-  const recipients = (config.recipients || []).join(", ") || "Not configured";
+  const recipients = (config.recipients || []).join(", ");
   const fromEmail = config.fromEmail || "Not configured";
   const missing = config.missing || [];
   const ready = Boolean(config.enabled);
 
-  document.getElementById("emailRecipients").textContent = recipients;
+  document.getElementById("emailRecipientsInput").value = recipients;
   document.getElementById("emailFrom").textContent = fromEmail;
   document.getElementById("emailStatus").textContent = ready ? "Ready" : `Missing ${missing.join(", ")}`;
   const sendButton = document.getElementById("sendAlertButton");
   sendButton.disabled = !ready;
+  // We can always simulate, so no need to disable simulate button
 }
 
 function renderSupplierExposure() {
@@ -386,6 +387,9 @@ document.getElementById("sendAlertButton").addEventListener("click", async () =>
   const button = document.getElementById("sendAlertButton");
   const status = document.getElementById("emailStatus");
   const log = document.getElementById("emailLog");
+  const recipientsStr = document.getElementById("emailRecipientsInput").value;
+  const customRecipients = recipientsStr.split(",").map(r => r.trim()).filter(r => r);
+
   button.disabled = true;
   button.textContent = "Sending";
   status.textContent = "Sending";
@@ -393,7 +397,7 @@ document.getElementById("sendAlertButton").addEventListener("click", async () =>
     const response = await api("/api/send-alerts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
+      body: JSON.stringify({ recipients: customRecipients.length > 0 ? customRecipients : undefined })
     });
     if (response.ok) {
       status.textContent = "Sent";
@@ -412,6 +416,110 @@ document.getElementById("sendAlertButton").addEventListener("click", async () =>
     button.textContent = "Send alerts";
   }
 });
+
+document.getElementById("simulateEmailButton")?.addEventListener("click", async () => {
+  const button = document.getElementById("simulateEmailButton");
+  const status = document.getElementById("emailStatus");
+  const log = document.getElementById("emailLog");
+  const recipientsStr = document.getElementById("emailRecipientsInput").value;
+  const customRecipients = recipientsStr.split(",").map(r => r.trim()).filter(r => r);
+
+  button.disabled = true;
+  button.textContent = "Simulating";
+  try {
+    const response = await api("/api/send-alerts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        simulate: true, 
+        recipients: customRecipients.length > 0 ? customRecipients : undefined 
+      })
+    });
+    if (response.ok) {
+      status.textContent = "Simulated";
+      log.textContent = `Email simulation generated.`;
+      showEmailSimulation(response);
+    } else {
+      status.textContent = "Failed";
+      log.textContent = response.error;
+    }
+  } catch (error) {
+    status.textContent = "Failed";
+    log.textContent = error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Simulate Email";
+  }
+});
+
+function showEmailSimulation(data) {
+  let modal = document.getElementById("emailSimulationModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "emailSimulationModal";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.backgroundColor = "rgba(0,0,0,0.5)";
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.zIndex = "9999";
+    
+    const content = document.createElement("div");
+    content.style.backgroundColor = "white";
+    content.style.padding = "20px";
+    content.style.borderRadius = "8px";
+    content.style.maxWidth = "800px";
+    content.style.width = "90%";
+    content.style.maxHeight = "90%";
+    content.style.overflow = "hidden";
+    content.style.display = "flex";
+    content.style.flexDirection = "column";
+    
+    const header = document.createElement("div");
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    header.style.marginBottom = "10px";
+    
+    const title = document.createElement("h2");
+    title.textContent = "Simulated Email";
+    title.style.margin = "0";
+    
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "Close";
+    closeBtn.className = "button secondary";
+    closeBtn.onclick = () => modal.style.display = "none";
+    
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+    
+    const subject = document.createElement("h3");
+    subject.id = "emailSimulationSubject";
+    subject.style.margin = "0 0 10px 0";
+    
+    const iframe = document.createElement("iframe");
+    iframe.id = "emailSimulationIframe";
+    iframe.style.width = "100%";
+    iframe.style.flexGrow = "1";
+    iframe.style.border = "1px solid #ccc";
+    iframe.style.minHeight = "400px";
+    
+    content.appendChild(header);
+    content.appendChild(subject);
+    content.appendChild(iframe);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+  }
+  
+  document.getElementById("emailSimulationSubject").textContent = "Subject: " + data.subject;
+  const iframe = document.getElementById("emailSimulationIframe");
+  iframe.srcdoc = data.html;
+  modal.style.display = "flex";
+}
 
 document.getElementById("bomSearch").addEventListener("input", renderBomRows);
 document.getElementById("inventorySearch").addEventListener("input", renderInventoryCards);
