@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PackRight Inventory Intelligence</title>
     <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -136,13 +137,13 @@
               <div class="panel-heading">
                 <h2>4-Week Demand</h2>
               </div>
-              <div class="bar-chart" id="weekDemandChart"></div>
+              <div class="chart-container"><canvas id="weekDemandChart"></canvas></div>
             </div>
             <div class="panel">
               <div class="panel-heading">
                 <h2>Material Demand Rank</h2>
               </div>
-              <div class="bar-chart compact" id="materialDemandChart"></div>
+              <div class="chart-container"><canvas id="materialDemandChart"></canvas></div>
             </div>
           </section>
           <section class="panel">

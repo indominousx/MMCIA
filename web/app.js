@@ -9,6 +9,8 @@ const state = {
   alertConfig: null
 };
 
+let chartInstances = {};
+
 const number = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 });
 const compact = new Intl.NumberFormat("en-IN", { notation: "compact", maximumFractionDigits: 1 });
 
@@ -109,8 +111,8 @@ function renderOverview() {
 }
 
 function renderDemand() {
-  drawBars("weekDemandChart", state.demand.weekTotals, "forecast_week", "seasonal_required_qty", row => `Week ${row.forecast_week}`);
-  drawBars("materialDemandChart", state.demand.materialTotals.slice(0, 10), "material_id", "seasonal_required_qty", row => `${row.material_id} ${row.canonical_unit}`);
+  drawChart("weekDemandChart", state.demand.weekTotals, "forecast_week", "seasonal_required_qty", row => `Week ${row.forecast_week}`);
+  drawChart("materialDemandChart", state.demand.materialTotals.slice(0, 10), "material_id", "seasonal_required_qty", row => `${row.material_id} ${row.canonical_unit}`);
   renderBomRows();
 }
 
@@ -301,18 +303,54 @@ function renderSupplierExposure() {
   }).join("");
 }
 
-function drawBars(targetId, rows, labelKey, valueKey, labelFn) {
-  const max = Math.max(...rows.map(row => Number(row[valueKey] || 0)), 1);
-  document.getElementById(targetId).innerHTML = rows.map(row => {
-    const value = Number(row[valueKey] || 0);
-    return `
-      <div class="bar-row">
-        <div class="bar-label">${escapeHtml(labelFn ? labelFn(row) : row[labelKey])}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${Math.max(2, value / max * 100)}%"></div></div>
-        <div class="bar-value">${compact.format(value)}</div>
-      </div>
-    `;
-  }).join("");
+function drawChart(targetId, rows, labelKey, valueKey, labelFn, chartType = 'bar') {
+  const ctx = document.getElementById(targetId).getContext('2d');
+  
+  if (chartInstances[targetId]) {
+    chartInstances[targetId].destroy();
+  }
+
+  const labels = rows.map(row => labelFn ? labelFn(row) : row[labelKey]);
+  const data = rows.map(row => Number(row[valueKey] || 0));
+
+  chartInstances[targetId] = new Chart(ctx, {
+    type: chartType,
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Quantity',
+        data: data,
+        backgroundColor: 'rgba(15, 118, 110, 0.7)',
+        borderColor: 'rgba(15, 118, 110, 1)',
+        borderWidth: 1,
+        borderRadius: 6,
+        hoverBackgroundColor: 'rgba(15, 118, 110, 0.9)',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(0,0,0,0.05)',
+            borderDash: [5, 5]
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
 }
 
 function kpi(label, value, note) {
