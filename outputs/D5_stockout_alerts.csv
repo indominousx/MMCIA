@@ -1,0 +1,14 @@
+material_id,material_name,unit,current_stock,daily_demand_rate,days_of_stock,demand_next_21d_hist,demand_next_21d_bom,stock_gap_21d_hist,alert_level,reorder_point,below_reorder_point
+M01,Kraft Paper - Grade A (180 GSM),rolls,18,88.6,0.2,1860.7,1004518.38,1842.7,CRITICAL – <3 days of stock,40,True
+M02,Kraft Paper - Grade B (150 GSM),rolls,55,96.53,0.6,2027.2,178488.87,1972.2,CRITICAL – <3 days of stock,30,False
+M03,Kraft Paper - Grade C (120 GSM),rolls,62,91.35,0.7,1918.26,0.0,1856.26,CRITICAL – <3 days of stock,20,False
+M04,White Top Liner,rolls,30,82.0,0.4,1721.9,247481.21,1691.9,CRITICAL – <3 days of stock,15,False
+M05,Corrugating Medium,rolls,44,82.32,0.5,1728.76,983767.63,1684.76,CRITICAL – <3 days of stock,25,False
+M07,Adhesive PF-100 (Premium),kg,620,67.65,9.2,1420.6,9899.25,800.6,AT_RISK – <21 days of stock,100,False
+M08,Starch Adhesive Powder,kg,920,89.13,10.3,1871.63,74982.05,951.63,AT_RISK – <21 days of stock,500,False
+M09,Ink - Cyan,kg,480,69.46,6.9,1458.67,6756.44,978.67,AT_RISK – <21 days of stock,50,False
+M10,Ink - Magenta,kg,510,84.2,6.1,1768.23,6756.44,1258.23,AT_RISK – <21 days of stock,50,False
+M11,Ink - Black,kg,390,81.71,4.8,1715.85,11135.43,1325.85,AT_RISK – <21 days of stock,60,False
+M12,Specialty Ink - Gold,kg,340,61.82,5.5,1298.16,1799.86,958.16,AT_RISK – <21 days of stock,20,False
+M13,PP Strapping Band 12mm,rolls,85,77.93,1.1,1636.54,126081.9,1551.54,CRITICAL – <3 days of stock,30,False
+M14,PP Strapping Band 16mm,rolls,70,80.38,0.9,1687.94,205449.9,1617.94,CRITICAL – <3 days of stock,20,False
