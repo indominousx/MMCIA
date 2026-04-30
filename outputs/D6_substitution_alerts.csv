@@ -1,0 +1,6 @@
+primary_material_id,primary_material_name,primary_current_stock,primary_days_cover,primary_status,substitute_material_id,substitute_material_name,substitute_current_stock,substitute_days_cover,substitute_supplier_id,substitute_supplier_name,substitute_moq,action
+M01,Kraft Paper - Grade A (180 GSM),18,0.2,CRITICAL,M02,Kraft Paper - Grade B (150 GSM),55,0.6,SUP01,West Coast Paper Mills,20,Switch to Kraft Paper - Grade B (150 GSM) from West Coast Paper Mills. MOQ: 20 rolls. Sub stock: 55 rolls.
+M02,Kraft Paper - Grade B (150 GSM),55,0.6,CRITICAL,M01,Kraft Paper - Grade A (180 GSM),18,0.2,SUP01,West Coast Paper Mills,20,Switch to Kraft Paper - Grade A (180 GSM) from West Coast Paper Mills. MOQ: 20 rolls. Sub stock: 18 rolls.
+M07,Adhesive PF-100 (Premium),620,9.2,AT_RISK,M06,Adhesive WF-200 (Water-based),1840,32.1,SUP03,Pidilite Industries Ltd,100,Switch to Adhesive WF-200 (Water-based) from Pidilite Industries Ltd. MOQ: 100 kg. Sub stock: 1840 kg.
+M13,PP Strapping Band 12mm,85,1.1,CRITICAL,M14,PP Strapping Band 16mm,70,0.9,SUP07,Supreme Industries,20,Switch to PP Strapping Band 16mm from Supreme Industries. MOQ: 20 rolls. Sub stock: 70 rolls.
+M14,PP Strapping Band 16mm,70,0.9,CRITICAL,M13,PP Strapping Band 12mm,85,1.1,SUP07,Supreme Industries,20,Switch to PP Strapping Band 12mm from Supreme Industries. MOQ: 20 rolls. Sub stock: 85 rolls.
