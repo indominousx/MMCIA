@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap");
+
 :root {
   --bg: #f5f7f8;
   --panel: #ffffff;
@@ -18,9 +20,11 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: radial-gradient(circle at top right, #eef7f4, transparent 52%),
+    radial-gradient(circle at 20% 20%, #f4f6fb, transparent 45%),
+    var(--bg);
   color: var(--ink);
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-family: "Manrope", "Segoe UI", sans-serif;
   font-size: 14px;
 }
 
@@ -219,6 +223,7 @@ h2 {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
+  animation: riseIn 0.4s ease;
 }
 
 .panel-heading {
@@ -288,6 +293,13 @@ h2 {
   gap: 10px;
 }
 
+.alert-grid,
+.alert-timeline,
+.exposure-grid {
+  display: grid;
+  gap: 10px;
+}
+
 .module-item,
 .risk-item,
 .sub-card,
@@ -297,6 +309,42 @@ h2 {
   border-radius: 8px;
   padding: 10px;
   background: #fcfdfd;
+}
+
+.alert-card,
+.alert-item,
+.exposure-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fcfdfd;
+}
+
+.alert-card strong {
+  display: block;
+  font-size: 18px;
+  margin-top: 6px;
+}
+
+.alert-card small,
+.alert-item span,
+.exposure-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.alert-card.red {
+  border-left: 4px solid var(--red);
+}
+
+.alert-card.amber {
+  border-left: 4px solid var(--amber);
+}
+
+.alert-card.violet {
+  border-left: 4px solid var(--violet);
 }
 
 .module-item strong,
@@ -319,6 +367,14 @@ h2 {
 .risk-grid,
 .substitution-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.alert-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.exposure-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .inventory-card.critical {
@@ -411,6 +467,49 @@ td {
   font-size: 12px;
 }
 
+.email-box {
+  display: grid;
+  gap: 12px;
+}
+
+.email-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.exposure-meter {
+  height: 10px;
+  border-radius: 999px;
+  background: #e7ecef;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.exposure-fill {
+  height: 100%;
+  background: var(--green);
+}
+
+.exposure-fill.blocked {
+  background: var(--red);
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 1100px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -437,7 +536,9 @@ td {
   .kpi-grid,
   .grid-two,
   .risk-grid,
-  .substitution-grid {
+  .substitution-grid,
+  .alert-grid,
+  .exposure-grid {
     grid-template-columns: 1fr;
   }
 }

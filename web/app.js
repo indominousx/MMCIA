@@ -5,7 +5,8 @@ const state = {
   inventory: null,
   procurement: null,
   substitutions: null,
-  quality: null
+  quality: null,
+  alertConfig: null
 };
 
 const number = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 });
@@ -27,6 +28,10 @@ function pct(value) {
   return `${Number(value || 0).toFixed(1)}%`;
 }
 
+function sum(rows, key) {
+  return (rows || []).reduce((total, row) => total + Number(row?.[key] || 0), 0);
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, options);
   if (!response.ok) throw new Error(`${path} failed with ${response.status}`);
@@ -35,16 +40,17 @@ async function api(path, options = {}) {
 
 async function loadAll() {
   setRefreshState("Loading");
-  const [overview, decision, demand, inventory, procurement, substitutions, quality] = await Promise.all([
+  const [overview, decision, demand, inventory, procurement, substitutions, quality, alertConfig] = await Promise.all([
     api("/api/overview"),
     api("/api/decision-dashboard"),
     api("/api/demand-planning"),
     api("/api/inventory-management"),
     api("/api/smart-procurement"),
     api("/api/substitutions"),
-    api("/api/data-quality")
+    api("/api/data-quality"),
+    api("/api/alert-config")
   ]);
-  Object.assign(state, { overview, decision, demand, inventory, procurement, substitutions, quality });
+  Object.assign(state, { overview, decision, demand, inventory, procurement, substitutions, quality, alertConfig });
   renderAll();
   setRefreshState("Ready");
 }
@@ -56,6 +62,8 @@ function renderAll() {
   renderProcurement();
   renderSubstitutions();
   renderQuality();
+  renderAlertCenter();
+  renderEmailPanel();
 }
 
 function renderOverview() {
@@ -173,6 +181,7 @@ function renderProcurement() {
       <td>${inr(row.recommended_value_inr)}</td>
     </tr>
   `).join("");
+  renderSupplierExposure();
 }
 
 function renderSubstitutions() {
@@ -203,6 +212,92 @@ function renderQuality() {
       <td>${statusPill(row.conversion_confidence)}</td>
     </tr>
   `).join("");
+}
+
+function renderAlertCenter() {
+  const alerts = state.inventory.alerts || [];
+  const critical = alerts.filter(row => {
+    const type = String(row.alert_type || "");
+    return type.includes("less_than_3_days") || row.under_3_days_stock === true || row.under_3_days_stock === "True";
+  });
+  const watch = alerts.filter(row => !critical.includes(row));
+  const blockedValue = sum(state.procurement.blocked, "recommended_value_inr");
+
+  document.getElementById("alertSummary").innerHTML = [
+    alertCard("Critical (<3 days)", critical.length, "Immediate escalation", "red"),
+    alertCard("Stockout <=21 days", watch.length, "Expedite supplier plan", "amber"),
+    alertCard("Credit blocked value", inr(blockedValue), `${state.procurement.blocked.length} blocked lines`, "violet")
+  ].join("");
+
+  const timeline = alerts.slice(0, 6);
+  document.getElementById("alertTimeline").innerHTML = timeline.map(row => `
+    <div class="alert-item">
+      <strong>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</strong>
+      <span>${escapeHtml(row.first_stockout_date || "No date")} · ${row.days_to_stockout || "-"} days cover · shortage ${qty(row.projected_shortage_qty, row.unit)}</span>
+      <span>${statusPill(row.alert_type || "watch")}</span>
+    </div>
+  `).join("");
+
+  document.getElementById("alertStatus").textContent = critical.length > 0 ? "Escalate now" : "Monitoring";
+}
+
+function renderEmailPanel() {
+  const config = state.alertConfig || {};
+  const recipients = (config.recipients || []).join(", ") || "Not configured";
+  const fromEmail = config.fromEmail || "Not configured";
+  const missing = config.missing || [];
+  const ready = Boolean(config.enabled);
+
+  document.getElementById("emailRecipients").textContent = recipients;
+  document.getElementById("emailFrom").textContent = fromEmail;
+  document.getElementById("emailStatus").textContent = ready ? "Ready" : `Missing ${missing.join(", ")}`;
+  const sendButton = document.getElementById("sendAlertButton");
+  sendButton.disabled = !ready;
+}
+
+function renderSupplierExposure() {
+  const approved = state.procurement.approved || [];
+  const blocked = state.procurement.blocked || [];
+  const bySupplier = new Map();
+
+  function addRow(row, key) {
+    const id = row.supplier_id || row.supplier_name || "unknown";
+    const entry = bySupplier.get(id) || {
+      supplier: row.supplier_name || "Unknown",
+      approvedValue: 0,
+      blockedValue: 0,
+      reliability: row.reliability_score ?? "-"
+    };
+    entry[key] += Number(row.recommended_value_inr || 0);
+    if (entry.reliability === "-" && row.reliability_score != null) {
+      entry.reliability = row.reliability_score;
+    }
+    bySupplier.set(id, entry);
+  }
+
+  approved.forEach(row => addRow(row, "approvedValue"));
+  blocked.forEach(row => addRow(row, "blockedValue"));
+
+  const rows = Array.from(bySupplier.values()).map(row => ({
+    ...row,
+    total: row.approvedValue + row.blockedValue
+  })).sort((a, b) => b.total - a.total).slice(0, 8);
+
+  document.getElementById("supplierExposure").innerHTML = rows.map(row => {
+    const approvedPct = row.total > 0 ? (row.approvedValue / row.total) * 100 : 0;
+    const blockedPct = row.total > 0 ? (row.blockedValue / row.total) * 100 : 0;
+    return `
+      <div class="exposure-card">
+        <strong>${escapeHtml(row.supplier)}</strong>
+        <span>Approved ${inr(row.approvedValue)} · Blocked ${inr(row.blockedValue)}</span>
+        <span>Reliability ${row.reliability}</span>
+        <div class="exposure-meter">
+          <div class="exposure-fill" style="width:${approvedPct}%"></div>
+          <div class="exposure-fill blocked" style="width:${blockedPct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
 function drawBars(targetId, rows, labelKey, valueKey, labelFn) {
@@ -239,6 +334,17 @@ function statusPill(value) {
   return `<span class="pill ${cls}">${escapeHtml(text)}</span>`;
 }
 
+function alertCard(label, value, note, tone) {
+  const cls = tone ? `alert-card ${tone}` : "alert-card";
+  return `
+    <div class="${cls}">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(String(value))}</strong>
+      <small>${escapeHtml(note)}</small>
+    </div>
+  `;
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -273,6 +379,37 @@ document.getElementById("recomputeButton").addEventListener("click", async () =>
   } finally {
     button.disabled = false;
     button.textContent = "Recompute";
+  }
+});
+
+document.getElementById("sendAlertButton").addEventListener("click", async () => {
+  const button = document.getElementById("sendAlertButton");
+  const status = document.getElementById("emailStatus");
+  const log = document.getElementById("emailLog");
+  button.disabled = true;
+  button.textContent = "Sending";
+  status.textContent = "Sending";
+  try {
+    const response = await api("/api/send-alerts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
+    });
+    if (response.ok) {
+      status.textContent = "Sent";
+      log.textContent = `Alert email sent to ${response.recipients.join(", ")}.`;
+    } else {
+      status.textContent = "Failed";
+      log.textContent = response.error === "missing_email_settings"
+        ? `Missing settings: ${response.missing.join(", ")}.`
+        : `Send failed: ${response.detail || response.error}`;
+    }
+  } catch (error) {
+    status.textContent = "Failed";
+    log.textContent = error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Send alerts";
   }
 });
 

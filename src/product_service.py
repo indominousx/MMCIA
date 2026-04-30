@@ -7,6 +7,13 @@ from typing import Any
 
 import pandas as pd
 
+from .alerting import (
+    build_alert_digest,
+    build_alert_email,
+    load_email_settings,
+    send_alert_email,
+    with_recipients,
+)
 from .config import PipelineConfig
 from .pipeline import run_inventory_pipeline
 
@@ -215,6 +222,55 @@ class ProductService:
         return {
             "issues": _records(self._frame("data_quality_issues")),
             "unitConversions": _records(self._frame("unit_conversion_logic")),
+        }
+
+    def alert_config(self) -> dict[str, Any]:
+        _, status = load_email_settings()
+        return status
+
+    def alert_digest(self) -> dict[str, Any]:
+        self.ensure_loaded()
+        return build_alert_digest(
+            self._analysis_date,
+            self._frame("stockout_alerts_21d"),
+            self._frame("procurement_recommendations"),
+            self._frame("procurement_blocked_by_credit"),
+            self._frame("credit_summary"),
+            self._frame("substitution_recommendations"),
+        )
+
+    def send_alerts(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        self.ensure_loaded()
+        settings, status = load_email_settings()
+        if settings is None:
+            return {
+                "ok": False,
+                "error": "missing_email_settings",
+                "missing": status.get("missing", []),
+                "status": status,
+            }
+
+        if payload and isinstance(payload.get("recipients"), list):
+            settings = with_recipients(settings, payload["recipients"])
+
+        digest = build_alert_digest(
+            self._analysis_date,
+            self._frame("stockout_alerts_21d"),
+            self._frame("procurement_recommendations"),
+            self._frame("procurement_blocked_by_credit"),
+            self._frame("credit_summary"),
+            self._frame("substitution_recommendations"),
+        )
+        subject, text, html = build_alert_email(digest)
+        try:
+            send_alert_email(settings, subject, text, html)
+        except Exception as exc:
+            return {"ok": False, "error": "send_failed", "detail": str(exc)}
+
+        return {
+            "ok": True,
+            "recipients": list(settings.recipients),
+            "summary": digest.get("summary", {}),
         }
 
     def report_path(self) -> Path:

@@ -37,6 +37,8 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
             "/api/smart-procurement": self.service.smart_procurement,
             "/api/substitutions": self.service.substitutions,
             "/api/data-quality": self.service.data_quality,
+            "/api/alert-config": self.service.alert_config,
+            "/api/alert-digest": self.service.alert_digest,
         }
         if path in routes:
             self._send_json(routes[path]())
@@ -61,6 +63,10 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/api/recompute":
             self._send_json(self.service.recompute())
+            return
+        if parsed.path == "/api/send-alerts":
+            payload = self._read_json()
+            self._send_json(self.service.send_alerts(payload))
             return
         self._send_json({"error": "not_found", "path": parsed.path}, HTTPStatus.NOT_FOUND)
 
@@ -107,6 +113,16 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+    def _read_json(self) -> dict[str, object]:
+        length = int(self.headers.get("Content-Length", 0))
+        if length <= 0:
+            return {}
+        raw = self.rfile.read(length)
+        try:
+            return json.loads(raw.decode("utf-8"))
+        except json.JSONDecodeError:
+            return {}
 
 
 def make_handler(service: ProductService) -> type[InventoryAppHandler]:
