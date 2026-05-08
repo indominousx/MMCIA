@@ -36,6 +36,10 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
             "/api/inventory-management": self.service.inventory_management,
             "/api/smart-procurement": self.service.smart_procurement,
             "/api/substitutions": self.service.substitutions,
+            "/api/risk-intelligence": self.service.risk_intelligence,
+            "/api/advanced-forecast": self.service.advanced_forecast,
+            "/api/ai-recommendations": self.service.ai_recommendations,
+            "/api/simulation-lab": self.service.simulation_lab,
             "/api/data-quality": self.service.data_quality,
             "/api/alert-config": self.service.alert_config,
             "/api/alert-digest": self.service.alert_digest,
@@ -67,6 +71,10 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/send-alerts":
             payload = self._read_json()
             self._send_json(self.service.send_alerts(payload))
+            return
+        if parsed.path == "/api/run-scenario":
+            payload = self._read_json()
+            self._send_json(self.service.run_scenario(payload))
             return
         self._send_json({"error": "not_found", "path": parsed.path}, HTTPStatus.NOT_FOUND)
 

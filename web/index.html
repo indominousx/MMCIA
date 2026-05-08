@@ -3,9 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PackRight Inventory Intelligence</title>
+    <title>PackRight Supply Command Center</title>
     <link rel="stylesheet" href="/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -19,11 +18,14 @@
         </div>
 
         <nav class="module-nav" aria-label="Dashboard modules">
-          <button class="nav-item active" data-tab="decision">Decision Board</button>
+          <button class="nav-item active" data-tab="decision">Command Center</button>
           <button class="nav-item" data-tab="demand">Demand Planning</button>
           <button class="nav-item" data-tab="inventory">Inventory</button>
+          <button class="nav-item" data-tab="risk">Risk Intelligence</button>
+          <button class="nav-item" data-tab="forecast">Forecasting</button>
           <button class="nav-item" data-tab="procurement">Procurement</button>
-          <button class="nav-item" data-tab="substitutions">Substitutions</button>
+          <button class="nav-item" data-tab="recommendations">AI Recommendations</button>
+          <button class="nav-item" data-tab="simulation">Simulation Lab</button>
           <button class="nav-item" data-tab="quality">Data Quality</button>
         </nav>
 
@@ -36,17 +38,58 @@
       <main class="workspace">
         <header class="topbar">
           <div>
-            <h1>Decision Dashboard</h1>
-            <p>Credit-aware procurement, BOM demand, and stockout response for committed production.</p>
+            <h1>Command Center</h1>
+            <p>Predictive risk intelligence, procurement automation, and scenario-aware decisions.</p>
           </div>
           <div class="topbar-actions">
             <a class="button secondary" href="/api/report">Report</a>
             <button class="button primary" id="recomputeButton">Recompute</button>
           </div>
         </header>
+        <section class="filter-bar" aria-label="Global filters">
+          <div class="filter-group">
+            <label for="filterMaterial">Material</label>
+            <select id="filterMaterial"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filterSupplier">Supplier</label>
+            <select id="filterSupplier"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filterCategory">Category</label>
+            <select id="filterCategory"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filterAlertType">Alert type</label>
+            <select id="filterAlertType"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filterCreditStatus">Credit status</label>
+            <select id="filterCreditStatus"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filterMoqStatus">MOQ status</label>
+            <select id="filterMoqStatus"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filterDateFrom">Date from</label>
+            <input id="filterDateFrom" type="date">
+          </div>
+          <div class="filter-group">
+            <label for="filterDateTo">Date to</label>
+            <input id="filterDateTo" type="date">
+          </div>
+          <button class="button secondary" id="filterReset">Reset filters</button>
+        </section>
 
         <section class="tab-panel active" id="tab-decision">
           <div class="kpi-grid" id="kpiGrid"></div>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Risk Snapshot</h2>
+            </div>
+            <div class="alert-grid" id="riskSummaryCards"></div>
+          </section>
           <section class="grid-two">
             <div class="panel">
               <div class="panel-heading">
@@ -101,6 +144,20 @@
           <section class="grid-two">
             <div class="panel">
               <div class="panel-heading">
+                <h2>AI Recommendation Feed</h2>
+              </div>
+              <div class="recommendation-feed" id="aiRecommendationsPreview"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Scenario Highlights</h2>
+              </div>
+              <div class="scenario-feed" id="scenarioHighlights"></div>
+            </div>
+          </section>
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
                 <h2>Alert Center</h2>
                 <span id="alertStatus" class="status-badge">Loading</span>
               </div>
@@ -113,9 +170,9 @@
                 <span id="emailStatus" class="status-badge">Loading</span>
               </div>
               <div class="email-box">
-                <div class="metric-row" style="flex-direction: column; align-items: stretch; gap: 4px;">
+                <div class="metric-row">
                   <span>Recipients</span>
-                  <input type="text" id="emailRecipientsInput" class="search-input" placeholder="e.g. user@example.com, admin@example.com">
+                  <strong id="emailRecipients">-</strong>
                 </div>
                 <div class="metric-row">
                   <span>From</span>
@@ -123,7 +180,6 @@
                 </div>
                 <div class="email-actions">
                   <button class="button primary" id="sendAlertButton">Send alerts</button>
-                  <button class="button secondary" id="simulateEmailButton">Simulate Email</button>
                   <span class="muted" id="emailLog">No alert sent yet.</span>
                 </div>
               </div>
@@ -137,13 +193,13 @@
               <div class="panel-heading">
                 <h2>4-Week Demand</h2>
               </div>
-              <div class="chart-container"><canvas id="weekDemandChart"></canvas></div>
+              <div class="bar-chart" id="weekDemandChart"></div>
             </div>
             <div class="panel">
               <div class="panel-heading">
                 <h2>Material Demand Rank</h2>
               </div>
-              <div class="chart-container"><canvas id="materialDemandChart"></canvas></div>
+              <div class="bar-chart compact" id="materialDemandChart"></div>
             </div>
           </section>
           <section class="panel">
@@ -197,6 +253,81 @@
           </section>
         </section>
 
+        <section class="tab-panel" id="tab-risk">
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Risk Heatmap</h2>
+                <input id="riskSearch" class="search-input" type="search" placeholder="Filter material">
+              </div>
+              <div class="risk-heatmap" id="riskHeatmap"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Supplier Risk Rankings</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Supplier</th>
+                      <th>Avg risk</th>
+                      <th>Materials</th>
+                    </tr>
+                  </thead>
+                  <tbody id="supplierRiskRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Material Risk Details</h2>
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Risk</th>
+                    <th>Severity</th>
+                    <th>Drivers</th>
+                    <th>Mitigation</th>
+                  </tr>
+                </thead>
+                <tbody id="riskRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-forecast">
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Weekly Forecast Demand</h2>
+              </div>
+              <div class="bar-chart" id="forecastWeekChart"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Volatility Hotspots</h2>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Material</th>
+                      <th>Volatility</th>
+                    </tr>
+                  </thead>
+                  <tbody id="volatilityRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </section>
+
         <section class="tab-panel" id="tab-procurement">
           <section class="grid-two">
             <div class="panel">
@@ -245,12 +376,72 @@
           </section>
         </section>
 
-        <section class="tab-panel" id="tab-substitutions">
+        <section class="tab-panel" id="tab-recommendations">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>AI Recommendation Feed</h2>
+              <input id="recommendationSearch" class="search-input" type="search" placeholder="Filter material">
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Issue</th>
+                    <th>Action</th>
+                    <th>Urgency</th>
+                    <th>Impact</th>
+                  </tr>
+                </thead>
+                <tbody id="recommendationRows"></tbody>
+              </table>
+            </div>
+          </section>
           <section class="panel">
             <div class="panel-heading">
               <h2>Substitution Decisions</h2>
             </div>
             <div class="substitution-grid" id="substitutionCards"></div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="tab-simulation">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Scenario Simulation Results</h2>
+            </div>
+            <div class="simulation-grid" id="simulationCards"></div>
+          </section>
+            <div class="sim-controls">
+                <label>Scenario name: <input type="text" id="sim-name" placeholder="Custom scenario"></label>
+                <label>Demand spike (multiplier 0.0-2.0): <input type="number" id="sim-demand-spike" step="0.05" min="0" max="2" value="0.0"></label>
+                <label>Supplier delay days: <input type="number" id="sim-supplier-delay" step="1" min="0" max="120" value="0"></label>
+                <label>Credit reduction (0.0-1.0): <input type="number" id="sim-credit-reduction" step="0.01" min="0" max="1" value="0.0"></label>
+                <label>Inventory shrinkage (0.0-0.5): <input type="number" id="sim-shrinkage" step="0.01" min="0" max="0.5" value="0.0"></label>
+                <label>Approval delay days: <input type="number" id="sim-approval-delay" step="1" min="0" max="60" value="0"></label>
+                <div class="sim-controls-actions">
+                    <button id="run-sim-btn">Run Simulation</button>
+                    <button id="reset-sim-btn">Reset</button>
+                </div>
+            </div>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Scenario Comparison Table</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Scenario</th>
+                    <th>Stockouts</th>
+                    <th>Delayed orders</th>
+                    <th>Losses</th>
+                    <th>Risk change</th>
+                  </tr>
+                </thead>
+                <tbody id="simulationRows"></tbody>
+              </table>
+            </div>
           </section>
         </section>
 

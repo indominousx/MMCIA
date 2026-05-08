@@ -1,0 +1,8 @@
+scenario,demand_spike,supplier_delay_days,credit_reduction,inventory_shrinkage,approval_delay_days,projected_stockouts,delayed_orders,simulated_losses_inr,risk_change_pct,procurement_adjustment_inr,credit_cap_after_reduction_inr,baseline_stockouts,baseline_procurement_value_inr,baseline_avg_risk_score,scenario_summary
+Demand spike 40%,0.4,0,0.0,0.0,0,13,0,76086360468.95,28.0,1138700.01,3000000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.
+Supplier delay 7d,0.0,7,0.0,0.0,0,13,2,54347400334.97,4.67,813357.15,3000000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.
+Supplier failure 30%,0.1,10,0.0,0.0,0,13,2,59782140368.46,13.67,894692.86,3000000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.
+Credit reduction 20%,0.0,0,0.2,0.0,0,13,0,54347400334.97,4.0,650685.72,2400000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.
+Inventory shrinkage 10%,0.0,0,0.0,0.1,0,13,0,59782140368.46,0.0,813357.15,3000000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.
+Seasonal surge 30%,0.3,0,0.0,0.0,0,13,0,70651620435.45,21.0,1057364.29,3000000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.
+Delayed approvals 7d,0.0,0,0.0,0.0,7,13,2,54347400334.97,0.0,813357.15,3000000.0,13,813357.1499999999,53.34357142857142,High disruption risk with multiple stockouts.

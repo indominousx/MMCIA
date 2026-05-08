@@ -1,16 +1,21 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 
 import pandas as pd
 
 from .bom_forecast import build_bom_forecast
 from .config import PipelineConfig
+from .decision_agent import build_ai_recommendations
+from .forecasting_engine import build_advanced_forecast
 from .inventory_projection import project_inventory
 from .load_data import load_inputs, write_quality_report
 from .procurement_engine import build_procurement_recommendations
 from .reporting import build_weekly_report, write_csv_outputs
+from .risk_engine import compute_material_risk_scores
+from .simulation_engine import run_scenario_simulations
 from .slow_moving import build_slow_moving_watchlist
 from .substitution import build_substitution_recommendations
 from .unit_normalization import normalize_transactions
@@ -70,6 +75,50 @@ def run_inventory_pipeline(config: PipelineConfig | None = None) -> PipelineResu
 
     slow_moving = build_slow_moving_watchlist(bundle.material_master, weekly_demand)
 
+    advanced_forecast = build_advanced_forecast(
+        daily_demand,
+        normalized_transactions,
+        bundle.material_master,
+        bundle.seasonal_index,
+        bundle.analysis_date,
+        config,
+    )
+
+    risk_scores = compute_material_risk_scores(
+        coverage_summary,
+        bundle.supplier_master,
+        daily_demand,
+        procurement,
+        blocked_by_credit,
+        substitutions,
+        bundle.working_capital_log,
+        normalized_transactions,
+        bundle.analysis_date,
+        config,
+    )
+
+    ai_recommendations = build_ai_recommendations(
+        coverage_summary,
+        risk_scores,
+        procurement,
+        blocked_by_credit,
+        substitutions,
+        bundle.supplier_master,
+        bundle.working_capital_log,
+        bundle.analysis_date,
+        config,
+    )
+
+    scenario_results = run_scenario_simulations(
+        coverage_summary,
+        daily_demand,
+        procurement,
+        bundle.supplier_master,
+        risk_scores,
+        bundle.analysis_date,
+        config,
+    )
+
     outputs = {
         "normalized_transactions": normalized_transactions,
         "unit_conversion_logic": conversion_logic,
@@ -86,8 +135,16 @@ def run_inventory_pipeline(config: PipelineConfig | None = None) -> PipelineResu
         "substitution_recommendations": substitutions,
         "slow_moving_watchlist": slow_moving,
         "data_quality_issues": bundle.quality_issues,
+        "advanced_forecast": advanced_forecast,
+        "material_risk_scores": risk_scores,
+        "ai_recommendations": ai_recommendations,
+        "scenario_simulation_results": scenario_results,
     }
     write_csv_outputs(config.output_dir, outputs)
+    (config.output_dir / "ai_recommendations.json").write_text(
+        json.dumps(ai_recommendations.to_dict(orient="records"), ensure_ascii=True, indent=2),
+        encoding="utf-8",
+    )
     report_path = build_weekly_report(config.output_dir, outputs, bundle.analysis_date)
 
     return PipelineResult(

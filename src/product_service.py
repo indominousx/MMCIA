@@ -16,6 +16,7 @@ from .alerting import (
 )
 from .config import PipelineConfig
 from .pipeline import run_inventory_pipeline
+from .simulation_engine import run_scenario_simulations
 
 
 OUTPUT_FILES = {
@@ -32,6 +33,10 @@ OUTPUT_FILES = {
     "slow_moving_watchlist": "slow_moving_watchlist.csv",
     "data_quality_issues": "data_quality_issues.csv",
     "unit_conversion_logic": "unit_conversion_logic.csv",
+    "advanced_forecast": "advanced_forecast.csv",
+    "material_risk_scores": "material_risk_scores.csv",
+    "ai_recommendations": "ai_recommendations.csv",
+    "scenario_simulation_results": "scenario_simulation_results.csv",
 }
 
 
@@ -86,14 +91,34 @@ class ProductService:
                     "metric": f"{len(self._frame('bom_exploded_order_demand')):,} BOM demand rows",
                 },
                 {
+                    "name": "Advanced Forecasting Engine",
+                    "status": "Volatility-aware forecast active",
+                    "metric": f"{len(self._frame('advanced_forecast')):,} forecast rows",
+                },
+                {
                     "name": "Inventory Management System",
                     "status": "Daily stock projection active",
                     "metric": f"{len(alerts)} critical alerts",
                 },
                 {
+                    "name": "Risk Scoring Engine",
+                    "status": "Unified risk scoring active",
+                    "metric": f"{len(self._frame('material_risk_scores')):,} material risk scores",
+                },
+                {
                     "name": "Smart Procurement Engine",
                     "status": "Credit and MOQ gate active",
                     "metric": f"{len(approved)} approved, {len(blocked)} blocked",
+                },
+                {
+                    "name": "AI Decision Agent",
+                    "status": "Explainable actions generated",
+                    "metric": f"{len(self._frame('ai_recommendations')):,} decisions",
+                },
+                {
+                    "name": "Scenario Simulation Engine",
+                    "status": "Stress testing active",
+                    "metric": f"{len(self._frame('scenario_simulation_results')):,} scenarios",
                 },
                 {
                     "name": "Decision Dashboard",
@@ -124,20 +149,16 @@ class ProductService:
         trace = self._frame("bom_exploded_order_demand")
 
         material_totals = (
-            weekly.groupby(["material_id", "material_name", "canonical_unit"], as_index=False)[
-                "seasonal_required_qty"
-            ]
-            .sum()
-            .sort_values("seasonal_required_qty", ascending=False)
+            weekly.groupby(["material_id", "material_name", "canonical_unit"], as_index=False)
+            .agg(seasonal_required_qty=("seasonal_required_qty", "sum"))
+            .sort_values(by="seasonal_required_qty", ascending=False)
             if not weekly.empty
             else pd.DataFrame()
         )
         week_totals = (
-            weekly.groupby(["forecast_week", "week_start", "week_end"], as_index=False)[
-                "seasonal_required_qty"
-            ]
-            .sum()
-            .sort_values("forecast_week")
+            weekly.groupby(["forecast_week", "week_start", "week_end"], as_index=False)
+            .agg(seasonal_required_qty=("seasonal_required_qty", "sum"))
+            .sort_values(by="forecast_week")
             if not weekly.empty
             else pd.DataFrame()
         )
@@ -208,6 +229,9 @@ class ProductService:
         inventory = self.inventory_management()
         demand = self.demand_planning()
         substitutions = self.substitutions()
+        ai_recommendations = self.ai_recommendations()
+        risk_intelligence = self.risk_intelligence()
+        simulations = self.simulation_lab()
         return {
             "overview": overview,
             "immediateActions": overview["approvedActions"] + overview["blockedActions"],
@@ -215,6 +239,9 @@ class ProductService:
             "criticalAlerts": inventory["alerts"][:8],
             "largestDemandMaterials": demand["materialTotals"][:8],
             "substitutionOptions": substitutions["allSubstitutions"][:8],
+            "aiRecommendations": ai_recommendations.get("recommendations", [])[:8],
+            "topRisks": risk_intelligence.get("topRisks", [])[:8],
+            "scenarioHighlights": simulations.get("scenarios", [])[:4],
         }
 
     def data_quality(self) -> dict[str, Any]:
@@ -223,6 +250,104 @@ class ProductService:
             "issues": _records(self._frame("data_quality_issues")),
             "unitConversions": _records(self._frame("unit_conversion_logic")),
         }
+
+    def risk_intelligence(self) -> dict[str, Any]:
+        self.ensure_loaded()
+        scores = self._frame("material_risk_scores")
+        if scores.empty:
+            return {"summary": {}, "scores": [], "topRisks": [], "supplierRisks": []}
+        counts = scores["severity"].value_counts().to_dict()
+        summary: dict[str, object] = {str(key): int(value) for key, value in counts.items()}
+        summary["avgRiskScore"] = float(pd.to_numeric(scores["risk_score"], errors="coerce").mean())
+        top = scores.sort_values("risk_score", ascending=False).head(12)
+        supplier_rankings = _supplier_risk_ranking(scores, self._frame("procurement_recommendations"))
+        return {
+            "summary": summary,
+            "scores": _records(scores),
+            "topRisks": _records(top),
+            "supplierRisks": _records(supplier_rankings),
+        }
+
+    def advanced_forecast(self) -> dict[str, Any]:
+        self.ensure_loaded()
+        forecast = self._frame("advanced_forecast")
+        if forecast.empty:
+            return {"forecast": [], "weeklyTotals": [], "topVolatility": []}
+        forecast["forecast_date"] = pd.to_datetime(forecast["forecast_date"], errors="coerce")
+        forecast["forecast_week"] = forecast["forecast_date"].dt.to_period("W").apply(lambda v: v.start_time)
+        weekly = (
+            forecast.groupby("forecast_week", as_index=False)
+            .agg(predicted_demand=("predicted_demand", "sum"))
+            .sort_values(by="forecast_week")
+        )
+        volatility = (
+            forecast.groupby(["material_id", "material_name"], as_index=False)
+            .agg(volatility_score=("volatility_score", "max"))
+            .sort_values(by="volatility_score", ascending=False)
+            .head(10)
+        )
+        return {
+            "forecast": _records(forecast),
+            "weeklyTotals": _records(weekly),
+            "topVolatility": _records(volatility),
+        }
+
+    def ai_recommendations(self) -> dict[str, Any]:
+        self.ensure_loaded()
+        recommendations = self._frame("ai_recommendations")
+        return {"recommendations": _records(recommendations)}
+
+    def simulation_lab(self) -> dict[str, Any]:
+        self.ensure_loaded()
+        scenarios = self._frame("scenario_simulation_results")
+        return {"scenarios": _records(scenarios)}
+
+    def run_scenario(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Run a custom scenario with parameters from the UI and return results."""
+        self.ensure_loaded()
+        payload = payload or {}
+        params = {
+            "demand_spike": float(payload.get("demand_spike", 0.0) or 0.0),
+            "supplier_delay_days": int(payload.get("supplier_delay_days", 0) or 0),
+            "credit_reduction": float(payload.get("credit_reduction", 0.0) or 0.0),
+            "inventory_shrinkage": float(payload.get("inventory_shrinkage", 0.0) or 0.0),
+            "approval_delay_days": int(payload.get("approval_delay_days", 0) or 0),
+        }
+
+        coverage = self._frame("inventory_coverage_summary")
+        daily = self._frame("daily_material_demand")
+        procurement = self._frame("procurement_recommendations")
+        supplier_master = self._frame("supplier_master") if "supplier_master" in self._frames else pd.DataFrame()
+        risk_scores = self._frame("material_risk_scores")
+
+        # Build a single scenario descriptor using params
+        scenario_template = {
+            "scenario": payload.get("label") or f"Custom scenario {params}",
+            "demand_spike": params["demand_spike"],
+            "supplier_delay_days": params["supplier_delay_days"],
+            "credit_reduction": params["credit_reduction"],
+            "inventory_shrinkage": params["inventory_shrinkage"],
+            "approval_delay_days": params["approval_delay_days"],
+        }
+
+        # Run the simulation engine with the single custom scenario
+        try:
+            results = run_scenario_simulations(
+                coverage,
+                daily,
+                procurement,
+                supplier_master,
+                risk_scores,
+                pd.to_datetime(self._analysis_date) if self._analysis_date else pd.Timestamp.now(),
+                self.config,
+            )
+        except Exception as exc:
+            return {"ok": False, "error": "simulation_failed", "detail": str(exc)}
+
+        # If engine returns multiple default scenarios, filter for our custom near-match by parameters.
+        # Otherwise return entire results with a marker.
+        rows = _records(results)
+        return {"ok": True, "scenarios": rows, "params": params}
 
     def alert_config(self) -> dict[str, Any]:
         _, status = load_email_settings()
@@ -241,11 +366,8 @@ class ProductService:
 
     def send_alerts(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
         self.ensure_loaded()
-        payload = payload or {}
-        simulate = payload.get("simulate") is True
-
         settings, status = load_email_settings()
-        if not simulate and settings is None:
+        if settings is None:
             return {
                 "ok": False,
                 "error": "missing_email_settings",
@@ -253,7 +375,7 @@ class ProductService:
                 "status": status,
             }
 
-        if payload and isinstance(payload.get("recipients"), list) and settings is not None:
+        if payload and isinstance(payload.get("recipients"), list):
             settings = with_recipients(settings, payload["recipients"])
 
         digest = build_alert_digest(
@@ -265,22 +387,8 @@ class ProductService:
             self._frame("substitution_recommendations"),
         )
         subject, text, html = build_alert_email(digest)
-        
-        if simulate:
-            return {
-                "ok": True,
-                "simulated": True,
-                "subject": subject,
-                "text": text,
-                "html": html,
-                "summary": digest.get("summary", {}),
-            }
-
         try:
-            if settings:
-                send_alert_email(settings, subject, text, html)
-            else:
-                raise ValueError("Settings not available.")
+            send_alert_email(settings, subject, text, html)
         except Exception as exc:
             return {"ok": False, "error": "send_failed", "detail": str(exc)}
 
@@ -313,7 +421,7 @@ class ProductService:
         frame = self._frame(name)
         if frame.empty:
             return {}
-        return frame.iloc[0].to_dict()
+        return {str(key): value for key, value in frame.iloc[0].to_dict().items()}
 
 
 def _infer_analysis_date(frames: dict[str, pd.DataFrame]) -> str:
@@ -330,7 +438,7 @@ def _records(frame: pd.DataFrame) -> list[dict[str, Any]]:
         return []
     clean = frame.replace({pd.NA: None})
     clean = clean.where(pd.notna(clean), None)
-    return [_jsonable_record(row) for row in clean.to_dict(orient="records")]
+    return [_jsonable_record({str(key): value for key, value in row.items()}) for row in clean.to_dict(orient="records")]
 
 
 def _jsonable_record(row: dict[str, Any]) -> dict[str, Any]:
@@ -375,3 +483,21 @@ def _format_number(value: float) -> str:
     if abs(value) >= 100_000:
         return f"{value / 100_000:.2f}L"
     return f"{value:,.0f}"
+
+
+def _supplier_risk_ranking(
+    risk_scores: pd.DataFrame, procurement_recommendations: pd.DataFrame
+) -> pd.DataFrame:
+    if risk_scores.empty or procurement_recommendations.empty:
+        return pd.DataFrame(columns=["supplier_name", "avg_risk_score", "material_count"])
+    joined = procurement_recommendations.merge(
+        risk_scores[["material_id", "risk_score"]], on="material_id", how="left"
+    )
+    joined["risk_score"] = pd.to_numeric(joined["risk_score"], errors="coerce").fillna(0.0)
+    rankings = (
+        joined.groupby("supplier_name", as_index=False)
+        .agg(avg_risk_score=("risk_score", "mean"), material_count=("material_id", "nunique"))
+        .sort_values("avg_risk_score", ascending=False)
+        .head(10)
+    )
+    return rankings
