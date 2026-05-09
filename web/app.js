@@ -256,7 +256,7 @@ function renderRisk() {
     </tr>
   `).join("");
 
-  const supplierRisks = state.risk?.supplierRisks || [];
+  const supplierRisks = applyFilters(state.risk?.supplierRisks || [], {});
   document.getElementById("supplierRiskRows").innerHTML = supplierRisks.map(row => `
     <tr>
       <td>${escapeHtml(row.supplier_name || "-")}</td>
@@ -276,7 +276,7 @@ function renderForecast() {
     row => formatWeekLabel(row.forecast_week)
   );
 
-  const volatility = state.forecast?.topVolatility || [];
+  const volatility = applyFilters(state.forecast?.topVolatility || [], {});
   document.getElementById("volatilityRows").innerHTML = volatility.map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name || "")}</td>
@@ -404,12 +404,15 @@ async function runScenario() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (response.ok) {
-      // replace state.simulations with returned scenarios
+    if (response && response.ok && Array.isArray(response.scenarios)) {
       state.simulations = { scenarios: response.scenarios };
       renderSimulations();
+    } else if (response && response.ok) {
+      state.simulations = { scenarios: response.scenarios || [] };
+      renderSimulations();
+      alert('Simulation returned no scenarios.');
     } else {
-      alert('Simulation failed: ' + (response.error || 'unknown'));
+      alert('Simulation failed: ' + (response?.error || 'unknown'));
     }
   } catch (e) {
     alert('Simulation error: ' + (e.message || e));
@@ -432,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function renderQuality() {
-  const qualityRows = applyFilters(state.quality.issues || [], {});
+  const qualityRows = state.quality.issues || [];
   document.getElementById("qualityRows").innerHTML = qualityRows.map(row => `
     <tr>
       <td>${statusPill(row.severity)}</td>
@@ -440,7 +443,8 @@ function renderQuality() {
       <td>${escapeHtml(row.issue_type)}<br><span class="muted">${escapeHtml(row.detail)}</span></td>
     </tr>
   `).join("");
-  document.getElementById("unitRows").innerHTML = state.quality.unitConversions.slice(0, 120).map(row => `
+  const unitRows = state.quality.unitConversions || [];
+  document.getElementById("unitRows").innerHTML = unitRows.slice(0, 120).map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)}</td>
       <td>${escapeHtml(row.original_unit)}</td>
@@ -696,8 +700,20 @@ function setFilterOptions() {
     if (row.material_id) materialIds.add(row.material_id);
   });
 
+  (state.forecast?.topVolatility || []).forEach(row => {
+    if (row.material_id) materialIds.add(row.material_id);
+  });
+
+  (state.quality?.unitConversions || []).forEach(row => {
+    if (row.material_id) materialIds.add(row.material_id);
+  });
+
   (state.inventory.alerts || []).forEach(row => {
     if (row.alert_type) alertTypes.add(row.alert_type);
+  });
+
+  (state.risk?.supplierRisks || []).forEach(row => {
+    if (row.supplier_name) supplierNames.add(row.supplier_name);
   });
 
   setSelectOptions("filterMaterial", materialIds, "All materials");

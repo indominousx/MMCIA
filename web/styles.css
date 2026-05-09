@@ -157,8 +157,10 @@ h2 {
 
 .filter-bar {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  grid-auto-flow: dense;
+  align-items: end;
+  gap: 16px;
   padding: 12px;
   margin-bottom: 18px;
   background: var(--panel);
@@ -170,6 +172,27 @@ h2 {
   display: grid;
   gap: 6px;
 }
+
+#filterReset {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+.filter-group:nth-child(5) {
+  margin-right: 60px;
+}
+
+.button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.nav-item:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
 
 .filter-group label {
   font-size: 12px;
@@ -305,7 +328,7 @@ h2 {
   overflow: hidden;
   border-radius: 8px;
   background: #e7ecef;
-  margin: 8px 0 14px;
+  margin: 8px 0 8px;
 }
 
 .credit-fill {
@@ -320,6 +343,37 @@ h2 {
   justify-content: space-between;
   padding: 8px 0;
   border-top: 1px solid var(--line);
+}
+
+.sim-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.sim-controls label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.sim-controls label input {
+  width: 100%;
+  min-width: 0;
+}
+
+.sim-controls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  grid-column: 1 / -1;
+  margin-top: 6px;
+}
+
+.sim-controls-actions .button {
+  min-width: 120px;
 }
 
 .module-list,
@@ -624,19 +678,125 @@ td {
   .alert-grid,
   .exposure-grid,
   .risk-heatmap,
-  .simulation-grid,
+  .simulation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #filterReset {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
+
+  .workspace {
+    padding: 16px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 14px;
+  }
+
+  .module-nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+
+  .nav-item {
+    height: 36px;
+    font-size: 12px;
+  }
+
   .filter-bar {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  #filterReset {
+    grid-column: auto;
+  }
+
+  .filter-group:nth-child(5) {
+    margin-right: 0;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  table th,
+  table td {
+    padding: 8px 6px;
+  }
+
+  .sim-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-controls-actions {
+    grid-column: auto;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  .panel-heading {
+    gap: 8px;
+  }
+
+  .button {
+    min-width: 80px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .topbar-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .topbar-actions .button {
+    width: 100%;
   }
 }
 
 @media (max-width: 640px) {
   .workspace {
-    padding: 14px;
+    padding: 12px;
   }
 
   .topbar {
     display: grid;
+  }
+
+  .topbar-actions {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .module-nav {
@@ -652,8 +812,13 @@ td {
     flex-direction: column;
   }
 
+  .panel-heading h2 {
+    font-size: 13px;
+  }
+
   .search-input {
     width: 100%;
+    font-size: 13px;
   }
 
   .bar-row {
@@ -663,4 +828,189 @@ td {
   .bar-value {
     text-align: left;
   }
+
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group label {
+    font-size: 11px;
+  }
+
+  .filter-group select,
+  .filter-group input {
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .button {
+    min-width: 70px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .kpi {
+    min-height: 90px;
+    padding: 12px;
+  }
+
+  .kpi strong {
+    font-size: 20px;
+  }
+
+  .kpi span {
+    font-size: 11px;
+  }
+
+  .metric-row {
+    padding: 6px 0;
+    font-size: 12px;
+  }
+
+  .risk-heatmap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .risk-tile {
+    padding: 8px;
+  }
+
+  .inventory-card {
+    padding: 8px;
+  }
+
+  .module-item,
+  .risk-item,
+  .sub-card {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .email-actions {
+    gap: 6px;
+  }
+
+  .email-actions .button {
+    width: 100%;
+  }
+
+  .sim-controls label {
+    font-size: 12px;
+  }
+
+  .sim-controls label input {
+    height: 36px;
+  }
 }
+
+@media (max-width: 480px) {
+  .workspace {
+    padding: 10px;
+  }
+
+  body {
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 13px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    margin-bottom: 14px;
+  }
+
+  .topbar-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-bar {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .filter-group select,
+  .filter-group input {
+    height: 40px;
+  }
+
+  .button {
+    min-width: 60px;
+    height: 36px;
+    font-size: 11px;
+  }
+
+  table {
+    font-size: 11px;
+  }
+
+  table th,
+  table td {
+    padding: 6px 4px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi {
+    min-height: 80px;
+    padding: 10px;
+  }
+
+  .kpi strong {
+    font-size: 18px;
+    margin-top: 8px;
+  }
+
+  .risk-heatmap {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  .panel-heading {
+    margin-bottom: 10px;
+  }
+
+  .alert-timeline {
+    gap: 8px;
+  }
+
+  .alert-item {
+    padding: 8px;
+  }
+
+  .sim-controls {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .sim-controls label {
+    font-size: 11px;
+  }
+
+  .sim-controls-actions {
+    gap: 8px;
+  }
+
+  .sim-controls-actions .button {
+    flex: 1;
+  }
+}
+

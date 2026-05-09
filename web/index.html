@@ -412,6 +412,10 @@
             </div>
             <div class="simulation-grid" id="simulationCards"></div>
           </section>
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Scenario Builder</h2>
+            </div>
             <div class="sim-controls">
                 <label>Scenario name: <input type="text" id="sim-name" placeholder="Custom scenario"></label>
                 <label>Demand spike (multiplier 0.0-2.0): <input type="number" id="sim-demand-spike" step="0.05" min="0" max="2" value="0.0"></label>
@@ -420,10 +424,11 @@
                 <label>Inventory shrinkage (0.0-0.5): <input type="number" id="sim-shrinkage" step="0.01" min="0" max="0.5" value="0.0"></label>
                 <label>Approval delay days: <input type="number" id="sim-approval-delay" step="1" min="0" max="60" value="0"></label>
                 <div class="sim-controls-actions">
-                    <button id="run-sim-btn">Run Simulation</button>
-                    <button id="reset-sim-btn">Reset</button>
+                    <button type="button" class="button primary" id="run-sim-btn">Run Simulation</button>
+                    <button type="button" class="button secondary" id="reset-sim-btn">Reset</button>
                 </div>
             </div>
+          </section>
           <section class="panel">
             <div class="panel-heading">
               <h2>Scenario Comparison Table</h2>
