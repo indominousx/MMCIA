@@ -354,7 +354,9 @@ class ProductService:
         except Exception as exc:
             return {"ok": False, "error": "simulation_failed", "detail": str(exc)}
 
-        return self.simulation_lab()
+        result = self.simulation_lab()
+        result["ok"] = True
+        return result
 
     def delete_scenario(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Delete a simulation by index and save changes."""

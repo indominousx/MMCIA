@@ -395,6 +395,7 @@ window.deleteScenario = async function(index) {
       if (response && response.ok) {
         state.simulations = { scenarios: response.scenarios };
         renderSimulations();
+        renderOverview();
       } else {
         alert('Delete failed: ' + (response?.error || 'unknown'));
       }
@@ -428,9 +429,11 @@ async function runScenario() {
     if (response && response.ok && Array.isArray(response.scenarios)) {
       state.simulations = { scenarios: response.scenarios };
       renderSimulations();
+      renderOverview();
     } else if (response && response.ok) {
       state.simulations = { scenarios: response.scenarios || [] };
       renderSimulations();
+      renderOverview();
       alert('Simulation returned no scenarios.');
     } else {
       alert('Simulation failed: ' + (response?.error || 'unknown'));
