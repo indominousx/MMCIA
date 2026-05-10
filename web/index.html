@@ -46,107 +46,124 @@
             <button class="button primary" id="recomputeButton">Recompute</button>
           </div>
         </header>
-        <section class="filter-bar" aria-label="Global filters" id="filterBar">
-          <div class="filter-group">
-            <label for="filterMaterialToggle">Material</label>
-            <div class="filter-dropdown" data-filter="material">
-              <button class="filter-toggle" type="button" id="filterMaterialToggle" aria-expanded="false">
-                <span class="filter-toggle-text">All materials</span>
-                <span class="chevron">▾</span>
-              </button>
-              <div class="filter-menu">
-                <div class="filter-menu-search">
-                  <input type="search" placeholder="Search materials..." data-search="material">
-                </div>
-                <div class="filter-options" id="filterMaterialOptions"></div>
+        <section class="filter-bar collapsed" aria-label="Global filters" id="filterBar">
+          <div class="filter-summary">
+            <div class="filter-summary-head">
+              <div>
+                <strong>Filters</strong>
+                <span id="filterSummaryMeta">No filters applied</span>
               </div>
+              <button class="button secondary filter-collapse-button" type="button" id="filterCollapseToggle" aria-expanded="false">
+                Edit filters
+              </button>
+            </div>
+            <div class="filter-chip-list" id="selectedFilterChips">
+              <span class="filter-empty-chip">No active filters</span>
             </div>
           </div>
-          <div class="filter-group">
-            <label for="filterSupplierToggle">Supplier</label>
-            <div class="filter-dropdown" data-filter="supplier">
-              <button class="filter-toggle" type="button" id="filterSupplierToggle" aria-expanded="false">
-                <span class="filter-toggle-text">All suppliers</span>
-                <span class="chevron">▾</span>
-              </button>
-              <div class="filter-menu">
-                <div class="filter-menu-search">
-                  <input type="search" placeholder="Search suppliers..." data-search="supplier">
+          <div class="filter-controls" id="filterControls">
+            <div class="filter-group">
+              <label for="filterMaterialToggle">Material</label>
+              <div class="filter-dropdown" data-filter="material">
+                <button class="filter-toggle" type="button" id="filterMaterialToggle" aria-expanded="false">
+                  <span class="filter-toggle-text">All materials</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu">
+                  <div class="filter-menu-search">
+                    <input type="search" placeholder="Search materials..." data-search="material">
+                  </div>
+                  <div class="filter-options" id="filterMaterialOptions"></div>
                 </div>
-                <div class="filter-options" id="filterSupplierOptions"></div>
               </div>
             </div>
-          </div>
-          <div class="filter-group">
-            <label for="filterCategoryToggle">Category</label>
-            <div class="filter-dropdown" data-filter="category">
-              <button class="filter-toggle" type="button" id="filterCategoryToggle" aria-expanded="false">
-                <span class="filter-toggle-text">All categories</span>
-                <span class="chevron">▾</span>
-              </button>
-              <div class="filter-menu">
-                <div class="filter-menu-search">
-                  <input type="search" placeholder="Search categories..." data-search="category">
+            <div class="filter-group">
+              <label for="filterSupplierToggle">Supplier</label>
+              <div class="filter-dropdown" data-filter="supplier">
+                <button class="filter-toggle" type="button" id="filterSupplierToggle" aria-expanded="false">
+                  <span class="filter-toggle-text">All suppliers</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu">
+                  <div class="filter-menu-search">
+                    <input type="search" placeholder="Search suppliers..." data-search="supplier">
+                  </div>
+                  <div class="filter-options" id="filterSupplierOptions"></div>
                 </div>
-                <div class="filter-options" id="filterCategoryOptions"></div>
               </div>
             </div>
-          </div>
-          <div class="filter-group">
-            <label for="filterAlertTypeToggle">Alert type</label>
-            <div class="filter-dropdown" data-filter="alertType">
-              <button class="filter-toggle" type="button" id="filterAlertTypeToggle" aria-expanded="false">
-                <span class="filter-toggle-text">All alert types</span>
-                <span class="chevron">▾</span>
-              </button>
-              <div class="filter-menu">
-                <div class="filter-menu-search">
-                  <input type="search" placeholder="Search alert types..." data-search="alertType">
+            <div class="filter-group">
+              <label for="filterCategoryToggle">Category</label>
+              <div class="filter-dropdown" data-filter="category">
+                <button class="filter-toggle" type="button" id="filterCategoryToggle" aria-expanded="false">
+                  <span class="filter-toggle-text">All categories</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu">
+                  <div class="filter-menu-search">
+                    <input type="search" placeholder="Search categories..." data-search="category">
+                  </div>
+                  <div class="filter-options" id="filterCategoryOptions"></div>
                 </div>
-                <div class="filter-options" id="filterAlertTypeOptions"></div>
               </div>
             </div>
-          </div>
-          <div class="filter-group">
-            <label for="filterCreditStatusToggle">Credit status</label>
-            <div class="filter-dropdown" data-filter="creditStatus">
-              <button class="filter-toggle" type="button" id="filterCreditStatusToggle" aria-expanded="false">
-                <span class="filter-toggle-text">All credit statuses</span>
-                <span class="chevron">▾</span>
-              </button>
-              <div class="filter-menu">
-                <div class="filter-menu-search">
-                  <input type="search" placeholder="Search statuses..." data-search="creditStatus">
+            <div class="filter-group">
+              <label for="filterAlertTypeToggle">Alert type</label>
+              <div class="filter-dropdown" data-filter="alertType">
+                <button class="filter-toggle" type="button" id="filterAlertTypeToggle" aria-expanded="false">
+                  <span class="filter-toggle-text">All alert types</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu">
+                  <div class="filter-menu-search">
+                    <input type="search" placeholder="Search alert types..." data-search="alertType">
+                  </div>
+                  <div class="filter-options" id="filterAlertTypeOptions"></div>
                 </div>
-                <div class="filter-options" id="filterCreditStatusOptions"></div>
               </div>
             </div>
-          </div>
-          <div class="filter-group">
-            <label for="filterMoqStatusToggle">MOQ status</label>
-            <div class="filter-dropdown" data-filter="moqStatus">
-              <button class="filter-toggle" type="button" id="filterMoqStatusToggle" aria-expanded="false">
-                <span class="filter-toggle-text">All MOQ statuses</span>
-                <span class="chevron">▾</span>
-              </button>
-              <div class="filter-menu">
-                <div class="filter-menu-search">
-                  <input type="search" placeholder="Search MOQ statuses..." data-search="moqStatus">
+            <div class="filter-group">
+              <label for="filterCreditStatusToggle">Credit status</label>
+              <div class="filter-dropdown" data-filter="creditStatus">
+                <button class="filter-toggle" type="button" id="filterCreditStatusToggle" aria-expanded="false">
+                  <span class="filter-toggle-text">All credit statuses</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu">
+                  <div class="filter-menu-search">
+                    <input type="search" placeholder="Search statuses..." data-search="creditStatus">
+                  </div>
+                  <div class="filter-options" id="filterCreditStatusOptions"></div>
                 </div>
-                <div class="filter-options" id="filterMoqStatusOptions"></div>
               </div>
             </div>
+            <div class="filter-group">
+              <label for="filterMoqStatusToggle">MOQ status</label>
+              <div class="filter-dropdown" data-filter="moqStatus">
+                <button class="filter-toggle" type="button" id="filterMoqStatusToggle" aria-expanded="false">
+                  <span class="filter-toggle-text">All MOQ statuses</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu">
+                  <div class="filter-menu-search">
+                    <input type="search" placeholder="Search MOQ statuses..." data-search="moqStatus">
+                  </div>
+                  <div class="filter-options" id="filterMoqStatusOptions"></div>
+                </div>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label for="filterDateFrom">Date from</label>
+              <input id="filterDateFrom" type="date">
+            </div>
+            <div class="filter-group">
+              <label for="filterDateTo">Date to</label>
+              <input id="filterDateTo" type="date">
+            </div>
+            <button class="button secondary" id="filterReset">Reset filters</button>
           </div>
-          <div class="filter-group">
-            <label for="filterDateFrom">Date from</label>
-            <input id="filterDateFrom" type="date">
-          </div>
-          <div class="filter-group">
-            <label for="filterDateTo">Date to</label>
-            <input id="filterDateTo" type="date">
-          </div>
-          <button class="button secondary" id="filterReset">Reset filters</button>
         </section>
+        <section class="empty-state-banner" id="emptyStateBanner" hidden aria-live="polite"></section>
 
         <section class="tab-panel active" id="tab-decision">
           <div class="kpi-grid" id="kpiGrid"></div>

@@ -157,15 +157,114 @@ h2 {
 
 .filter-bar {
   display: grid;
-  grid-template-columns: repeat(4, minmax(220px, 1fr));
-  grid-auto-flow: dense;
-  align-items: end;
-  gap: 16px;
+  gap: 12px;
   padding: 12px;
   margin-bottom: 18px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
+}
+
+.filter-summary {
+  display: grid;
+  gap: 10px;
+}
+
+.filter-summary-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-summary-head strong {
+  display: block;
+  font-size: 13px;
+}
+
+.filter-summary-head span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.filter-collapse-button {
+  min-width: 110px;
+}
+
+.filter-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-empty-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.selected-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(31, 75, 153, 0.2);
+  background: rgba(31, 75, 153, 0.08);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 10px;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.selected-filter-chip span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-filter-chip:hover {
+  border-color: rgba(31, 75, 153, 0.4);
+}
+
+.filter-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  grid-auto-flow: dense;
+  align-items: end;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.filter-bar.collapsed .filter-controls {
+  display: none;
+}
+
+.empty-state-banner {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  background: rgba(179, 107, 0, 0.08);
+  border: 1px solid rgba(179, 107, 0, 0.22);
+  border-radius: 10px;
+}
+
+.empty-state-banner strong {
+  display: block;
+  font-size: 13px;
+}
+
+.empty-state-banner ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.empty-state-banner li + li {
+  margin-top: 4px;
 }
 
 .filter-group {
@@ -800,7 +899,7 @@ td {
     grid-template-columns: 1fr;
   }
 
-  .filter-bar {
+  .filter-controls {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -841,7 +940,7 @@ td {
     font-size: 12px;
   }
 
-  .filter-bar {
+  .filter-controls {
     grid-template-columns: 1fr;
     gap: 10px;
   }
@@ -947,7 +1046,7 @@ td {
     text-align: left;
   }
 
-  .filter-bar {
+  .filter-controls {
     grid-template-columns: 1fr;
   }
 
@@ -1054,10 +1153,7 @@ td {
     grid-template-columns: 1fr;
   }
 
-  .filter-bar {
-    gap: 8px;
-    padding: 10px;
-  }
+  .filter-bar { gap: 8px; padding: 10px; }
 
   .filter-group select,
   .filter-group input {

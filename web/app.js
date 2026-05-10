@@ -613,15 +613,27 @@ function alertCard(label, value, note, tone) {
   `;
 }
 
+function hasMaterial(row) {
+  return 'material_id' in row || 'source_material_id' in row || 'substitute_material_id' in row;
+}
+
+function hasSupplier(row) {
+  return 'supplier_id' in row || 'supplier_name' in row;
+}
+
+function hasMoq(row) {
+  return 'moq' in row || 'moq_unit' in row;
+}
+
 function applyFilters(rows, options = {}) {
   const dateField = options.dateField || "";
   return rows.filter(row => {
-    if (filters.material.length > 0 && !filters.material.some(mat => matchesMaterial(row, mat))) return false;
-    if (filters.supplier.length > 0 && !filters.supplier.some(sup => matchesSupplier(row, sup))) return false;
-    if (filters.category.length > 0 && !filters.category.includes(String(row.category || ""))) return false;
-    if (filters.alertType.length > 0 && !filters.alertType.includes(String(row.alert_type || ""))) return false;
-    if (filters.creditStatus.length > 0 && !filters.creditStatus.includes(String(row.credit_status || ""))) return false;
-    if (filters.moqStatus.length > 0 && !filters.moqStatus.includes(moqStatus(row))) return false;
+    if (filters.material.length > 0 && hasMaterial(row) && !filters.material.some(mat => matchesMaterial(row, mat))) return false;
+    if (filters.supplier.length > 0 && hasSupplier(row) && !filters.supplier.some(sup => matchesSupplier(row, sup))) return false;
+    if (filters.category.length > 0 && 'category' in row && !filters.category.includes(String(row.category || ""))) return false;
+    if (filters.alertType.length > 0 && 'alert_type' in row && !filters.alertType.includes(String(row.alert_type || ""))) return false;
+    if (filters.creditStatus.length > 0 && 'credit_status' in row && !filters.creditStatus.includes(String(row.credit_status || ""))) return false;
+    if (filters.moqStatus.length > 0 && hasMoq(row) && !filters.moqStatus.includes(moqStatus(row))) return false;
     if (!matchesDateRange(row, dateField)) return false;
     return true;
   });
@@ -683,6 +695,17 @@ const filterDefinitions = {
   alertType: { label: "All alert types", optionId: "filterAlertTypeOptions" },
   creditStatus: { label: "All credit statuses", optionId: "filterCreditStatusOptions" },
   moqStatus: { label: "All MOQ statuses", optionId: "filterMoqStatusOptions" }
+};
+
+const filterLabels = {
+  material: "Material",
+  supplier: "Supplier",
+  category: "Category",
+  alertType: "Alert type",
+  creditStatus: "Credit status",
+  moqStatus: "MOQ status",
+  dateFrom: "Date from",
+  dateTo: "Date to"
 };
 
 function setFilterOptions() {
@@ -781,8 +804,26 @@ function updateFilterDropdownLabel(key, allLabel) {
 function bindFilters() {
   const dateFields = ["filterDateFrom", "filterDateTo"];
   const filterBar = document.getElementById("filterBar");
+  const collapseToggle = document.getElementById("filterCollapseToggle");
+
+  collapseToggle?.addEventListener("click", () => {
+    const collapsed = filterBar.classList.toggle("collapsed");
+    closeAllDropdowns();
+    collapseToggle.setAttribute("aria-expanded", String(!collapsed));
+    collapseToggle.textContent = collapsed ? "Edit filters" : "Hide filters";
+  });
 
   filterBar.addEventListener("click", event => {
+    if (event.target.closest("#filterCollapseToggle")) return;
+    if (event.target.closest(".selected-filter-chip")) {
+      const chip = event.target.closest(".selected-filter-chip");
+      const key = chip?.dataset.key;
+      const value = chip?.dataset.value;
+      if (!key || !value) return;
+      removeFilterValue(key, value);
+      return;
+    }
+
     const dropdown = event.target.closest(".filter-dropdown");
     if (!dropdown) return;
     const opened = dropdown.classList.contains("open");
@@ -805,6 +846,7 @@ function bindFilters() {
     if (!checkbox) return;
     const key = checkbox.dataset.filter;
     syncFilterValues(key);
+    renderSelectedFilterSummary();
     renderAll();
   });
 
@@ -824,6 +866,7 @@ function bindFilters() {
     const element = document.getElementById(id);
     element.addEventListener("change", () => {
       filters[id === "filterDateFrom" ? "dateFrom" : "dateTo"] = element.value;
+      renderSelectedFilterSummary();
       renderAll();
     });
   });
@@ -852,6 +895,7 @@ function bindFilters() {
       if (element) element.value = "";
     });
 
+    renderSelectedFilterSummary();
     renderAll();
   });
 }
@@ -862,6 +906,60 @@ function syncFilterValues(key) {
   updateFilterDropdownLabel(key, filterDefinitions[key].label);
 }
 
+
+
+function removeFilterValue(key, value) {
+  if (Array.isArray(filters[key])) {
+    filters[key] = filters[key].filter(item => item !== value);
+    const container = document.getElementById(filterDefinitions[key]?.optionId);
+    if (container) {
+      const input = container.querySelector(`input[type='checkbox'][value="${CSS.escape(value)}"]`);
+      if (input) input.checked = false;
+    }
+    updateFilterDropdownLabel(key, filterDefinitions[key].label);
+  } else if (key === "dateFrom" || key === "dateTo") {
+    filters[key] = "";
+    const input = document.getElementById(key === "dateFrom" ? "filterDateFrom" : "filterDateTo");
+    if (input) input.value = "";
+  }
+  renderSelectedFilterSummary();
+  renderAll();
+}
+
+function renderSelectedFilterSummary() {
+  const chipContainer = document.getElementById("selectedFilterChips");
+  const summaryMeta = document.getElementById("filterSummaryMeta");
+  if (!chipContainer || !summaryMeta) return;
+
+  const chips = [];
+
+  Object.entries(filterDefinitions).forEach(([key]) => {
+    (filters[key] || []).forEach(value => {
+      chips.push({ key, label: `${filterLabels[key]}: ${value}`, value });
+    });
+  });
+
+  if (filters.dateFrom) {
+    chips.push({ key: "dateFrom", label: `${filterLabels.dateFrom}: ${filters.dateFrom}`, value: filters.dateFrom });
+  }
+  if (filters.dateTo) {
+    chips.push({ key: "dateTo", label: `${filterLabels.dateTo}: ${filters.dateTo}`, value: filters.dateTo });
+  }
+
+  if (!chips.length) {
+    chipContainer.innerHTML = `<span class="filter-empty-chip">No active filters</span>`;
+    summaryMeta.textContent = "No filters applied";
+    return;
+  }
+
+  chipContainer.innerHTML = chips.map(chip => `
+    <button class="selected-filter-chip" type="button" data-key="${escapeHtml(chip.key)}" data-value="${escapeHtml(chip.value)}" title="Remove ${escapeHtml(chip.label)}">
+      <span>${escapeHtml(chip.label)}</span>
+      <span aria-hidden="true">×</span>
+    </button>
+  `).join("");
+  summaryMeta.textContent = `${chips.length} active filter${chips.length === 1 ? "" : "s"}`;
+}
 function closeAllDropdowns() {
   document.querySelectorAll(".filter-dropdown.open").forEach(dropdown => {
     dropdown.classList.remove("open");
@@ -922,6 +1020,7 @@ function updateVisibleFilters(tab) {
     const group = dateTo.closest('.filter-group');
     if (group) group.style.display = allowed.includes('dateTo') ? '' : 'none';
   }
+  renderSelectedFilterSummary();
 }
 
 document.querySelectorAll(".nav-item").forEach(button => {
