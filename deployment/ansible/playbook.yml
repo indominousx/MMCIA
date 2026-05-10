@@ -17,6 +17,7 @@
           - python3-pip
           - python3-venv
           - git
+          - rsync
         state: present
 
     - name: Create project directory
@@ -29,7 +30,7 @@
 
     - name: Sync project files
       synchronize:
-        src: "../../"
+        src: "{{ playbook_dir }}/../../"
         dest: "{{ project_root }}"
         recursive: yes
         delete: yes
@@ -37,6 +38,16 @@
           - "--exclude=.git"
           - "--exclude=venv"
           - "--exclude=__pycache__"
+
+    - name: Verify requirements.txt exists
+      stat:
+        path: "{{ project_root }}/requirements.txt"
+      register: req_file
+
+    - name: Fail if requirements.txt is missing
+      fail:
+        msg: "requirements.txt not found at {{ project_root }}/requirements.txt after sync"
+      when: not req_file.stat.exists
 
     - name: Create virtual environment
       command: "python3 -m venv {{ project_root }}/venv"
