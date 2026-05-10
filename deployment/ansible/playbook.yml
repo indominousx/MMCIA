@@ -67,6 +67,13 @@
       args:
         chdir: "{{ project_root }}"
 
+    - name: Set correct ownership for application directory
+      file:
+        path: "{{ project_root }}"
+        owner: ubuntu
+        group: ubuntu
+        recurse: yes
+
     - name: Create systemd service file
       template:
         src: packright.service.j2
