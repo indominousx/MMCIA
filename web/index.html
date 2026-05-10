@@ -509,8 +509,19 @@
             <div class="panel-heading">
               <h2>Supplier Exposure & Reliability Analysis</h2>
             </div>
-            <div style="position: relative; height:350px; width:100%; margin-bottom: 24px;">
-              <canvas id="supplierExposureChart"></canvas>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+              <div>
+                <h3 style="font-size: 13px; color: var(--muted); margin-bottom: 8px;">Financial Exposure by Supplier</h3>
+                <div style="position: relative; height:350px; width:100%;">
+                  <canvas id="supplierExposureChart"></canvas>
+                </div>
+              </div>
+              <div>
+                <h3 style="font-size: 13px; color: var(--muted); margin-bottom: 8px;">Risk Concentration (Blocked Value)</h3>
+                <div style="position: relative; height:350px; width:100%;">
+                  <canvas id="supplierRiskPolarChart"></canvas>
+                </div>
+              </div>
             </div>
             <div class="exposure-grid" id="supplierExposure"></div>
           </section>

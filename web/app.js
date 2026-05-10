@@ -168,16 +168,11 @@ function renderOverview() {
   `).join("");
 
   const recs = applyFilters(state.recommendations?.recommendations || [], {});
-  document.getElementById("aiRecommendationsPreview").innerHTML = recs.slice(0, 6).map((row, index) => `
+  document.getElementById("aiRecommendationsPreview").innerHTML = recs.slice(0, 6).map(row => `
     <div class="feed-item">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
-        <div>
-          <strong>${escapeHtml(row.material_name || row.material_id)} · ${escapeHtml(row.urgency || "-")}</strong>
-          <span>${escapeHtml(row.recommended_action || "-")}</span>
-          <span class="muted">${escapeHtml(row.reasoning || "")}</span>
-        </div>
-        <button class="button secondary small" onclick="simulateRecommendation('${escapeHtml(row.material_id)}')" style="white-space: nowrap;">Test</button>
-      </div>
+      <strong>${escapeHtml(row.material_name || row.material_id)} · ${escapeHtml(row.urgency || "-")}</strong>
+      <span>${escapeHtml(row.recommended_action || "-")}</span>
+      <span class="muted">${escapeHtml(row.reasoning || "")}</span>
     </div>
   `).join("");
 
@@ -540,18 +535,13 @@ function renderRecommendations() {
       .includes(needle);
   });
 
-  document.getElementById("recommendationRows").innerHTML = filtered.map((row, index) => `
+  document.getElementById("recommendationRows").innerHTML = filtered.map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${escapeHtml(row.issue_detected || "-")}</td>
       <td>${escapeHtml(row.recommended_action || "-")}</td>
       <td>${statusPill(row.urgency || "-")}</td>
-      <td>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span>${escapeHtml(row.business_impact || "-")}</span>
-          <button class="button secondary small" onclick="simulateRecommendation('${escapeHtml(row.material_id)}')" style="white-space: nowrap;">Test Impact</button>
-        </div>
-      </td>
+      <td>${escapeHtml(row.business_impact || "-")}</td>
     </tr>
   `).join("");
 }
@@ -816,7 +806,7 @@ function renderSupplierExposure(approved, blocked) {
     const approvedPct = row.total > 0 ? (row.approvedValue / row.total) * 100 : 0;
     const blockedPct = row.total > 0 ? (row.blockedValue / row.total) * 100 : 0;
     return `
-      <div class="exposure-card">
+      <div class="exposure-card clickable-row" onclick="openSupplier360('${escapeHtml(row.supplier)}')">
         <strong>${escapeHtml(row.supplier)}</strong>
         <span>Approved ${inr(row.approvedValue)} · Blocked ${inr(row.blockedValue)}</span>
         <span>Reliability ${row.reliability}</span>
@@ -827,6 +817,52 @@ function renderSupplierExposure(approved, blocked) {
       </div>
     `;
   }).join("");
+
+  // Supplier Risk Concentration Polar Area Chart
+  const ctxPolar = document.getElementById("supplierRiskPolarChart");
+  if (chartInstances.supplierRiskPolar) chartInstances.supplierRiskPolar.destroy();
+  if (ctxPolar && rows.length > 0) {
+    const polarColors = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#6366f1', '#ec4899', '#14b8a6', '#f97316'];
+    chartInstances.supplierRiskPolar = new Chart(ctxPolar, {
+      type: 'polarArea',
+      data: {
+        labels: rows.map(r => r.supplier),
+        datasets: [{
+          data: rows.map(r => r.blockedValue > 0 ? r.blockedValue : r.total * 0.01),
+          backgroundColor: polarColors.map(c => c + '88'),
+          borderColor: polarColors,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        onClick: (e, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            if (rows[index]) openSupplier360(rows[index].supplier);
+          }
+        },
+        plugins: {
+          legend: { position: 'right', labels: { color: '#e2e8f0', boxWidth: 12 } },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                const r = rows[ctx.dataIndex];
+                return `${r.supplier}: Blocked ${inr(r.blockedValue)} / Total ${inr(r.total)}`;
+              }
+            }
+          }
+        },
+        scales: {
+          r: {
+            grid: { color: 'rgba(255,255,255,0.08)' },
+            ticks: { display: false }
+          }
+        }
+      }
+    });
+  }
 }
 
 function drawBars(targetId, rows, labelKey, valueKey, labelFn) {
@@ -1570,55 +1606,6 @@ window.dismissAlert = function(materialId, event) {
     renderAlertCenter();
     renderOverview();
   }
-}
-
-window.simulateRecommendation = async function(materialId) {
-  const recs = state.recommendations?.recommendations || [];
-  const rec = recs.find(r => r.material_id === materialId);
-  if (!rec) return;
-  
-  // Switch to Simulation Lab tab
-  const simTab = document.querySelector('.nav-item[data-tab="simulation"]');
-  if (simTab) simTab.click();
-  
-  // Reset form first
-  resetScenarioForm();
-  
-  // Auto-fill ALL parameters based on the recommendation context
-  const action = (rec.recommended_action || "").toLowerCase();
-  const simName = document.getElementById('sim-name');
-  if (simName) simName.value = `AI: ${rec.recommended_action} (${rec.material_id})`;
-  
-  if (action.includes("expedite") || action.includes("air freight") || action.includes("fast-track")) {
-    const sd = document.getElementById('sim-supplier-delay');
-    if (sd) sd.value = -7;
-  } else if (action.includes("delay") || action.includes("lead time")) {
-    const sd = document.getElementById('sim-supplier-delay');
-    if (sd) sd.value = 14;
-  }
-  
-  if (action.includes("credit") || action.includes("budget")) {
-    const cr = document.getElementById('sim-credit-reduction');
-    if (cr) cr.value = 0.3;
-  }
-  
-  if (action.includes("demand") || action.includes("spike") || action.includes("surge")) {
-    const ds = document.getElementById('sim-demand-spike');
-    if (ds) ds.value = 0.5;
-  }
-  
-  if (action.includes("shrink") || action.includes("wastage") || action.includes("safety stock")) {
-    const sh = document.getElementById('sim-shrinkage');
-    if (sh) sh.value = 0.1;
-  }
-  
-  if (action.includes("approv")) {
-    const ad = document.getElementById('sim-approval-delay');
-    if (ad) ad.value = 7;
-  }
-  
-  // Auto-run the simulation immediately
-  await runScenario();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
