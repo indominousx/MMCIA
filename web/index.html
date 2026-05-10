@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PackRight Supply Command Center</title>
     <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -174,6 +175,25 @@
             <div class="alert-grid" id="riskSummaryCards"></div>
           </section>
 
+          <section class="grid-two">
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Portfolio Risk Distribution</h2>
+              </div>
+              <div style="position: relative; height:220px; width:100%;">
+                <canvas id="overviewRiskChart"></canvas>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">
+                <h2>Projected Demand Trend</h2>
+              </div>
+              <div style="position: relative; height:220px; width:100%;">
+                <canvas id="overviewDemandChart"></canvas>
+              </div>
+            </div>
+          </section>
+
           <div class="dashboard-columns">
             <div class="dashboard-col">
               <!-- Column 1 -->
@@ -298,13 +318,17 @@
               <div class="panel-heading">
                 <h2>4-Week Demand</h2>
               </div>
-              <div class="bar-chart" id="weekDemandChart"></div>
+              <div style="position: relative; height:250px; width:100%;">
+                <canvas id="weekDemandChart"></canvas>
+              </div>
             </div>
             <div class="panel">
               <div class="panel-heading">
                 <h2>Material Demand Rank</h2>
               </div>
-              <div class="bar-chart compact" id="materialDemandChart"></div>
+              <div style="position: relative; height:250px; width:100%;">
+                <canvas id="materialDemandChart"></canvas>
+              </div>
             </div>
           </section>
           <section class="panel">

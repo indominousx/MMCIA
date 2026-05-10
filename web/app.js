@@ -1,3 +1,5 @@
+const chartInstances = {};
+
 const state = {
   overview: null,
   decision: null,
@@ -182,20 +184,130 @@ function renderOverview() {
       <span class="muted">${escapeHtml(row.scenario_summary || "")}</span>
     </div>
   `).join("");
+
+  renderOverviewCharts();
+}
+
+function renderOverviewCharts() {
+  const riskSummary = state.risk?.summary || {};
+  const ctxRisk = document.getElementById('overviewRiskChart');
+  if (chartInstances.overviewRisk) chartInstances.overviewRisk.destroy();
+  
+  if (ctxRisk) {
+    chartInstances.overviewRisk = new Chart(ctxRisk, {
+      type: 'doughnut',
+      data: {
+        labels: ['Critical', 'High', 'Medium', 'Low'],
+        datasets: [{
+          data: [
+            riskSummary.CRITICAL || 0,
+            riskSummary.HIGH || 0,
+            riskSummary.MEDIUM || 0,
+            riskSummary.LOW || 0
+          ],
+          backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { color: '#e2e8f0' } }
+        }
+      }
+    });
+  }
+
+  const weekTotals = applyDateRange(state.demand?.weekTotals || [], "week_start", "week_end");
+  const ctxDemand = document.getElementById('overviewDemandChart');
+  if (chartInstances.overviewDemand) chartInstances.overviewDemand.destroy();
+
+  if (ctxDemand && weekTotals.length > 0) {
+    chartInstances.overviewDemand = new Chart(ctxDemand, {
+      type: 'bar',
+      data: {
+        labels: weekTotals.map(r => `Week ${r.forecast_week}`),
+        datasets: [{
+          label: 'Demand',
+          data: weekTotals.map(r => Number(r.seasonal_required_qty || 0)),
+          backgroundColor: '#6366f1',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+          x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+  }
 }
 
 function renderDemand() {
   const weekTotals = applyDateRange(state.demand.weekTotals || [], "week_start", "week_end");
-  drawBars("weekDemandChart", weekTotals, "forecast_week", "seasonal_required_qty", row => `Week ${row.forecast_week}`);
+  const ctxWeek = document.getElementById("weekDemandChart");
+  if (chartInstances.weekDemand) chartInstances.weekDemand.destroy();
+  if (ctxWeek && weekTotals.length > 0) {
+    chartInstances.weekDemand = new Chart(ctxWeek, {
+      type: 'line',
+      data: {
+        labels: weekTotals.map(row => `Week ${row.forecast_week}`),
+        datasets: [{
+          label: 'Total Demand',
+          data: weekTotals.map(row => Number(row.seasonal_required_qty || 0)),
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+          x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+  }
 
   const materialTotals = applyFilters(state.demand.materialTotals || [], {});
-  drawBars(
-    "materialDemandChart",
-    materialTotals.slice(0, 10),
-    "material_id",
-    "seasonal_required_qty",
-    row => `${row.material_id} ${row.canonical_unit}`
-  );
+  const topMaterials = materialTotals.slice(0, 10);
+  const ctxMat = document.getElementById("materialDemandChart");
+  if (chartInstances.materialDemand) chartInstances.materialDemand.destroy();
+  if (ctxMat && topMaterials.length > 0) {
+    chartInstances.materialDemand = new Chart(ctxMat, {
+      type: 'bar',
+      data: {
+        labels: topMaterials.map(row => `${row.material_id}`),
+        datasets: [{
+          label: 'Material Demand',
+          data: topMaterials.map(row => Number(row.seasonal_required_qty || 0)),
+          backgroundColor: '#3b82f6',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+          y: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+  }
   renderBomRows();
 }
 
