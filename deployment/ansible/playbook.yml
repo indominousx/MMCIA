@@ -18,6 +18,7 @@
           - python3-venv
           - git
           - rsync
+          - nginx
         state: present
 
     - name: Create project directory
@@ -75,3 +76,25 @@
         state: restarted
         enabled: yes
         daemon_reload: yes
+
+    - name: Copy Nginx configuration
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/sites-available/packright
+
+    - name: Enable Nginx site
+      file:
+        src: /etc/nginx/sites-available/packright
+        dest: /etc/nginx/sites-enabled/packright
+        state: link
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
