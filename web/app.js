@@ -718,13 +718,13 @@ function renderQuality() {
 }
 
 function renderDataQuality() {
-  const unitRows = getSortedData(state.quality?.unitNormalization || [], 'unitRows');
+  const unitRows = getSortedData(state.quality?.unitConversions || [], 'unitRows');
   document.getElementById("unitRows").innerHTML = unitRows.map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)}</td>
       <td>${escapeHtml(row.original_unit)}</td>
       <td>${escapeHtml(row.target_unit)}</td>
-      <td>${(row.confidence * 100).toFixed(1)}%</td>
+      <td>${statusPill(row.conversion_confidence)}</td>
     </tr>
   `).join("");
 }
