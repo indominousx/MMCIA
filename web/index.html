@@ -12,22 +12,25 @@
       <aside class="sidebar">
         <div class="brand">
           <div class="brand-mark">PR</div>
-          <div>
+          <div class="brand-text">
             <strong>PackRight</strong>
             <span>Inventory Intelligence</span>
           </div>
+          <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+            <span class="toggle-icon">❮</span>
+          </button>
         </div>
 
         <nav class="module-nav" aria-label="Dashboard modules">
-          <button class="nav-item active" data-tab="decision">Command Center</button>
-          <button class="nav-item" data-tab="demand">Demand Planning</button>
-          <button class="nav-item" data-tab="inventory">Inventory</button>
-          <button class="nav-item" data-tab="risk">Risk Intelligence</button>
-          <button class="nav-item" data-tab="forecast">Forecasting</button>
-          <button class="nav-item" data-tab="procurement">Procurement</button>
-          <button class="nav-item" data-tab="recommendations">AI Recommendations</button>
-          <button class="nav-item" data-tab="simulation">Simulation Lab</button>
-          <button class="nav-item" data-tab="quality">Data Quality</button>
+          <button class="nav-item active" data-tab="decision"><span class="nav-icon">⛯</span> <span class="nav-text">Command Center</span></button>
+          <button class="nav-item" data-tab="demand"><span class="nav-icon">📈</span> <span class="nav-text">Demand Planning</span></button>
+          <button class="nav-item" data-tab="inventory"><span class="nav-icon">📦</span> <span class="nav-text">Inventory</span></button>
+          <button class="nav-item" data-tab="risk"><span class="nav-icon">🛡️</span> <span class="nav-text">Risk Intelligence</span></button>
+          <button class="nav-item" data-tab="forecast"><span class="nav-icon">🔮</span> <span class="nav-text">Forecasting</span></button>
+          <button class="nav-item" data-tab="procurement"><span class="nav-icon">🛒</span> <span class="nav-text">Procurement</span></button>
+          <button class="nav-item" data-tab="recommendations"><span class="nav-icon">✨</span> <span class="nav-text">AI Recommendations</span></button>
+          <button class="nav-item" data-tab="simulation"><span class="nav-icon">🧪</span> <span class="nav-text">Simulation Lab</span></button>
+          <button class="nav-item" data-tab="quality"><span class="nav-icon">✅</span> <span class="nav-text">Data Quality</span></button>
         </nav>
 
         <div class="sidebar-footer">
@@ -340,12 +343,12 @@
               <table>
                 <thead>
                   <tr>
-                    <th data-sort="text">Order</th>
-                    <th data-sort="text">Material</th>
-                    <th data-sort="text">Box</th>
-                    <th data-sort="num">BOM / box</th>
-                    <th data-sort="num">Order qty</th>
-                    <th data-sort="num">Seasonal qty</th>
+                    <th>Order</th>
+                    <th>Material</th>
+                    <th>Box</th>
+                    <th>BOM / box</th>
+                    <th>Order qty</th>
+                    <th>Seasonal qty</th>
                   </tr>
                 </thead>
                 <tbody id="bomTraceRows"></tbody>
@@ -378,10 +381,10 @@
               <table>
                 <thead>
                   <tr>
-                    <th data-sort="text">Material</th>
-                    <th data-sort="num">Stock</th>
-                    <th data-sort="num">4W Demand</th>
-                    <th data-sort="text">Reason</th>
+                    <th>Material</th>
+                    <th>Stock</th>
+                    <th>4W Demand</th>
+                    <th>Reason</th>
                   </tr>
                 </thead>
                 <tbody id="slowMovingRows"></tbody>
@@ -407,9 +410,9 @@
                 <table>
                   <thead>
                     <tr>
-                      <th data-sort="text">Supplier</th>
-                      <th data-sort="num">Avg risk</th>
-                      <th data-sort="num">Materials</th>
+                      <th>Supplier</th>
+                      <th>Avg risk</th>
+                      <th>Materials</th>
                     </tr>
                   </thead>
                   <tbody id="supplierRiskRows"></tbody>
@@ -425,10 +428,10 @@
               <table>
                 <thead>
                   <tr>
-                    <th data-sort="text">Material</th>
-                    <th data-sort="num">Risk</th>
-                    <th data-sort="text">Severity</th>
-                    <th data-sort="text">Drivers</th>
+                    <th>Material</th>
+                    <th>Risk</th>
+                    <th>Severity</th>
+                    <th>Drivers</th>
                     <th>Mitigation</th>
                   </tr>
                 </thead>
@@ -475,11 +478,11 @@
                 <table>
                   <thead>
                     <tr>
-                      <th data-sort="text">Supplier</th>
-                      <th data-sort="text">Material</th>
-                      <th data-sort="num">Qty</th>
-                      <th data-sort="num">Value</th>
-                      <th data-sort="num">After Credit</th>
+                      <th>Supplier</th>
+                      <th>Material</th>
+                      <th>Qty</th>
+                      <th>Value</th>
+                      <th>After Credit</th>
                     </tr>
                   </thead>
                   <tbody id="approvedRows"></tbody>
@@ -494,10 +497,10 @@
                 <table>
                   <thead>
                     <tr>
-                      <th data-sort="text">Material</th>
-                      <th data-sort="text">Supplier</th>
-                      <th data-sort="num">Qty</th>
-                      <th data-sort="num">Blocked Value</th>
+                      <th>Material</th>
+                      <th>Supplier</th>
+                      <th>Qty</th>
+                      <th>Blocked Value</th>
                     </tr>
                   </thead>
                   <tbody id="blockedRows"></tbody>
@@ -537,11 +540,11 @@
               <table>
                 <thead>
                   <tr>
-                    <th data-sort="text">Material</th>
-                    <th data-sort="text">Issue</th>
-                    <th data-sort="text">Action</th>
-                    <th data-sort="text">Urgency</th>
-                    <th data-sort="text">Impact</th>
+                    <th>Material</th>
+                    <th>Issue</th>
+                    <th>Action</th>
+                    <th>Urgency</th>
+                    <th>Impact</th>
                   </tr>
                 </thead>
                 <tbody id="recommendationRows"></tbody>

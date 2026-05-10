@@ -1368,8 +1368,28 @@ document.querySelectorAll(".nav-item").forEach(button => {
     document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
     button.classList.add("active");
     document.getElementById(`tab-${button.dataset.tab}`).classList.add("active");
-    document.querySelector(".topbar h1").textContent = button.textContent;
+    document.querySelector(".topbar h1").textContent = button.querySelector(".nav-text").textContent;
     updateVisibleFilters(button.dataset.tab);
+    // Sync mobile bottom nav
+    document.querySelectorAll(".mobile-nav-btn").forEach(btn => btn.classList.remove("active"));
+    const mobileBtn = document.querySelector(`.mobile-nav-btn[data-tab="${button.dataset.tab}"]`);
+    if (mobileBtn) mobileBtn.classList.add("active");
+  });
+});
+
+// Mobile bottom nav bar mirrors the sidebar nav
+document.querySelectorAll(".mobile-nav-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".mobile-nav-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
+    document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById(`tab-${button.dataset.tab}`).classList.add("active");
+    document.querySelector(".topbar h1").textContent = button.getAttribute("aria-label") || button.dataset.tab;
+    updateVisibleFilters(button.dataset.tab);
+    const sidebarBtn = document.querySelector(`.nav-item[data-tab="${button.dataset.tab}"]`);
+    if (sidebarBtn) sidebarBtn.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 
@@ -1612,57 +1632,23 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", e => {
     if (e.target.closest("#m360Close")) closeMaterial360();
     if (e.target.closest("#s360Close")) closeSupplier360();
-
-    const th = e.target.closest("th[data-sort]");
-    if (th) sortTable(th);
-  });
-});
-
-function sortTable(th) {
-  const table = th.closest("table");
-  if (!table) return;
-  const tbody = table.querySelector("tbody");
-  if (!tbody) return;
-
-  const colIndex = Array.from(th.parentElement.children).indexOf(th);
-  const sortType = th.dataset.sort;
-  const isAsc = th.classList.contains("sort-asc");
-
-  // Clear all sort indicators in this table
-  table.querySelectorAll("th[data-sort]").forEach(h => {
-    h.classList.remove("sort-asc", "sort-desc");
   });
 
-  const dir = isAsc ? "desc" : "asc";
-  th.classList.add(`sort-${dir}`);
+  const sidebarToggle = document.getElementById("sidebarToggle");
+  const appShell = document.querySelector(".app-shell");
+  const sidebar = document.querySelector(".sidebar");
 
-  const rows = Array.from(tbody.querySelectorAll("tr"));
+  if (sidebarToggle && appShell && sidebar) {
+    sidebarToggle.addEventListener("click", () => {
+      appShell.classList.toggle("collapsed");
+      sidebar.classList.toggle("collapsed");
+      localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
+    });
 
-  rows.sort((a, b) => {
-    const aCell = a.children[colIndex];
-    const bCell = b.children[colIndex];
-    if (!aCell || !bCell) return 0;
-
-    let aVal = aCell.textContent.trim();
-    let bVal = bCell.textContent.trim();
-
-    if (sortType === "num") {
-      // Extract numbers from formatted strings (INR 1.23 Cr, 45.6K, etc.)
-      const parseNum = s => {
-        const cleaned = s.replace(/[^0-9.\-]/g, "");
-        return parseFloat(cleaned) || 0;
-      };
-      aVal = parseNum(aVal);
-      bVal = parseNum(bVal);
-    } else {
-      aVal = aVal.toLowerCase();
-      bVal = bVal.toLowerCase();
+    // Restore state
+    if (localStorage.getItem("sidebarCollapsed") === "true") {
+      appShell.classList.add("collapsed");
+      sidebar.classList.add("collapsed");
     }
-
-    if (aVal < bVal) return dir === "asc" ? -1 : 1;
-    if (aVal > bVal) return dir === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  rows.forEach(row => tbody.appendChild(row));
-}
+  }
+});
