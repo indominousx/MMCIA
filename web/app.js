@@ -403,6 +403,64 @@ function renderInventoryCards() {
     if (!needle) return true;
     return `${row.material_id} ${row.material_name}`.toLowerCase().includes(needle);
   });
+
+  const ctxScatter = document.getElementById("inventoryScatterChart");
+  if (chartInstances.inventoryScatter) chartInstances.inventoryScatter.destroy();
+  if (ctxScatter && rows.length > 0) {
+    const dataPoints = rows.filter(r => r.days_to_stockout != null && r.total_demand_21d != null).map(r => ({
+      x: Number(r.days_to_stockout),
+      y: Number(r.total_demand_21d),
+      r: (r.under_3_days_stock === true || r.under_3_days_stock === "True") ? 8 : 4,
+      material: r.material_id,
+      name: r.material_name,
+      critical: r.under_3_days_stock === true || r.under_3_days_stock === "True"
+    }));
+    
+    chartInstances.inventoryScatter = new Chart(ctxScatter, {
+      type: 'bubble',
+      data: {
+        datasets: [{
+          label: 'Critical Shortage',
+          data: dataPoints.filter(d => d.critical),
+          backgroundColor: 'rgba(239, 68, 68, 0.7)',
+          borderColor: '#ef4444'
+        }, {
+          label: 'Watchlist',
+          data: dataPoints.filter(d => !d.critical),
+          backgroundColor: 'rgba(59, 130, 246, 0.5)',
+          borderColor: '#3b82f6'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: '#e2e8f0' } },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const item = context.raw;
+                return `${item.material} (${item.name}): ${item.x} days left, ${item.y} shortage`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { 
+            title: { display: true, text: 'Days to Stockout', color: '#94a3b8' },
+            grid: { color: 'rgba(255,255,255,0.05)' }, 
+            ticks: { color: '#94a3b8' }
+          },
+          y: { 
+            title: { display: true, text: '21D Shortage Qty', color: '#94a3b8' },
+            grid: { color: 'rgba(255,255,255,0.05)' }, 
+            ticks: { color: '#94a3b8' } 
+          }
+        }
+      }
+    });
+  }
+
   document.getElementById("inventoryCards").innerHTML = rows.map(row => {
     const critical = row.under_3_days_stock === true || row.under_3_days_stock === "True";
     return `
@@ -659,6 +717,66 @@ function renderSupplierExposure(approved, blocked) {
     ...row,
     total: row.approvedValue + row.blockedValue
   })).sort((a, b) => b.total - a.total).slice(0, 8);
+
+  const ctxExposure = document.getElementById("supplierExposureChart");
+  if (chartInstances.supplierExposure) chartInstances.supplierExposure.destroy();
+  if (ctxExposure && rows.length > 0) {
+    chartInstances.supplierExposure = new Chart(ctxExposure, {
+      type: 'bar',
+      data: {
+        labels: rows.map(r => r.supplier),
+        datasets: [
+          {
+            label: 'Approved Value',
+            data: rows.map(r => r.approvedValue),
+            backgroundColor: '#10b981',
+            stack: 'Stack 0',
+          },
+          {
+            label: 'Blocked Value',
+            data: rows.map(r => r.blockedValue),
+            backgroundColor: '#ef4444',
+            stack: 'Stack 0',
+          },
+          {
+            label: 'Reliability Score',
+            data: rows.map(r => {
+              const num = Number(r.reliability);
+              return isNaN(num) ? 50 : num;
+            }),
+            type: 'line',
+            borderColor: '#f59e0b',
+            backgroundColor: '#f59e0b',
+            borderWidth: 2,
+            pointRadius: 4,
+            yAxisID: 'y1',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#e2e8f0' } } },
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: { color: '#94a3b8' } },
+          y: { 
+            stacked: true, 
+            grid: { color: 'rgba(255,255,255,0.05)' }, 
+            ticks: { color: '#94a3b8' },
+            title: { display: true, text: 'Value (INR)', color: '#94a3b8' }
+          },
+          y1: {
+            position: 'right',
+            grid: { display: false },
+            ticks: { color: '#f59e0b' },
+            title: { display: true, text: 'Reliability (0-100)', color: '#f59e0b' },
+            min: 0,
+            max: 100
+          }
+        }
+      }
+    });
+  }
 
   document.getElementById("supplierExposure").innerHTML = rows.map(row => {
     const approvedPct = row.total > 0 ? (row.approvedValue / row.total) * 100 : 0;
