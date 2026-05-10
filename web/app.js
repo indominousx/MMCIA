@@ -1572,24 +1572,53 @@ window.dismissAlert = function(materialId, event) {
   }
 }
 
-window.simulateRecommendation = function(materialId) {
+window.simulateRecommendation = async function(materialId) {
   const recs = state.recommendations?.recommendations || [];
   const rec = recs.find(r => r.material_id === materialId);
   if (!rec) return;
   
+  // Switch to Simulation Lab tab
   const simTab = document.querySelector('.nav-item[data-tab="simulation"]');
   if (simTab) simTab.click();
   
-  const simName = document.getElementById('sim-name');
-  if (simName) simName.value = `Test: ${rec.recommended_action} (${rec.material_id})`;
+  // Reset form first
+  resetScenarioForm();
   
-  if (rec.recommended_action.toLowerCase().includes("expedite") || rec.recommended_action.toLowerCase().includes("air freight")) {
-     const sd = document.getElementById('sim-supplier-delay');
-     if (sd) sd.value = -7;
-  } else if (rec.recommended_action.toLowerCase().includes("credit")) {
-     const cr = document.getElementById('sim-credit-reduction');
-     if (cr) cr.value = 0.5;
+  // Auto-fill ALL parameters based on the recommendation context
+  const action = (rec.recommended_action || "").toLowerCase();
+  const simName = document.getElementById('sim-name');
+  if (simName) simName.value = `AI: ${rec.recommended_action} (${rec.material_id})`;
+  
+  if (action.includes("expedite") || action.includes("air freight") || action.includes("fast-track")) {
+    const sd = document.getElementById('sim-supplier-delay');
+    if (sd) sd.value = -7;
+  } else if (action.includes("delay") || action.includes("lead time")) {
+    const sd = document.getElementById('sim-supplier-delay');
+    if (sd) sd.value = 14;
   }
+  
+  if (action.includes("credit") || action.includes("budget")) {
+    const cr = document.getElementById('sim-credit-reduction');
+    if (cr) cr.value = 0.3;
+  }
+  
+  if (action.includes("demand") || action.includes("spike") || action.includes("surge")) {
+    const ds = document.getElementById('sim-demand-spike');
+    if (ds) ds.value = 0.5;
+  }
+  
+  if (action.includes("shrink") || action.includes("wastage") || action.includes("safety stock")) {
+    const sh = document.getElementById('sim-shrinkage');
+    if (sh) sh.value = 0.1;
+  }
+  
+  if (action.includes("approv")) {
+    const ad = document.getElementById('sim-approval-delay');
+    if (ad) ad.value = 7;
+  }
+  
+  // Auto-run the simulation immediately
+  await runScenario();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
