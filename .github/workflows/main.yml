@@ -49,10 +49,18 @@ jobs:
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy with Ansible
+        env:
+          ENV_SECRET: ${{ secrets.ENV_FILE }}
         run: |
-          # Create .env file from secret so it gets synced to the server
-          echo "${{ secrets.ENV_FILE }}" > .env
+          # Create .env file from secret safely
+          echo "$ENV_SECRET" > .env
           
+          # Verify .env was created
+          if [ ! -s .env ]; then
+            echo "Error: .env is empty! Did you add the ENV_FILE secret to GitHub?"
+            exit 1
+          fi
+
           # Create temporary inventory
           echo "[packright]" > inventory.ini
           echo "${{ secrets.SERVER_IP }} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa" >> inventory.ini
