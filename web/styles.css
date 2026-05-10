@@ -1248,3 +1248,71 @@ td {
   }
 }
 
+/* Material 360 Side Panel */
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: -450px;
+  width: 400px;
+  max-width: 100vw;
+  height: 100vh;
+  background: var(--panel);
+  box-shadow: -10px 0 30px rgba(10, 20, 40, 0.15);
+  z-index: 1000;
+  transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.side-panel.open {
+  right: 0;
+}
+
+.side-panel .panel-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fcfdfd;
+}
+
+.side-panel .panel-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.side-panel .panel-content {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.panel-section h3 {
+  font-size: 14px;
+  margin: 0 0 12px 0;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.m360-table th, .m360-table td {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.clickable-row:hover {
+  background: rgba(31, 75, 153, 0.05);
+}
+
+.clickable-row:active {
+  background: rgba(31, 75, 153, 0.1);
+}

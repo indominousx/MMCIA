@@ -479,7 +479,7 @@ function renderInventoryCards() {
   document.getElementById("inventoryCards").innerHTML = rows.map(row => {
     const critical = row.under_3_days_stock === true || row.under_3_days_stock === "True";
     return `
-      <div class="inventory-card ${critical ? "critical" : "watch"}">
+      <div class="inventory-card clickable-row ${critical ? "critical" : "watch"}" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
         <strong>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</strong>
         <span>${escapeHtml(row.first_stockout_date || "No 42-day stockout")} · ${row.days_to_stockout || "-"} days</span>
         <span>Stock ${qty(row.current_stock, row.unit)} · 21D demand ${qty(row.total_demand_21d, row.unit)}</span>
@@ -492,7 +492,7 @@ function renderInventoryCards() {
 function renderProcurement() {
   const approved = applyFilters(state.procurement.approved || [], { dateField: "order_by_date" });
   document.getElementById("approvedRows").innerHTML = approved.map(row => `
-    <tr>
+    <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
       <td>${escapeHtml(row.supplier_name)}</td>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${qty(row.recommended_qty, row.unit)}</td>
@@ -502,7 +502,7 @@ function renderProcurement() {
   `).join("");
   const blocked = applyFilters(state.procurement.blocked || [], { dateField: "order_by_date" });
   document.getElementById("blockedRows").innerHTML = blocked.map(row => `
-    <tr>
+    <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${escapeHtml(row.supplier_name || "-")}</td>
       <td>${qty(row.recommended_qty, row.unit)}</td>
@@ -677,7 +677,7 @@ function renderAlertCenter() {
 
   const timeline = alerts.slice(0, 6);
   document.getElementById("alertTimeline").innerHTML = timeline.map(row => `
-    <div class="alert-item">
+    <div class="alert-item clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
       <strong>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</strong>
       <span>${escapeHtml(row.first_stockout_date || "No date")} · ${row.days_to_stockout || "-"} days cover · shortage ${qty(row.projected_shortage_qty, row.unit)}</span>
       <span>${statusPill(row.alert_type || "watch")}</span>
@@ -1424,3 +1424,79 @@ loadAll().catch(error => {
 bindFilters();
 const activeTab = document.querySelector(".nav-item.active")?.dataset.tab || "decision";
 updateVisibleFilters(activeTab);
+
+function openMaterial360(materialId) {
+  const panel = document.getElementById("material360Panel");
+  if (!panel) return;
+  
+  let name = "Unknown Material";
+  let unit = "";
+  const row = (state.inventory?.coverage || []).find(r => r.material_id === materialId);
+  if (row) {
+    name = row.material_name;
+    unit = row.unit;
+  }
+  
+  document.getElementById("m360Title").textContent = `${materialId} · ${name}`;
+  
+  const currentStock = row?.current_stock || 0;
+  const demand21d = row?.total_demand_21d || 0;
+  const daysToStockout = row?.days_to_stockout || "-";
+  
+  document.getElementById("m360Kpis").innerHTML = `
+    <div class="kpi"><span>Stock</span><strong>${qty(currentStock, unit)}</strong></div>
+    <div class="kpi"><span>21D Demand</span><strong>${qty(demand21d, unit)}</strong></div>
+    <div class="kpi"><span>Days Cover</span><strong>${daysToStockout}</strong></div>
+  `;
+  
+  const approved = (state.procurement?.approved || []).filter(r => r.material_id === materialId);
+  const blocked = (state.procurement?.blocked || []).filter(r => r.material_id === materialId);
+  
+  const suppliers = new Map();
+  approved.forEach(r => {
+    const s = suppliers.get(r.supplier_name) || { name: r.supplier_name, app: 0, blk: 0 };
+    s.app += Number(r.recommended_value_inr || 0);
+    suppliers.set(r.supplier_name, s);
+  });
+  blocked.forEach(r => {
+    const s = suppliers.get(r.supplier_name) || { name: r.supplier_name, app: 0, blk: 0 };
+    s.blk += Number(r.recommended_value_inr || 0);
+    suppliers.set(r.supplier_name, s);
+  });
+  
+  document.getElementById("m360Supplier").innerHTML = Array.from(suppliers.values()).map(s => `
+    <tr><td>${escapeHtml(s.name)}</td><td>${inr(s.app)}</td><td>${inr(s.blk)}</td></tr>
+  `).join("") || "<tr><td colspan='3' class='muted'>No supplier exposure</td></tr>";
+  
+  const alerts = (state.inventory?.alerts || []).filter(r => r.material_id === materialId);
+  document.getElementById("m360Alerts").innerHTML = alerts.map(a => `
+    <div class="alert-item">
+      <span>${escapeHtml(a.first_stockout_date || "No date")} · Shortage ${qty(a.projected_shortage_qty, a.unit)}</span>
+      <span>${statusPill(a.alert_type)}</span>
+    </div>
+  `).join("") || "<span class='muted'>No active alerts</span>";
+  
+  const bom = (state.demand?.bomTraceSample || []).filter(r => r.material_id === materialId);
+  document.getElementById("m360Bom").innerHTML = bom.map(b => `
+    <tr><td>${escapeHtml(b.order_id)}</td><td>${qty(b.seasonal_required_qty)}</td><td>${escapeHtml(b.delivery_date)}</td></tr>
+  `).join("") || "<tr><td colspan='3' class='muted'>No BOM dependencies</td></tr>";
+  
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false");
+}
+
+function closeMaterial360() {
+  const panel = document.getElementById("material360Panel");
+  if (panel) {
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", e => {
+    if (e.target.closest("#m360Close")) {
+      closeMaterial360();
+    }
+  });
+});

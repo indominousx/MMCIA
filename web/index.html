@@ -650,6 +650,39 @@
         </section>
       </main>
     </div>
+    
+    <!-- Material 360 Panel -->
+    <aside id="material360Panel" class="side-panel" aria-hidden="true">
+      <div class="panel-header">
+        <h2 id="m360Title">Material Details</h2>
+        <button id="m360Close" class="button secondary small" aria-label="Close panel">×</button>
+      </div>
+      <div class="panel-content">
+        <div class="kpi-grid" id="m360Kpis"></div>
+        <div class="panel-section">
+          <h3>Supplier Exposure</h3>
+          <div class="table-wrap" style="max-height: 200px;">
+            <table class="m360-table">
+              <thead><tr><th>Supplier</th><th>Approved</th><th>Blocked</th></tr></thead>
+              <tbody id="m360Supplier"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel-section">
+          <h3>Active Alerts</h3>
+          <div class="alert-grid" style="grid-template-columns: 1fr;" id="m360Alerts"></div>
+        </div>
+        <div class="panel-section">
+          <h3>BOM Trace (Where Used)</h3>
+          <div class="table-wrap" style="max-height: 200px;">
+            <table class="m360-table">
+              <thead><tr><th>Order</th><th>Qty Needed</th><th>Date</th></tr></thead>
+              <tbody id="m360Bom"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </aside>
     <script src="/app.js"></script>
   </body>
 </html>
