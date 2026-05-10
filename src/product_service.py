@@ -16,7 +16,7 @@ from .alerting import (
 )
 from .config import PipelineConfig
 from .pipeline import run_inventory_pipeline
-from .simulation_engine import run_scenario_simulations
+from .simulation_engine import run_scenario_simulations, DEFAULT_SCENARIOS
 
 
 OUTPUT_FILES = {
@@ -330,7 +330,7 @@ class ProductService:
             "approval_delay_days": params["approval_delay_days"],
         }
 
-        # Run the simulation engine with the single custom scenario
+        # Run the simulation engine with the custom scenario appended to defaults
         try:
             results = run_scenario_simulations(
                 coverage,
@@ -340,12 +340,11 @@ class ProductService:
                 risk_scores,
                 pd.to_datetime(self._analysis_date) if self._analysis_date else pd.Timestamp.now(),
                 self.config,
+                scenarios=DEFAULT_SCENARIOS + [scenario_template],
             )
         except Exception as exc:
             return {"ok": False, "error": "simulation_failed", "detail": str(exc)}
 
-        # If engine returns multiple default scenarios, filter for our custom near-match by parameters.
-        # Otherwise return entire results with a marker.
         rows = _records(results)
         return {"ok": True, "scenarios": rows, "params": params}
 

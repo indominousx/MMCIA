@@ -14,12 +14,12 @@ const state = {
 };
 
 const filters = {
-  material: "",
-  supplier: "",
-  category: "",
-  alertType: "",
-  creditStatus: "",
-  moqStatus: "",
+  material: [],
+  supplier: [],
+  category: [],
+  alertType: [],
+  creditStatus: [],
+  moqStatus: [],
   dateFrom: "",
   dateTo: ""
 };
@@ -372,16 +372,24 @@ function renderSimulations() {
     </div>
   `).join("");
 
-  document.getElementById("simulationRows").innerHTML = scenarios.map(row => `
+  document.getElementById("simulationRows").innerHTML = scenarios.map((row, index) => `
     <tr>
       <td>${escapeHtml(row.scenario)}</td>
       <td>${row.projected_stockouts || 0}</td>
       <td>${row.delayed_orders || 0}</td>
       <td>${inr(row.simulated_losses_inr || 0)}</td>
       <td>${Number(row.risk_change_pct || 0).toFixed(1)}%</td>
+      <td><button class="button secondary small" onclick="deleteScenario(${index})">Delete</button></td>
     </tr>
   `).join("");
 }
+
+window.deleteScenario = function(index) {
+  if (state.simulations && state.simulations.scenarios) {
+    state.simulations.scenarios.splice(index, 1);
+    renderSimulations();
+  }
+};
 
 function collectScenarioPayload() {
   return {
@@ -426,13 +434,11 @@ function resetScenarioForm() {
   fields.forEach(id => { const el = document.getElementById(id); if (el) el.value = el.defaultValue ?? '' });
 }
 
-// wire buttons after DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-  const runBtn = document.getElementById('run-sim-btn');
-  if (runBtn) runBtn.addEventListener('click', runScenario);
-  const resetBtn = document.getElementById('reset-sim-btn');
-  if (resetBtn) resetBtn.addEventListener('click', resetScenarioForm);
-});
+// wire buttons
+const runBtn = document.getElementById('run-sim-btn');
+if (runBtn) runBtn.addEventListener('click', runScenario);
+const resetBtn = document.getElementById('reset-sim-btn');
+if (resetBtn) resetBtn.addEventListener('click', resetScenarioForm);
 
 function renderQuality() {
   const qualityRows = state.quality.issues || [];
@@ -605,12 +611,12 @@ function alertCard(label, value, note, tone) {
 function applyFilters(rows, options = {}) {
   const dateField = options.dateField || "";
   return rows.filter(row => {
-    if (filters.material && !matchesMaterial(row, filters.material)) return false;
-    if (filters.supplier && !matchesSupplier(row, filters.supplier)) return false;
-    if (filters.category && String(row.category || "") !== filters.category) return false;
-    if (filters.alertType && String(row.alert_type || "") !== filters.alertType) return false;
-    if (filters.creditStatus && String(row.credit_status || "") !== filters.creditStatus) return false;
-    if (filters.moqStatus && moqStatus(row) !== filters.moqStatus) return false;
+    if (filters.material.length > 0 && !filters.material.some(mat => matchesMaterial(row, mat))) return false;
+    if (filters.supplier.length > 0 && !filters.supplier.some(sup => matchesSupplier(row, sup))) return false;
+    if (filters.category.length > 0 && !filters.category.includes(String(row.category || ""))) return false;
+    if (filters.alertType.length > 0 && !filters.alertType.includes(String(row.alert_type || ""))) return false;
+    if (filters.creditStatus.length > 0 && !filters.creditStatus.includes(String(row.credit_status || ""))) return false;
+    if (filters.moqStatus.length > 0 && !filters.moqStatus.includes(moqStatus(row))) return false;
     if (!matchesDateRange(row, dateField)) return false;
     return true;
   });
@@ -665,6 +671,15 @@ function moqStatus(row) {
   return qty >= moq ? "meets_moq" : "below_moq";
 }
 
+const filterDefinitions = {
+  material: { label: "All materials", optionId: "filterMaterialOptions" },
+  supplier: { label: "All suppliers", optionId: "filterSupplierOptions" },
+  category: { label: "All categories", optionId: "filterCategoryOptions" },
+  alertType: { label: "All alert types", optionId: "filterAlertTypeOptions" },
+  creditStatus: { label: "All credit statuses", optionId: "filterCreditStatusOptions" },
+  moqStatus: { label: "All MOQ statuses", optionId: "filterMoqStatusOptions" }
+};
+
 function setFilterOptions() {
   const materialIds = new Set();
   const supplierNames = new Set();
@@ -716,63 +731,137 @@ function setFilterOptions() {
     if (row.supplier_name) supplierNames.add(row.supplier_name);
   });
 
-  setSelectOptions("filterMaterial", materialIds, "All materials");
-  setSelectOptions("filterSupplier", supplierNames, "All suppliers");
-  setSelectOptions("filterCategory", categories, "All categories");
-  setSelectOptions("filterAlertType", alertTypes, "All alert types");
-  setSelectOptions("filterCreditStatus", creditStatuses, "All credit statuses");
-  setSelectOptions(
-    "filterMoqStatus",
+  setDropdownOptions("material", materialIds, filterDefinitions.material.label);
+  setDropdownOptions("supplier", supplierNames, filterDefinitions.supplier.label);
+  setDropdownOptions("category", categories, filterDefinitions.category.label);
+  setDropdownOptions("alertType", alertTypes, filterDefinitions.alertType.label);
+  setDropdownOptions("creditStatus", creditStatuses, filterDefinitions.creditStatus.label);
+  setDropdownOptions(
+    "moqStatus",
     new Set(["meets_moq", "below_moq", "not_applicable"]),
-    "All MOQ statuses"
+    filterDefinitions.moqStatus.label
   );
 }
 
-function setSelectOptions(id, values, allLabel) {
-  const select = document.getElementById(id);
+function setDropdownOptions(key, values, allLabel) {
+  const container = document.getElementById(filterDefinitions[key].optionId);
+  const selectedSet = new Set(filters[key] || []);
   const sorted = Array.from(values).sort();
-  select.innerHTML = [
-    `<option value="">${escapeHtml(allLabel)}</option>`,
-    ...sorted.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`)
-  ].join("");
+  container.innerHTML = sorted.map(value => `
+    <label class="filter-option">
+      <input type="checkbox" value="${escapeHtml(value)}" data-filter="${key}" ${selectedSet.has(value) ? "checked" : ""}>
+      <span>${escapeHtml(value)}</span>
+    </label>
+  `).join("");
+  updateFilterDropdownLabel(key, allLabel);
+}
+
+function updateFilterDropdownLabel(key, allLabel) {
+  const button = document.querySelector(`.filter-dropdown[data-filter="${key}"] .filter-toggle .filter-toggle-text`);
+  if (!button) return;
+  const values = filters[key] || [];
+  if (!values.length) {
+    button.textContent = allLabel;
+  } else if (values.length <= 3) {
+    button.textContent = values.join(", ");
+  } else {
+    button.textContent = `${values.length} selected`;
+  }
+  const toggle = button.closest(".filter-toggle");
+  if (toggle) {
+    toggle.classList.toggle("active", values.length > 0);
+  }
 }
 
 function bindFilters() {
-  const mapping = [
-    ["filterMaterial", "material"],
-    ["filterSupplier", "supplier"],
-    ["filterCategory", "category"],
-    ["filterAlertType", "alertType"],
-    ["filterCreditStatus", "creditStatus"],
-    ["filterMoqStatus", "moqStatus"],
-    ["filterDateFrom", "dateFrom"],
-    ["filterDateTo", "dateTo"]
-  ];
+  const dateFields = ["filterDateFrom", "filterDateTo"];
+  const filterBar = document.getElementById("filterBar");
 
-  mapping.forEach(([id, key]) => {
+  filterBar.addEventListener("click", event => {
+    const dropdown = event.target.closest(".filter-dropdown");
+    if (!dropdown) return;
+    const opened = dropdown.classList.contains("open");
+    closeAllDropdowns();
+    if (!opened) {
+      dropdown.classList.add("open");
+      const toggle = dropdown.querySelector(".filter-toggle");
+      if (toggle) toggle.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".filter-dropdown")) {
+      closeAllDropdowns();
+    }
+  });
+
+  filterBar.addEventListener("change", event => {
+    const checkbox = event.target.closest("input[type='checkbox']");
+    if (!checkbox) return;
+    const key = checkbox.dataset.filter;
+    syncFilterValues(key);
+    renderAll();
+  });
+
+  filterBar.addEventListener("input", event => {
+    const search = event.target.closest("input[data-search]");
+    if (!search) return;
+    const key = search.dataset.search;
+    const query = search.value.toLowerCase();
+    const options = document.querySelectorAll(`.filter-dropdown[data-filter="${key}"] .filter-option`);
+    options.forEach(option => {
+      const label = option.textContent.toLowerCase();
+      option.style.display = label.includes(query) ? "flex" : "none";
+    });
+  });
+
+  dateFields.forEach(id => {
     const element = document.getElementById(id);
     element.addEventListener("change", () => {
-      filters[key] = element.value;
+      filters[id === "filterDateFrom" ? "dateFrom" : "dateTo"] = element.value;
       renderAll();
     });
   });
 
   document.getElementById("filterReset").addEventListener("click", () => {
     Object.assign(filters, {
-      material: "",
-      supplier: "",
-      category: "",
-      alertType: "",
-      creditStatus: "",
-      moqStatus: "",
+      material: [],
+      supplier: [],
+      category: [],
+      alertType: [],
+      creditStatus: [],
+      moqStatus: [],
       dateFrom: "",
       dateTo: ""
     });
-    mapping.forEach(([id]) => {
-      const element = document.getElementById(id);
-      element.value = "";
+
+    Object.values(filterDefinitions).forEach(def => {
+      const container = document.getElementById(def.optionId);
+      container.querySelectorAll("input[type=checkbox]").forEach(input => input.checked = false);
+      const key = Object.keys(filterDefinitions).find(k => filterDefinitions[k].optionId === def.optionId);
+      if (key) updateFilterDropdownLabel(key, def.label);
     });
+
+    dateFields.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) element.value = "";
+    });
+
     renderAll();
+  });
+}
+
+function syncFilterValues(key) {
+  const container = document.getElementById(filterDefinitions[key].optionId);
+  filters[key] = Array.from(container.querySelectorAll("input[type=checkbox]:checked")).map(input => input.value);
+  updateFilterDropdownLabel(key, filterDefinitions[key].label);
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll(".filter-dropdown.open").forEach(dropdown => {
+    dropdown.classList.remove("open");
+    const toggle = dropdown.querySelector(".filter-toggle");
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
   });
 }
 
@@ -789,6 +878,47 @@ function setRefreshState(text) {
   document.getElementById("refreshState").textContent = text;
 }
 
+const tabFilters = {
+  decision: ["material", "supplier", "category", "alertType", "creditStatus", "moqStatus", "dateFrom", "dateTo"],
+  demand: ["material", "category", "dateFrom", "dateTo"],
+  inventory: ["material", "category", "alertType"],
+  risk: ["material", "supplier", "category"],
+  forecast: ["material", "category"],
+  procurement: ["material", "supplier", "category", "creditStatus", "moqStatus", "dateFrom", "dateTo"],
+  recommendations: ["material", "category", "alertType"],
+  simulation: [],
+  quality: ["material", "category"]
+};
+
+function updateVisibleFilters(tab) {
+  const allowed = tabFilters[tab] || [];
+  
+  const filterBar = document.getElementById('filterBar');
+  if (filterBar) {
+    filterBar.style.display = allowed.length === 0 ? 'none' : '';
+  }
+
+  document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+    const filterType = dropdown.dataset.filter;
+    const group = dropdown.closest('.filter-group');
+    if (group) {
+      group.style.display = allowed.includes(filterType) ? '' : 'none';
+    }
+  });
+
+  const dateFrom = document.getElementById('filterDateFrom');
+  if (dateFrom) {
+    const group = dateFrom.closest('.filter-group');
+    if (group) group.style.display = allowed.includes('dateFrom') ? '' : 'none';
+  }
+  
+  const dateTo = document.getElementById('filterDateTo');
+  if (dateTo) {
+    const group = dateTo.closest('.filter-group');
+    if (group) group.style.display = allowed.includes('dateTo') ? '' : 'none';
+  }
+}
+
 document.querySelectorAll(".nav-item").forEach(button => {
   button.addEventListener("click", () => {
     document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
@@ -796,6 +926,7 @@ document.querySelectorAll(".nav-item").forEach(button => {
     button.classList.add("active");
     document.getElementById(`tab-${button.dataset.tab}`).classList.add("active");
     document.querySelector(".topbar h1").textContent = button.textContent;
+    updateVisibleFilters(button.dataset.tab);
   });
 });
 
@@ -858,3 +989,5 @@ loadAll().catch(error => {
 });
 
 bindFilters();
+const activeTab = document.querySelector(".nav-item.active")?.dataset.tab || "decision";
+updateVisibleFilters(activeTab);

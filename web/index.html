@@ -46,30 +46,96 @@
             <button class="button primary" id="recomputeButton">Recompute</button>
           </div>
         </header>
-        <section class="filter-bar" aria-label="Global filters">
+        <section class="filter-bar" aria-label="Global filters" id="filterBar">
           <div class="filter-group">
-            <label for="filterMaterial">Material</label>
-            <select id="filterMaterial"></select>
+            <label for="filterMaterialToggle">Material</label>
+            <div class="filter-dropdown" data-filter="material">
+              <button class="filter-toggle" type="button" id="filterMaterialToggle" aria-expanded="false">
+                <span class="filter-toggle-text">All materials</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu">
+                <div class="filter-menu-search">
+                  <input type="search" placeholder="Search materials..." data-search="material">
+                </div>
+                <div class="filter-options" id="filterMaterialOptions"></div>
+              </div>
+            </div>
           </div>
           <div class="filter-group">
-            <label for="filterSupplier">Supplier</label>
-            <select id="filterSupplier"></select>
+            <label for="filterSupplierToggle">Supplier</label>
+            <div class="filter-dropdown" data-filter="supplier">
+              <button class="filter-toggle" type="button" id="filterSupplierToggle" aria-expanded="false">
+                <span class="filter-toggle-text">All suppliers</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu">
+                <div class="filter-menu-search">
+                  <input type="search" placeholder="Search suppliers..." data-search="supplier">
+                </div>
+                <div class="filter-options" id="filterSupplierOptions"></div>
+              </div>
+            </div>
           </div>
           <div class="filter-group">
-            <label for="filterCategory">Category</label>
-            <select id="filterCategory"></select>
+            <label for="filterCategoryToggle">Category</label>
+            <div class="filter-dropdown" data-filter="category">
+              <button class="filter-toggle" type="button" id="filterCategoryToggle" aria-expanded="false">
+                <span class="filter-toggle-text">All categories</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu">
+                <div class="filter-menu-search">
+                  <input type="search" placeholder="Search categories..." data-search="category">
+                </div>
+                <div class="filter-options" id="filterCategoryOptions"></div>
+              </div>
+            </div>
           </div>
           <div class="filter-group">
-            <label for="filterAlertType">Alert type</label>
-            <select id="filterAlertType"></select>
+            <label for="filterAlertTypeToggle">Alert type</label>
+            <div class="filter-dropdown" data-filter="alertType">
+              <button class="filter-toggle" type="button" id="filterAlertTypeToggle" aria-expanded="false">
+                <span class="filter-toggle-text">All alert types</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu">
+                <div class="filter-menu-search">
+                  <input type="search" placeholder="Search alert types..." data-search="alertType">
+                </div>
+                <div class="filter-options" id="filterAlertTypeOptions"></div>
+              </div>
+            </div>
           </div>
           <div class="filter-group">
-            <label for="filterCreditStatus">Credit status</label>
-            <select id="filterCreditStatus"></select>
+            <label for="filterCreditStatusToggle">Credit status</label>
+            <div class="filter-dropdown" data-filter="creditStatus">
+              <button class="filter-toggle" type="button" id="filterCreditStatusToggle" aria-expanded="false">
+                <span class="filter-toggle-text">All credit statuses</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu">
+                <div class="filter-menu-search">
+                  <input type="search" placeholder="Search statuses..." data-search="creditStatus">
+                </div>
+                <div class="filter-options" id="filterCreditStatusOptions"></div>
+              </div>
+            </div>
           </div>
           <div class="filter-group">
-            <label for="filterMoqStatus">MOQ status</label>
-            <select id="filterMoqStatus"></select>
+            <label for="filterMoqStatusToggle">MOQ status</label>
+            <div class="filter-dropdown" data-filter="moqStatus">
+              <button class="filter-toggle" type="button" id="filterMoqStatusToggle" aria-expanded="false">
+                <span class="filter-toggle-text">All MOQ statuses</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu">
+                <div class="filter-menu-search">
+                  <input type="search" placeholder="Search MOQ statuses..." data-search="moqStatus">
+                </div>
+                <div class="filter-options" id="filterMoqStatusOptions"></div>
+              </div>
+            </div>
           </div>
           <div class="filter-group">
             <label for="filterDateFrom">Date from</label>
@@ -417,12 +483,30 @@
               <h2>Scenario Builder</h2>
             </div>
             <div class="sim-controls">
-                <label>Scenario name: <input type="text" id="sim-name" placeholder="Custom scenario"></label>
-                <label>Demand spike (multiplier 0.0-2.0): <input type="number" id="sim-demand-spike" step="0.05" min="0" max="2" value="0.0"></label>
-                <label>Supplier delay days: <input type="number" id="sim-supplier-delay" step="1" min="0" max="120" value="0"></label>
-                <label>Credit reduction (0.0-1.0): <input type="number" id="sim-credit-reduction" step="0.01" min="0" max="1" value="0.0"></label>
-                <label>Inventory shrinkage (0.0-0.5): <input type="number" id="sim-shrinkage" step="0.01" min="0" max="0.5" value="0.0"></label>
-                <label>Approval delay days: <input type="number" id="sim-approval-delay" step="1" min="0" max="60" value="0"></label>
+                <div class="sim-input-group">
+                  <label for="sim-name">Scenario Name</label>
+                  <input type="text" id="sim-name" placeholder="Custom scenario">
+                </div>
+                <div class="sim-input-group">
+                  <label for="sim-demand-spike">Demand Spike <small>(multiplier 0.0-2.0)</small></label>
+                  <input type="number" id="sim-demand-spike" step="0.05" min="0" max="2" value="0.0">
+                </div>
+                <div class="sim-input-group">
+                  <label for="sim-supplier-delay">Supplier Delay <small>(days)</small></label>
+                  <input type="number" id="sim-supplier-delay" step="1" min="0" max="120" value="0">
+                </div>
+                <div class="sim-input-group">
+                  <label for="sim-credit-reduction">Credit Reduction <small>(0.0-1.0)</small></label>
+                  <input type="number" id="sim-credit-reduction" step="0.01" min="0" max="1" value="0.0">
+                </div>
+                <div class="sim-input-group">
+                  <label for="sim-shrinkage">Inventory Shrinkage <small>(0.0-0.5)</small></label>
+                  <input type="number" id="sim-shrinkage" step="0.01" min="0" max="0.5" value="0.0">
+                </div>
+                <div class="sim-input-group">
+                  <label for="sim-approval-delay">Approval Delay <small>(days)</small></label>
+                  <input type="number" id="sim-approval-delay" step="1" min="0" max="60" value="0">
+                </div>
                 <div class="sim-controls-actions">
                     <button type="button" class="button primary" id="run-sim-btn">Run Simulation</button>
                     <button type="button" class="button secondary" id="reset-sim-btn">Reset</button>
@@ -442,6 +526,7 @@
                     <th>Delayed orders</th>
                     <th>Losses</th>
                     <th>Risk change</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody id="simulationRows"></tbody>

@@ -171,6 +171,94 @@ h2 {
 .filter-group {
   display: grid;
   gap: 6px;
+  position: relative;
+}
+
+.filter-dropdown {
+  position: relative;
+}
+
+.filter-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.filter-toggle:focus {
+  outline: 2px solid rgba(33, 95, 255, 0.24);
+  outline-offset: 2px;
+}
+
+.filter-toggle-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filter-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 22px 40px rgba(16, 24, 40, 0.12);
+  overflow: hidden;
+  max-height: 320px;
+}
+
+.filter-dropdown.open .filter-menu {
+  display: block;
+}
+
+.filter-menu-search {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.filter-menu-search input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.filter-options {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.filter-option input {
+  flex-shrink: 0;
+}
+
+.filter-option:hover {
+  background: rgba(16, 24, 40, 0.04);
 }
 
 #filterReset {
@@ -179,9 +267,7 @@ h2 {
   color: white;
 }
 
-.filter-group:nth-child(5) {
-  margin-right: 60px;
-}
+
 
 .button:active {
   transform: scale(0.98);
@@ -348,19 +434,51 @@ h2 {
 .sim-controls {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
+  gap: 20px;
 }
 
-.sim-controls label {
-  display: grid;
+.sim-input-group {
+  display: flex;
+  flex-direction: column;
   gap: 6px;
-  font-size: 13px;
-  color: var(--muted);
 }
 
-.sim-controls label input {
-  width: 100%;
-  min-width: 0;
+.sim-input-group label {
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.sim-input-group label small {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.sim-input-group input {
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  background: #fcfdfd;
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+
+.sim-input-group input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(17, 111, 105, 0.1);
+  background: #ffffff;
+}
+
+.button.small {
+  min-width: 60px;
+  height: 28px;
+  font-size: 12px;
+  padding: 0 10px;
 }
 
 .sim-controls-actions {

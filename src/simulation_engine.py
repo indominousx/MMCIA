@@ -73,13 +73,17 @@ def run_scenario_simulations(
     risk_scores: pd.DataFrame,
     analysis_date: pd.Timestamp,
     config: PipelineConfig,
+    scenarios: list[dict[str, object]] | None = None,
 ) -> pd.DataFrame:
     """Simulate disruption scenarios and quantify operational impact."""
     baseline = _baseline_metrics(coverage_summary, procurement_recommendations, risk_scores)
     avg_price = _average_price(procurement_recommendations)
 
+    if scenarios is None:
+        scenarios = DEFAULT_SCENARIOS
+
     rows: list[dict[str, object]] = []
-    for scenario in DEFAULT_SCENARIOS:
+    for scenario in scenarios:
         demand_spike = float(scenario["demand_spike"])
         supplier_delay = int(scenario["supplier_delay_days"])
         credit_reduction = float(scenario["credit_reduction"])
