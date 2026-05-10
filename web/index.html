@@ -224,18 +224,18 @@
                   <h2>Immediate Actions</h2>
                 </div>
                 <div class="table-wrap">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Material</th>
-                        <th>Supplier</th>
-                        <th>Qty</th>
-                        <th>Credit</th>
-                      </tr>
-                    </thead>
-                    <tbody id="immediateActions"></tbody>
-                  </table>
-                </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th onclick="toggleSort('immediateActionsRows', 'material_name')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('immediateActionsRows', 'supplier_name')">Supplier <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('immediateActionsRows', 'recommended_qty')">Qty <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="immediateActions"></tbody>
+              </table>
+            </div>
               </div>
 
               <div class="panel">
@@ -382,9 +382,9 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Material</th>
-                    <th>Stock</th>
-                    <th>4W Demand</th>
+                    <th onclick="toggleSort('slowMovingRows', 'material_id')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('slowMovingRows', 'current_stock')">Stock <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('slowMovingRows', 'total_demand_21d')">4W Demand <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                     <th>Reason</th>
                   </tr>
                 </thead>
@@ -411,8 +411,8 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Supplier</th>
-                      <th>Avg risk</th>
+                      <th onclick="toggleSort('supplierRiskRows', 'supplier_name')">Supplier <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                      <th onclick="toggleSort('supplierRiskRows', 'reliability_score')">Avg risk <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                       <th>Materials</th>
                     </tr>
                   </thead>
@@ -429,7 +429,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Material</th>
+                    <th onclick="toggleSort('riskRows', 'material_id')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                     <th>Risk</th>
                     <th>Severity</th>
                     <th>Drivers</th>
@@ -478,14 +478,14 @@
               <div class="table-wrap">
                 <table>
                   <thead>
-                    <tr>
-                      <th>Supplier</th>
-                      <th>Material</th>
-                      <th>Qty</th>
-                      <th>Value</th>
-                      <th>After Credit</th>
-                    </tr>
-                  </thead>
+                  <tr>
+                    <th onclick="toggleSort('approvedRows', 'supplier_name')">Supplier <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('approvedRows', 'material_id')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('approvedRows', 'recommended_qty')">Qty <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('approvedRows', 'recommended_value_inr')">Value <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('approvedRows', 'projected_credit_utilized_after_line_inr')">Credit Used <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                  </tr>
+                </thead>
                   <tbody id="approvedRows"></tbody>
                 </table>
               </div>
@@ -497,13 +497,13 @@
               <div class="table-wrap">
                 <table>
                   <thead>
-                    <tr>
-                      <th>Material</th>
-                      <th>Supplier</th>
-                      <th>Qty</th>
-                      <th>Blocked Value</th>
-                    </tr>
-                  </thead>
+                  <tr>
+                    <th onclick="toggleSort('blockedRows', 'material_id')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('blockedRows', 'supplier_name')">Supplier <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('blockedRows', 'recommended_qty')">Qty <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('blockedRows', 'recommended_value_inr')">Value <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                  </tr>
+                </thead>
                   <tbody id="blockedRows"></tbody>
                 </table>
               </div>
@@ -541,10 +541,10 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Material</th>
+                    <th onclick="toggleSort('recommendationRows', 'material_id')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                     <th>Issue</th>
                     <th>Action</th>
-                    <th>Urgency</th>
+                    <th onclick="toggleSort('recommendationRows', 'urgency')">Urgency <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                     <th>Impact</th>
                   </tr>
                 </thead>
@@ -610,11 +610,11 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Scenario</th>
-                    <th>Stockouts</th>
-                    <th>Delayed orders</th>
-                    <th>Losses</th>
-                    <th>Risk change</th>
+                    <th onclick="toggleSort('simulationRows', 'scenario')">Scenario <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('simulationRows', 'projected_stockouts')">Stockouts <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('simulationRows', 'delayed_orders')">Delayed orders <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('simulationRows', 'simulated_losses_inr')">Losses <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
+                    <th onclick="toggleSort('simulationRows', 'risk_change_pct')">Risk Change <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -651,10 +651,10 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Material</th>
+                      <th onclick="toggleSort('unitRows', 'material_id')">Material <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                       <th>Original</th>
                       <th>Target</th>
-                      <th>Confidence</th>
+                      <th onclick="toggleSort('unitRows', 'confidence')">Confidence <i data-lucide="arrow-up-down" class="sort-icon"></i></th>
                     </tr>
                   </thead>
                   <tbody id="unitRows"></tbody>

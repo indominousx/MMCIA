@@ -1,4 +1,68 @@
 const chartInstances = {};
+let sortConfig = {
+  approvedRows: { column: null, direction: 'asc' },
+  blockedRows: { column: null, direction: 'asc' },
+  unitRows: { column: null, direction: 'asc' },
+  simulationRows: { column: null, direction: 'asc' },
+  recommendationRows: { column: null, direction: 'asc' },
+  riskRows: { column: null, direction: 'asc' },
+  supplierRiskRows: { column: null, direction: 'asc' },
+  slowMovingRows: { column: null, direction: 'asc' },
+  immediateActionsRows: { column: null, direction: 'asc' }
+};
+
+function getSortedData(data, tableId) {
+  const config = sortConfig[tableId];
+  if (!config || !config.column) return data;
+  
+  return [...data].sort((a, b) => {
+    let valA = a[config.column];
+    let valB = b[config.column];
+    
+    const numA = parseFloat(valA);
+    const numB = parseFloat(valB);
+    if (!isNaN(numA) && !isNaN(numB)) {
+      valA = numA;
+      valB = numB;
+    } else {
+      valA = String(valA || "").toLowerCase();
+      valB = String(valB || "").toLowerCase();
+    }
+    
+    if (valA < valB) return config.direction === 'asc' ? -1 : 1;
+    if (valA > valB) return config.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+}
+
+window.toggleSort = function(tableId, column) {
+  const config = sortConfig[tableId];
+  if (config.column === column) {
+    config.direction = config.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    config.column = column;
+    config.direction = 'asc';
+  }
+  
+  const ths = document.querySelectorAll(`th[onclick*="${tableId}"]`);
+  ths.forEach(th => {
+    const icon = th.querySelector('.sort-icon');
+    if (!icon) return;
+    if (th.getAttribute('onclick').includes(`'${column}'`)) {
+      icon.setAttribute('data-lucide', config.direction === 'asc' ? 'arrow-up' : 'arrow-down');
+    } else {
+      icon.setAttribute('data-lucide', 'arrow-up-down');
+    }
+  });
+  if (window.lucide) lucide.createIcons();
+  
+  if (tableId === 'approvedRows' || tableId === 'blockedRows') renderProcurement();
+  if (tableId === 'unitRows') renderDataQuality();
+  if (tableId === 'simulationRows') renderSimulations();
+  if (tableId === 'recommendationRows') renderRecommendations();
+  if (tableId === 'riskRows' || tableId === 'supplierRiskRows') renderRisk();
+  if (tableId === 'slowMovingRows') renderOverview();
+};
 
 const state = {
   overview: null,
@@ -149,7 +213,7 @@ function renderOverview() {
     </div>
   `).join("");
 
-  const actions = applyFilters(state.decision.immediateActions || [], { dateField: "order_by_date" }).slice(0, 8);
+  const actions = getSortedData(applyFilters(state.decision.immediateActions || [], { dateField: "order_by_date" }), 'immediateActionsRows').slice(0, 8);
   document.getElementById("immediateActions").innerHTML = actions.map(row => `
     <tr>
       <td>${escapeHtml(row.material_name || row.material_id)}</td>
@@ -339,7 +403,7 @@ function renderBomRows() {
 
 function renderInventory() {
   renderInventoryCards();
-  const slowMoving = applyFilters(state.inventory.slowMoving || [], {});
+  const slowMoving = getSortedData(applyFilters(state.inventory.slowMoving || [], {}), 'slowMovingRows');
   document.getElementById("slowMovingRows").innerHTML = slowMoving.map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.name)}</td>
@@ -366,7 +430,7 @@ function renderRisk() {
     </div>
   `).join("");
 
-  document.getElementById("riskRows").innerHTML = filtered.map(row => `
+  document.getElementById("riskRows").innerHTML = getSortedData(filtered, 'riskRows').map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${Number(row.risk_score || 0).toFixed(1)}</td>
@@ -376,7 +440,7 @@ function renderRisk() {
     </tr>
   `).join("");
 
-  const supplierRisks = applyFilters(state.risk?.supplierRisks || [], {});
+  const supplierRisks = getSortedData(applyFilters(state.risk?.supplierRisks || [], {}), 'supplierRiskRows');
   document.getElementById("supplierRiskRows").innerHTML = supplierRisks.map(row => `
     <tr>
       <td>${escapeHtml(row.supplier_name || "-")}</td>
@@ -490,17 +554,17 @@ function renderInventoryCards() {
 }
 
 function renderProcurement() {
-  const approved = applyFilters(state.procurement.approved || [], { dateField: "order_by_date" });
+  const approved = getSortedData(applyFilters(state.procurement.approved || [], { dateField: "delivery_date" }), 'approvedRows');
   document.getElementById("approvedRows").innerHTML = approved.map(row => `
     <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
-      <td><span style="color: #3b82f6; font-weight: 500;" onclick="openSupplier360('${escapeHtml(row.supplier_name)}', event)">${escapeHtml(row.supplier_name)}</span></td>
+      <td><span style="color: #3b82f6; font-weight: 500;" onclick="openSupplier360('${escapeHtml(row.supplier_name || "")}', event)">${escapeHtml(row.supplier_name || "-")}</span></td>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${qty(row.recommended_qty, row.unit)}</td>
       <td>${inr(row.recommended_value_inr)}</td>
       <td>${inr(row.projected_credit_utilized_after_line_inr)}</td>
     </tr>
   `).join("");
-  const blocked = applyFilters(state.procurement.blocked || [], { dateField: "order_by_date" });
+  const blocked = getSortedData(applyFilters(state.procurement.blocked || [], { dateField: "order_by_date" }), 'blockedRows');
   document.getElementById("blockedRows").innerHTML = blocked.map(row => `
     <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
@@ -513,7 +577,7 @@ function renderProcurement() {
 }
 
 function renderSubstitutions() {
-  const substitutions = applyFilters(state.substitutions.allSubstitutions || [], { dateField: "first_stockout_date" });
+  const substitutions = getSortedData(applyFilters(state.substitutions.allSubstitutions || [], { dateField: "first_stockout_date" }), 'substitutionCards');
   document.getElementById("substitutionCards").innerHTML = substitutions.map(row => `
     <div class="sub-card">
       <strong>${escapeHtml(row.source_material_id)} → ${escapeHtml(row.substitute_material_id)}</strong>
@@ -534,8 +598,9 @@ function renderRecommendations() {
       .toLowerCase()
       .includes(needle);
   });
+  const sorted = getSortedData(filtered, 'recommendationRows');
 
-  document.getElementById("recommendationRows").innerHTML = filtered.map(row => `
+  document.getElementById("recommendationRows").innerHTML = sorted.map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${escapeHtml(row.issue_detected || "-")}</td>
@@ -547,7 +612,7 @@ function renderRecommendations() {
 }
 
 function renderSimulations() {
-  const scenarios = state.simulations?.scenarios || [];
+  const scenarios = getSortedData(state.simulations?.scenarios || [], 'simulationRows');
   document.getElementById("simulationCards").innerHTML = scenarios.map(row => `
     <div class="scenario-card">
       <strong>${escapeHtml(row.scenario)}</strong>
@@ -635,14 +700,13 @@ function resetScenarioForm() {
   fields.forEach(id => { const el = document.getElementById(id); if (el) el.value = el.defaultValue ?? '' });
 }
 
-// wire buttons
 const runBtn = document.getElementById('run-sim-btn');
 if (runBtn) runBtn.addEventListener('click', runScenario);
 const resetBtn = document.getElementById('reset-sim-btn');
 if (resetBtn) resetBtn.addEventListener('click', resetScenarioForm);
 
 function renderQuality() {
-  const qualityRows = state.quality.issues || [];
+  const qualityRows = getSortedData(state.quality.issues || [], 'qualityRows');
   document.getElementById("qualityRows").innerHTML = qualityRows.map(row => `
     <tr>
       <td>${statusPill(row.severity)}</td>
@@ -650,13 +714,17 @@ function renderQuality() {
       <td>${escapeHtml(row.issue_type)}<br><span class="muted">${escapeHtml(row.detail)}</span></td>
     </tr>
   `).join("");
-  const unitRows = state.quality.unitConversions || [];
-  document.getElementById("unitRows").innerHTML = unitRows.slice(0, 120).map(row => `
+  renderDataQuality();
+}
+
+function renderDataQuality() {
+  const unitRows = getSortedData(state.quality?.unitNormalization || [], 'unitRows');
+  document.getElementById("unitRows").innerHTML = unitRows.map(row => `
     <tr>
       <td>${escapeHtml(row.material_id)}</td>
       <td>${escapeHtml(row.original_unit)}</td>
       <td>${escapeHtml(row.target_unit)}</td>
-      <td>${statusPill(row.conversion_confidence)}</td>
+      <td>${(row.confidence * 100).toFixed(1)}%</td>
     </tr>
   `).join("");
 }
