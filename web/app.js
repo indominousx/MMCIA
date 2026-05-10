@@ -176,7 +176,7 @@ function renderOverview() {
           <span>${escapeHtml(row.recommended_action || "-")}</span>
           <span class="muted">${escapeHtml(row.reasoning || "")}</span>
         </div>
-        <button class="button secondary small" onclick="simulateRecommendation(${index})" style="white-space: nowrap;">Test</button>
+        <button class="button secondary small" onclick="simulateRecommendation('${escapeHtml(row.material_id)}')" style="white-space: nowrap;">Test</button>
       </div>
     </div>
   `).join("");
@@ -549,7 +549,7 @@ function renderRecommendations() {
       <td>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span>${escapeHtml(row.business_impact || "-")}</span>
-          <button class="button secondary small" onclick="simulateRecommendation(${index})">Test Impact</button>
+          <button class="button secondary small" onclick="simulateRecommendation('${escapeHtml(row.material_id)}')" style="white-space: nowrap;">Test Impact</button>
         </div>
       </td>
     </tr>
@@ -1438,7 +1438,7 @@ bindFilters();
 const activeTab = document.querySelector(".nav-item.active")?.dataset.tab || "decision";
 updateVisibleFilters(activeTab);
 
-function openMaterial360(materialId) {
+window.openMaterial360 = function(materialId) {
   const panel = document.getElementById("material360Panel");
   if (!panel) return;
   
@@ -1498,7 +1498,7 @@ function openMaterial360(materialId) {
   panel.setAttribute("aria-hidden", "false");
 }
 
-function closeMaterial360() {
+window.closeMaterial360 = function() {
   const panel = document.getElementById("material360Panel");
   if (panel) {
     panel.classList.remove("open");
@@ -1506,7 +1506,7 @@ function closeMaterial360() {
   }
 }
 
-function openSupplier360(supplierName, event) {
+window.openSupplier360 = function(supplierName, event) {
   if (event) event.stopPropagation();
   const panel = document.getElementById("supplier360Panel");
   if (!panel) return;
@@ -1555,7 +1555,7 @@ function openSupplier360(supplierName, event) {
   panel.setAttribute("aria-hidden", "false");
 }
 
-function closeSupplier360() {
+window.closeSupplier360 = function() {
   const panel = document.getElementById("supplier360Panel");
   if (panel) {
     panel.classList.remove("open");
@@ -1563,7 +1563,7 @@ function closeSupplier360() {
   }
 }
 
-function dismissAlert(materialId, event) {
+window.dismissAlert = function(materialId, event) {
   if (event) event.stopPropagation();
   if (state.inventory && state.inventory.alerts) {
     state.inventory.alerts = state.inventory.alerts.filter(a => a.material_id !== materialId);
@@ -1572,9 +1572,9 @@ function dismissAlert(materialId, event) {
   }
 }
 
-function simulateRecommendation(index) {
-  const recs = applyFilters(state.recommendations?.recommendations || [], {});
-  const rec = recs[index];
+window.simulateRecommendation = function(materialId) {
+  const recs = state.recommendations?.recommendations || [];
+  const rec = recs.find(r => r.material_id === materialId);
   if (!rec) return;
   
   const simTab = document.querySelector('.nav-item[data-tab="simulations"]');
