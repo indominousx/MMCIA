@@ -85,6 +85,10 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
             payload = self._read_json()
             self._send_json(self.service.run_scenario(payload))
             return
+        if parsed.path == "/api/delete-scenario":
+            payload = self._read_json()
+            self._send_json(self.service.delete_scenario(payload))
+            return
         self._send_json({"error": "not_found", "path": parsed.path}, HTTPStatus.NOT_FOUND)
 
     def log_message(self, format: str, *args: object) -> None:

@@ -308,7 +308,7 @@ class ProductService:
         return {"scenarios": _records(scenarios)}
 
     def run_scenario(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Run a custom scenario with parameters from the UI and return results."""
+        """Run a custom scenario, save it to disk, and return all scenarios."""
         self.ensure_loaded()
         payload = payload or {}
         params = {
@@ -325,7 +325,6 @@ class ProductService:
         supplier_master = self._frame("supplier_master") if "supplier_master" in self._frames else pd.DataFrame()
         risk_scores = self._frame("material_risk_scores")
 
-        # Build a single scenario descriptor using params
         scenario_template = {
             "scenario": payload.get("label") or f"Custom scenario {params}",
             "demand_spike": params["demand_spike"],
@@ -335,7 +334,6 @@ class ProductService:
             "approval_delay_days": params["approval_delay_days"],
         }
 
-        # Run the simulation engine with the custom scenario appended to defaults
         try:
             results = run_scenario_simulations(
                 coverage,
@@ -345,13 +343,45 @@ class ProductService:
                 risk_scores,
                 pd.to_datetime(self._analysis_date) if self._analysis_date else pd.Timestamp.now(),
                 self.config,
-                scenarios=DEFAULT_SCENARIOS + [scenario_template],
+                scenarios=[scenario_template],
             )
+            if not results.empty:
+                with self._lock:
+                    existing = self._frame("scenario_simulation_results")
+                    updated = pd.concat([existing, results], ignore_index=True)
+                    self._frames["scenario_simulation_results"] = updated
+                    self._save_frame("scenario_simulation_results")
         except Exception as exc:
             return {"ok": False, "error": "simulation_failed", "detail": str(exc)}
 
-        rows = _records(results)
-        return {"ok": True, "scenarios": rows, "params": params}
+        return self.simulation_lab()
+
+    def delete_scenario(self, payload: dict[str, Any]) -> dict[str, Any]:
+        """Delete a simulation by index and save changes."""
+        self.ensure_loaded()
+        try:
+            index = int(payload.get("index", -1))
+        except (ValueError, TypeError):
+            return {"ok": False, "error": "invalid_index"}
+
+        with self._lock:
+            frame = self._frame("scenario_simulation_results")
+            if 0 <= index < len(frame):
+                updated = frame.drop(frame.index[index]).reset_index(drop=True)
+                self._frames["scenario_simulation_results"] = updated
+                self._save_frame("scenario_simulation_results")
+                return {"ok": True, "scenarios": _records(updated)}
+            return {"ok": False, "error": "index_out_of_range"}
+
+    def _save_frame(self, name: str) -> None:
+        filename = OUTPUT_FILES.get(name)
+        if not filename:
+            return
+        path = self.config.output_dir / filename
+        frame = self._frames.get(name)
+        if frame is not None:
+            self.config.output_dir.mkdir(parents=True, exist_ok=True)
+            frame.to_csv(path, index=False)
 
     def alert_config(self) -> dict[str, Any]:
         _, status = load_email_settings()

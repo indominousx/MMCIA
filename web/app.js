@@ -384,10 +384,23 @@ function renderSimulations() {
   `).join("");
 }
 
-window.deleteScenario = function(index) {
-  if (state.simulations && state.simulations.scenarios) {
-    state.simulations.scenarios.splice(index, 1);
-    renderSimulations();
+window.deleteScenario = async function(index) {
+  if (confirm("Delete this scenario permanently?")) {
+    try {
+      const response = await api('/api/delete-scenario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ index })
+      });
+      if (response && response.ok) {
+        state.simulations = { scenarios: response.scenarios };
+        renderSimulations();
+      } else {
+        alert('Delete failed: ' + (response?.error || 'unknown'));
+      }
+    } catch (e) {
+      alert('Delete error: ' + (e.message || e));
+    }
   }
 };
 

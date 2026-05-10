@@ -1,14 +1,18 @@
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
 import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 @dataclass(frozen=True)
 class PipelineConfig:
-    input_dir: Path = Path(".")
-    output_dir: Path = Path("outputs")
+    input_dir: Path = Path(os.getenv("INPUT_DIR", "data"))
+    output_dir: Path = Path(os.getenv("OUTPUT_DIR", "outputs"))
     credit_cap_inr: float = 3_000_000.0
     forecast_horizon_days: int = 28
     planning_window_days: int = 42
