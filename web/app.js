@@ -1612,5 +1612,57 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", e => {
     if (e.target.closest("#m360Close")) closeMaterial360();
     if (e.target.closest("#s360Close")) closeSupplier360();
+
+    const th = e.target.closest("th[data-sort]");
+    if (th) sortTable(th);
   });
 });
+
+function sortTable(th) {
+  const table = th.closest("table");
+  if (!table) return;
+  const tbody = table.querySelector("tbody");
+  if (!tbody) return;
+
+  const colIndex = Array.from(th.parentElement.children).indexOf(th);
+  const sortType = th.dataset.sort;
+  const isAsc = th.classList.contains("sort-asc");
+
+  // Clear all sort indicators in this table
+  table.querySelectorAll("th[data-sort]").forEach(h => {
+    h.classList.remove("sort-asc", "sort-desc");
+  });
+
+  const dir = isAsc ? "desc" : "asc";
+  th.classList.add(`sort-${dir}`);
+
+  const rows = Array.from(tbody.querySelectorAll("tr"));
+
+  rows.sort((a, b) => {
+    const aCell = a.children[colIndex];
+    const bCell = b.children[colIndex];
+    if (!aCell || !bCell) return 0;
+
+    let aVal = aCell.textContent.trim();
+    let bVal = bCell.textContent.trim();
+
+    if (sortType === "num") {
+      // Extract numbers from formatted strings (INR 1.23 Cr, 45.6K, etc.)
+      const parseNum = s => {
+        const cleaned = s.replace(/[^0-9.\-]/g, "");
+        return parseFloat(cleaned) || 0;
+      };
+      aVal = parseNum(aVal);
+      bVal = parseNum(bVal);
+    } else {
+      aVal = aVal.toLowerCase();
+      bVal = bVal.toLowerCase();
+    }
+
+    if (aVal < bVal) return dir === "asc" ? -1 : 1;
+    if (aVal > bVal) return dir === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+}
