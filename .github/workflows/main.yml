@@ -51,6 +51,7 @@ jobs:
       - name: Deploy with Ansible
         env:
           ENV_SECRET: ${{ secrets.ENV_FILE }}
+          ANSIBLE_HOST_KEY_CHECKING: False
         run: |
           # Create .env file from secret safely
           echo "$ENV_SECRET" > .env
@@ -68,5 +69,3 @@ jobs:
           # Run playbook
           cd deployment/ansible
           ansible-playbook -i ../../inventory.ini playbook.yml
-        env:
-          ANSIBLE_HOST_KEY_CHECKING: False
