@@ -683,6 +683,27 @@
         </div>
       </div>
     </aside>
+
+    <!-- Supplier 360 Panel -->
+    <aside id="supplier360Panel" class="side-panel" aria-hidden="true">
+      <div class="panel-header">
+        <h2 id="s360Title">Supplier Details</h2>
+        <button id="s360Close" class="button secondary small" aria-label="Close panel">×</button>
+      </div>
+      <div class="panel-content">
+        <div class="kpi-grid" id="s360Kpis"></div>
+        <div class="panel-section">
+          <h3>Material Portfolio</h3>
+          <div class="table-wrap" style="max-height: 400px;">
+            <table class="m360-table">
+              <thead><tr><th>Material</th><th>Approved Value</th><th>Blocked Value</th></tr></thead>
+              <tbody id="s360Materials"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </aside>
+
     <script src="/app.js"></script>
   </body>
 </html>

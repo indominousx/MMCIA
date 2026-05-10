@@ -168,11 +168,16 @@ function renderOverview() {
   `).join("");
 
   const recs = applyFilters(state.recommendations?.recommendations || [], {});
-  document.getElementById("aiRecommendationsPreview").innerHTML = recs.slice(0, 6).map(row => `
+  document.getElementById("aiRecommendationsPreview").innerHTML = recs.slice(0, 6).map((row, index) => `
     <div class="feed-item">
-      <strong>${escapeHtml(row.material_name || row.material_id)} · ${escapeHtml(row.urgency || "-")}</strong>
-      <span>${escapeHtml(row.recommended_action || "-")}</span>
-      <span class="muted">${escapeHtml(row.reasoning || "")}</span>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+        <div>
+          <strong>${escapeHtml(row.material_name || row.material_id)} · ${escapeHtml(row.urgency || "-")}</strong>
+          <span>${escapeHtml(row.recommended_action || "-")}</span>
+          <span class="muted">${escapeHtml(row.reasoning || "")}</span>
+        </div>
+        <button class="button secondary small" onclick="simulateRecommendation(${index})" style="white-space: nowrap;">Test</button>
+      </div>
     </div>
   `).join("");
 
@@ -493,7 +498,7 @@ function renderProcurement() {
   const approved = applyFilters(state.procurement.approved || [], { dateField: "order_by_date" });
   document.getElementById("approvedRows").innerHTML = approved.map(row => `
     <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
-      <td>${escapeHtml(row.supplier_name)}</td>
+      <td><span style="color: #3b82f6; font-weight: 500;" onclick="openSupplier360('${escapeHtml(row.supplier_name)}', event)">${escapeHtml(row.supplier_name)}</span></td>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${qty(row.recommended_qty, row.unit)}</td>
       <td>${inr(row.recommended_value_inr)}</td>
@@ -504,7 +509,7 @@ function renderProcurement() {
   document.getElementById("blockedRows").innerHTML = blocked.map(row => `
     <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
-      <td>${escapeHtml(row.supplier_name || "-")}</td>
+      <td><span style="color: #3b82f6; font-weight: 500;" onclick="openSupplier360('${escapeHtml(row.supplier_name || "")}', event)">${escapeHtml(row.supplier_name || "-")}</span></td>
       <td>${qty(row.recommended_qty, row.unit)}</td>
       <td>${inr(row.recommended_value_inr)}</td>
     </tr>
@@ -535,13 +540,18 @@ function renderRecommendations() {
       .includes(needle);
   });
 
-  document.getElementById("recommendationRows").innerHTML = filtered.map(row => `
+  document.getElementById("recommendationRows").innerHTML = filtered.map((row, index) => `
     <tr>
       <td>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</td>
       <td>${escapeHtml(row.issue_detected || "-")}</td>
       <td>${escapeHtml(row.recommended_action || "-")}</td>
       <td>${statusPill(row.urgency || "-")}</td>
-      <td>${escapeHtml(row.business_impact || "-")}</td>
+      <td>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>${escapeHtml(row.business_impact || "-")}</span>
+          <button class="button secondary small" onclick="simulateRecommendation(${index})">Test Impact</button>
+        </div>
+      </td>
     </tr>
   `).join("");
 }
@@ -678,9 +688,12 @@ function renderAlertCenter() {
   const timeline = alerts.slice(0, 6);
   document.getElementById("alertTimeline").innerHTML = timeline.map(row => `
     <div class="alert-item clickable-row" onclick="openMaterial360('${escapeHtml(row.material_id)}')">
-      <strong>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</strong>
-      <span>${escapeHtml(row.first_stockout_date || "No date")} · ${row.days_to_stockout || "-"} days cover · shortage ${qty(row.projected_shortage_qty, row.unit)}</span>
-      <span>${statusPill(row.alert_type || "watch")}</span>
+      <div style="flex: 1;">
+        <strong>${escapeHtml(row.material_id)} · ${escapeHtml(row.material_name)}</strong>
+        <span>${escapeHtml(row.first_stockout_date || "No date")} · ${row.days_to_stockout || "-"} days cover · shortage ${qty(row.projected_shortage_qty, row.unit)}</span>
+        <span>${statusPill(row.alert_type || "watch")}</span>
+      </div>
+      <button class="button secondary small" onclick="dismissAlert('${escapeHtml(row.material_id)}', event)" aria-label="Dismiss">Dismiss</button>
     </div>
   `).join("");
 
@@ -1493,10 +1506,95 @@ function closeMaterial360() {
   }
 }
 
+function openSupplier360(supplierName, event) {
+  if (event) event.stopPropagation();
+  const panel = document.getElementById("supplier360Panel");
+  if (!panel) return;
+  
+  document.getElementById("s360Title").textContent = `${supplierName}`;
+  
+  const approved = (state.procurement?.approved || []).filter(r => r.supplier_name === supplierName);
+  const blocked = (state.procurement?.blocked || []).filter(r => r.supplier_name === supplierName);
+  
+  let totalApproved = 0;
+  let totalBlocked = 0;
+  const materials = new Map();
+  
+  approved.forEach(r => {
+    const m = materials.get(r.material_id) || { name: r.material_name, app: 0, blk: 0 };
+    m.app += Number(r.recommended_value_inr || 0);
+    totalApproved += Number(r.recommended_value_inr || 0);
+    materials.set(r.material_id, m);
+  });
+  blocked.forEach(r => {
+    const m = materials.get(r.material_id) || { name: r.material_name, app: 0, blk: 0 };
+    m.blk += Number(r.recommended_value_inr || 0);
+    totalBlocked += Number(r.recommended_value_inr || 0);
+    materials.set(r.material_id, m);
+  });
+  
+  const riskRows = state.risk?.supplierRisks || [];
+  const riskData = riskRows.find(r => r.supplier_name === supplierName);
+  const reliability = riskData?.reliability_score || "-";
+  
+  document.getElementById("s360Kpis").innerHTML = `
+    <div class="kpi"><span>Approved POs</span><strong>${inr(totalApproved)}</strong></div>
+    <div class="kpi"><span>Blocked Need</span><strong style="color: #ef4444">${inr(totalBlocked)}</strong></div>
+    <div class="kpi"><span>Reliability Score</span><strong>${reliability}</strong></div>
+  `;
+  
+  document.getElementById("s360Materials").innerHTML = Array.from(materials.entries()).map(([id, m]) => `
+    <tr class="clickable-row" onclick="openMaterial360('${escapeHtml(id)}')">
+      <td>${escapeHtml(id)} · ${escapeHtml(m.name)}</td>
+      <td>${inr(m.app)}</td>
+      <td>${inr(m.blk)}</td>
+    </tr>
+  `).join("") || "<tr><td colspan='3' class='muted'>No active exposure</td></tr>";
+  
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false");
+}
+
+function closeSupplier360() {
+  const panel = document.getElementById("supplier360Panel");
+  if (panel) {
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
+  }
+}
+
+function dismissAlert(materialId, event) {
+  if (event) event.stopPropagation();
+  if (state.inventory && state.inventory.alerts) {
+    state.inventory.alerts = state.inventory.alerts.filter(a => a.material_id !== materialId);
+    renderAlertCenter();
+    renderOverview();
+  }
+}
+
+function simulateRecommendation(index) {
+  const recs = applyFilters(state.recommendations?.recommendations || [], {});
+  const rec = recs[index];
+  if (!rec) return;
+  
+  const simTab = document.querySelector('.nav-item[data-tab="simulations"]');
+  if (simTab) simTab.click();
+  
+  const simName = document.getElementById('sim-name');
+  if (simName) simName.value = `Test: ${rec.recommended_action} (${rec.material_id})`;
+  
+  if (rec.recommended_action.toLowerCase().includes("expedite") || rec.recommended_action.toLowerCase().includes("air freight")) {
+     const sd = document.getElementById('sim-supplier-delay');
+     if (sd) sd.value = -7;
+  } else if (rec.recommended_action.toLowerCase().includes("credit")) {
+     const cr = document.getElementById('sim-credit-reduction');
+     if (cr) cr.value = 500000;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", e => {
-    if (e.target.closest("#m360Close")) {
-      closeMaterial360();
-    }
+    if (e.target.closest("#m360Close")) closeMaterial360();
+    if (e.target.closest("#s360Close")) closeSupplier360();
   });
 });
