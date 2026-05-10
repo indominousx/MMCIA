@@ -1,5 +1,32 @@
+# Python
 __pycache__/
 *.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Environment Variables
 .env
+
+# Reports and Logs
 outputs/
 *.xlsx
+*.csv
+!data/*.csv
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# SSL and Security
+*.pem
+*.crt
+*.key
+certs/
+
+# IDE
+.vscode/
+.idea/
+.cursor/

@@ -191,7 +191,22 @@ def main() -> None:
         service.ensure_loaded()
 
     server = ThreadingHTTPServer((args.host, args.port), make_handler(service))
-    print(f"PackRight Inventory Intelligence running at http://{args.host}:{args.port}")
+    
+    import os
+    ssl_cert = os.getenv("SSL_CERT_PATH")
+    ssl_key = os.getenv("SSL_KEY_PATH")
+    if ssl_cert and ssl_key:
+        import ssl
+        try:
+            context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            context.load_cert_chain(certfile=ssl_cert, keyfile=ssl_key)
+            server.socket = context.wrap_socket(server.socket, server_side=True)
+            print(f"SSL enabled using cert: {ssl_cert}")
+        except Exception as e:
+            print(f"Failed to enable SSL: {e}")
+
+    protocol = "https" if ssl_cert and ssl_key else "http"
+    print(f"PackRight Inventory Intelligence running at {protocol}://{args.host}:{args.port}")
     print("Press Ctrl+C to stop.")
     server.serve_forever()
 

@@ -7,8 +7,13 @@ PackRight is a comprehensive inventory intelligence platform designed to elimina
 - **Risk Intelligence**: Real-time identification of stockout, credit, and supplier risks.
 - **Simulation Lab**: Run "What-if" scenarios to see how production changes impact your working capital.
 - **Role-Based Alerts**: Automated email alerts for Production, Finance, and Procurement roles.
+- **Cloud Ready**: Ready for AWS deployment via Terraform & Ansible.
 
 ---
+
+## 🚀 Deployment
+- [Local Setup](#quick-setup)
+- [Cloud Deployment (AWS)](deployment/DEPLOYMENT.md)
 
 ## Quick Setup
 
