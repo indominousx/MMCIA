@@ -1071,11 +1071,14 @@ document.getElementById("sendAlertButton").addEventListener("click", async () =>
   button.disabled = true;
   button.textContent = "Sending";
   status.textContent = "Sending";
+  const overrideEmail = document.getElementById("overrideEmailInput")?.value.trim();
+  const payload = overrideEmail ? { recipients: [overrideEmail] } : {};
+  
   try {
     const response = await api("/api/send-alerts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
+      body: JSON.stringify(payload)
     });
     if (response.ok) {
       status.textContent = "Sent";
@@ -1104,11 +1107,14 @@ document.getElementById("sendDailyReportButton").addEventListener("click", async
   button.disabled = true;
   button.textContent = "Sending";
   status.textContent = "Sending report";
+  const overrideEmail = document.getElementById("overrideEmailInput")?.value.trim();
+  const payload = overrideEmail ? { recipients: [overrideEmail] } : {};
+
   try {
     const response = await api("/api/send-daily-report", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({})
+      body: JSON.stringify(payload)
     });
     if (response.ok) {
       status.textContent = "Report sent";

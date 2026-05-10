@@ -423,7 +423,12 @@ class ProductService:
             }
 
         if payload and isinstance(payload.get("recipients"), list):
+            from .alerting import replace
             settings = with_recipients(settings, payload["recipients"])
+            settings = replace(
+                settings,
+                role_recipients={role: settings.recipients for role in settings.role_recipients}
+            )
 
         frames = self._email_frames()
         legacy_digest = build_alert_digest(
