@@ -1577,7 +1577,7 @@ window.simulateRecommendation = function(materialId) {
   const rec = recs.find(r => r.material_id === materialId);
   if (!rec) return;
   
-  const simTab = document.querySelector('.nav-item[data-tab="simulations"]');
+  const simTab = document.querySelector('.nav-item[data-tab="simulation"]');
   if (simTab) simTab.click();
   
   const simName = document.getElementById('sim-name');
@@ -1588,7 +1588,7 @@ window.simulateRecommendation = function(materialId) {
      if (sd) sd.value = -7;
   } else if (rec.recommended_action.toLowerCase().includes("credit")) {
      const cr = document.getElementById('sim-credit-reduction');
-     if (cr) cr.value = 500000;
+     if (cr) cr.value = 0.5;
   }
 }
 
