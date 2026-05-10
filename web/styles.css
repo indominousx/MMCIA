@@ -123,8 +123,9 @@ input {
 }
 
 .toggle-icon {
-  display: block;
-  font-size: 10px;
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5px;
   transition: transform 0.3s ease;
 }
 
@@ -180,10 +181,12 @@ input {
 }
 
 .nav-icon {
-  font-size: 18px;
-  min-width: 20px;
+  width: 18px;
+  height: 18px;
+  stroke-width: 2px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .nav-text {

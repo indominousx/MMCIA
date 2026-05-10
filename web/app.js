@@ -1651,4 +1651,8 @@ document.addEventListener("DOMContentLoaded", () => {
       sidebar.classList.add("collapsed");
     }
   }
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
 });

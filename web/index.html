@@ -6,6 +6,7 @@
     <title>PackRight Supply Command Center</title>
     <link rel="stylesheet" href="/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -17,20 +18,20 @@
             <span>Inventory Intelligence</span>
           </div>
           <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
-            <span class="toggle-icon">❮</span>
+            <i data-lucide="chevron-left" class="toggle-icon"></i>
           </button>
         </div>
 
         <nav class="module-nav" aria-label="Dashboard modules">
-          <button class="nav-item active" data-tab="decision"><span class="nav-icon">⛯</span> <span class="nav-text">Command Center</span></button>
-          <button class="nav-item" data-tab="demand"><span class="nav-icon">📈</span> <span class="nav-text">Demand Planning</span></button>
-          <button class="nav-item" data-tab="inventory"><span class="nav-icon">📦</span> <span class="nav-text">Inventory</span></button>
-          <button class="nav-item" data-tab="risk"><span class="nav-icon">🛡️</span> <span class="nav-text">Risk Intelligence</span></button>
-          <button class="nav-item" data-tab="forecast"><span class="nav-icon">🔮</span> <span class="nav-text">Forecasting</span></button>
-          <button class="nav-item" data-tab="procurement"><span class="nav-icon">🛒</span> <span class="nav-text">Procurement</span></button>
-          <button class="nav-item" data-tab="recommendations"><span class="nav-icon">✨</span> <span class="nav-text">AI Recommendations</span></button>
-          <button class="nav-item" data-tab="simulation"><span class="nav-icon">🧪</span> <span class="nav-text">Simulation Lab</span></button>
-          <button class="nav-item" data-tab="quality"><span class="nav-icon">✅</span> <span class="nav-text">Data Quality</span></button>
+          <button class="nav-item active" data-tab="decision"><i data-lucide="layout-dashboard" class="nav-icon"></i> <span class="nav-text">Command Center</span></button>
+          <button class="nav-item" data-tab="demand"><i data-lucide="bar-chart-3" class="nav-icon"></i> <span class="nav-text">Demand Planning</span></button>
+          <button class="nav-item" data-tab="inventory"><i data-lucide="package" class="nav-icon"></i> <span class="nav-text">Inventory</span></button>
+          <button class="nav-item" data-tab="risk"><i data-lucide="shield-alert" class="nav-icon"></i> <span class="nav-text">Risk Intelligence</span></button>
+          <button class="nav-item" data-tab="forecast"><i data-lucide="trending-up" class="nav-icon"></i> <span class="nav-text">Forecasting</span></button>
+          <button class="nav-item" data-tab="procurement"><i data-lucide="shopping-cart" class="nav-icon"></i> <span class="nav-text">Procurement</span></button>
+          <button class="nav-item" data-tab="recommendations"><i data-lucide="sparkles" class="nav-icon"></i> <span class="nav-text">AI Recommendations</span></button>
+          <button class="nav-item" data-tab="simulation"><i data-lucide="flask-conical" class="nav-icon"></i> <span class="nav-text">Simulation Lab</span></button>
+          <button class="nav-item" data-tab="quality"><i data-lucide="check-circle" class="nav-icon"></i> <span class="nav-text">Data Quality</span></button>
         </nav>
 
         <div class="sidebar-footer">
