@@ -299,6 +299,14 @@ function renderDemand() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        onClick: (e, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            if (topMaterials[index]) {
+              applyChartFilter('material', topMaterials[index].material_id);
+            }
+          }
+        },
         indexAxis: 'y',
         plugins: { legend: { display: false } },
         scales: {
@@ -445,6 +453,14 @@ function renderInventoryCards() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        onClick: (e, elements) => {
+          if (elements.length > 0) {
+            const datasetIndex = elements[0].datasetIndex;
+            if (topRisks[datasetIndex]) {
+              applyChartFilter('material', topRisks[datasetIndex].material_id);
+            }
+          }
+        },
         plugins: {
           legend: { position: 'right', labels: { color: '#e2e8f0' } }
         },
@@ -753,6 +769,14 @@ function renderSupplierExposure(approved, blocked) {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        onClick: (e, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            if (rows[index]) {
+              applyChartFilter('supplier', rows[index].supplier);
+            }
+          }
+        },
         plugins: { legend: { labels: { color: '#e2e8f0' } } },
         scales: {
           x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
@@ -1041,6 +1065,29 @@ function updateFilterDropdownLabel(key, allLabel) {
   const toggle = button.closest(".filter-toggle");
   if (toggle) {
     toggle.classList.toggle("active", values.length > 0);
+  }
+}
+
+function applyChartFilter(key, value) {
+  if (!filters[key]) filters[key] = [];
+  if (!filters[key].includes(value)) {
+    filters[key].push(value);
+  }
+  
+  const container = document.getElementById(filterDefinitions[key]?.optionId);
+  if (container) {
+    const checkbox = container.querySelector(`input[value="${escapeHtml(value)}"]`);
+    if (checkbox) checkbox.checked = true;
+  }
+  
+  updateFilterDropdownLabel(key, filterDefinitions[key]?.label);
+  renderSelectedFilterSummary();
+  renderAll();
+  
+  const filterBar = document.getElementById("filterBar");
+  if (filterBar && filterBar.classList.contains("collapsed")) {
+    const collapseToggle = document.getElementById("filterCollapseToggle");
+    if (collapseToggle) collapseToggle.click();
   }
 }
 
