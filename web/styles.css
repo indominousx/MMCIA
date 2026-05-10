@@ -462,6 +462,22 @@ h2 {
   gap: 16px;
 }
 
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.dashboard-col {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-two.align-start {
+  align-items: start;
+}
+
 .panel {
   min-width: 0;
   padding: 14px;
@@ -513,7 +529,7 @@ h2 {
   overflow: hidden;
   border-radius: 8px;
   background: #e7ecef;
-  margin: 8px 0 8px;
+  margin: 6px 0;
 }
 
 .credit-fill {
@@ -526,7 +542,7 @@ h2 {
 .metric-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 6px 0;
   border-top: 1px solid var(--line);
 }
 

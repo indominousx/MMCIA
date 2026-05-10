@@ -79,7 +79,7 @@ def compute_material_risk_scores(
     frame = frame.merge(procurement_stats, on="material_id", how="left")
     frame["credit_blocked"] = frame["material_id"].isin(credit_blocks)
     frame["missing_supplier"] = frame["material_id"].isin(missing_supplier_blocks)
-    frame["substitute_available"] = frame["material_id"].map(substitute_availability).fillna(False)
+    frame["substitute_available"] = frame["material_id"].map(substitute_availability).fillna(False).astype(bool)
 
     frame["stockout_risk"] = _days_to_stockout_risk(frame["days_to_stockout"], config.alert_horizon_days)
     frame["stockout_risk"] = (

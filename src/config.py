@@ -13,6 +13,7 @@ load_dotenv()
 class PipelineConfig:
     input_dir: Path = Path(os.getenv("INPUT_DIR", "data"))
     output_dir: Path = Path(os.getenv("OUTPUT_DIR", "outputs"))
+    model_dir: Path = Path(os.getenv("MODEL_DIR", "models"))
     credit_cap_inr: float = 3_000_000.0
     forecast_horizon_days: int = 28
     planning_window_days: int = 42

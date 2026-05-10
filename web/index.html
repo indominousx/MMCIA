@@ -173,114 +173,122 @@
             </div>
             <div class="alert-grid" id="riskSummaryCards"></div>
           </section>
-          <section class="grid-two">
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>Credit Gate</h2>
-                <span id="creditBadge" class="status-badge">Loading</span>
-              </div>
-              <div class="credit-meter">
-                <div class="credit-fill" id="creditFill"></div>
-              </div>
-              <div class="metric-row">
-                <span>Utilized</span>
-                <strong id="creditUtilized">-</strong>
-              </div>
-              <div class="metric-row">
-                <span>Available</span>
-                <strong id="creditAvailable">-</strong>
-              </div>
-            </div>
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>System Modules</h2>
-              </div>
-              <div class="module-list" id="moduleList"></div>
-            </div>
-          </section>
-          <section class="grid-two">
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>Immediate Actions</h2>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Material</th>
-                      <th>Supplier</th>
-                      <th>Qty</th>
-                      <th>Credit</th>
-                    </tr>
-                  </thead>
-                  <tbody id="immediateActions"></tbody>
-                </table>
-              </div>
-            </div>
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>Top Stockout Risks</h2>
-              </div>
-              <div id="riskList" class="risk-list"></div>
-            </div>
-          </section>
-          <section class="grid-two">
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>AI Recommendation Feed</h2>
-              </div>
-              <div class="recommendation-feed" id="aiRecommendationsPreview"></div>
-            </div>
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>Scenario Highlights</h2>
-              </div>
-              <div class="scenario-feed" id="scenarioHighlights"></div>
-            </div>
-          </section>
-          <section class="grid-two">
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>Alert Center</h2>
-                <span id="alertStatus" class="status-badge">Loading</span>
-              </div>
-              <div class="alert-grid" id="alertSummary"></div>
-              <div class="alert-timeline" id="alertTimeline"></div>
-            </div>
-            <div class="panel">
-              <div class="panel-heading">
-                <h2>Email Alerts</h2>
-                <span id="emailStatus" class="status-badge">Loading</span>
-              </div>
-              <div class="email-box">
-                <div class="metric-row">
-                  <span>Recipients</span>
-                  <strong id="emailRecipients">-</strong>
+
+          <div class="dashboard-columns">
+            <div class="dashboard-col">
+              <!-- Column 1 -->
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>Credit Gate</h2>
+                  <span id="creditBadge" class="status-badge">Loading</span>
+                </div>
+                <div class="credit-meter">
+                  <div class="credit-fill" id="creditFill"></div>
                 </div>
                 <div class="metric-row">
-                  <span>Production</span>
-                  <strong id="productionRecipients">-</strong>
+                  <span>Utilized</span>
+                  <strong id="creditUtilized">-</strong>
                 </div>
                 <div class="metric-row">
-                  <span>Finance</span>
-                  <strong id="financeRecipients">-</strong>
+                  <span>Available</span>
+                  <strong id="creditAvailable">-</strong>
                 </div>
-                <div class="metric-row">
-                  <span>Procurement</span>
-                  <strong id="procurementRecipients">-</strong>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>Immediate Actions</h2>
                 </div>
-                <div class="metric-row">
-                  <span>From</span>
-                  <strong id="emailFrom">-</strong>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Material</th>
+                        <th>Supplier</th>
+                        <th>Qty</th>
+                        <th>Credit</th>
+                      </tr>
+                    </thead>
+                    <tbody id="immediateActions"></tbody>
+                  </table>
                 </div>
-                <div class="email-actions">
-                  <button class="button primary" id="sendAlertButton">Send alerts</button>
-                  <button class="button secondary" id="sendDailyReportButton">Send daily report</button>
-                  <span class="muted" id="emailLog">No alert sent yet.</span>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>AI Recommendation Feed</h2>
+                </div>
+                <div class="recommendation-feed" id="aiRecommendationsPreview"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>Alert Center</h2>
+                  <span id="alertStatus" class="status-badge">Loading</span>
+                </div>
+                <div class="alert-grid" id="alertSummary"></div>
+                <div class="alert-timeline" id="alertTimeline"></div>
+              </div>
+            </div>
+
+            <div class="dashboard-col">
+              <!-- Column 2 -->
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>System Modules</h2>
+                </div>
+                <div class="module-list" id="moduleList"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>Top Stockout Risks</h2>
+                </div>
+                <div id="riskList" class="risk-list"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>Scenario Highlights</h2>
+                </div>
+                <div class="scenario-feed" id="scenarioHighlights"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h2>Email Alerts</h2>
+                  <span id="emailStatus" class="status-badge">Loading</span>
+                </div>
+                <div class="email-box">
+                  <div class="metric-row">
+                    <span>Recipients</span>
+                    <strong id="emailRecipients">-</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Production</span>
+                    <strong id="productionRecipients">-</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Finance</span>
+                    <strong id="financeRecipients">-</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>Procurement</span>
+                    <strong id="procurementRecipients">-</strong>
+                  </div>
+                  <div class="metric-row">
+                    <span>From</span>
+                    <strong id="emailFrom">-</strong>
+                  </div>
+                  <div class="email-actions">
+                    <button class="button primary" id="sendAlertButton">Send alerts</button>
+                    <button class="button secondary" id="sendDailyReportButton">Send daily report</button>
+                    <span class="muted" id="emailLog">No alert sent yet.</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
         </section>
 
         <section class="tab-panel" id="tab-demand">

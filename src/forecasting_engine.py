@@ -42,6 +42,19 @@ def build_advanced_forecast(
         freq="D",
     )
 
+    try:
+        import joblib
+        import warnings
+        model_path = config.model_dir / "inventory_forecasting_model.pkl"
+        if model_path.exists():
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                ml_model = joblib.load(model_path)
+        else:
+            ml_model = None
+    except Exception:
+        ml_model = None
+
     for material_id, material in material_lookup.items():
         history = usage_history.get(material_id)
         history_source = "transaction_usage"
@@ -56,8 +69,26 @@ def build_advanced_forecast(
         for date in horizon_dates:
             seasonality = float(season_lookup.get(int(date.month), 1.0))
             day_offset = (date - analysis_date).days
-            predicted = max(0.0, base + growth_rate * day_offset)
-            predicted *= seasonality
+            
+            if ml_model is not None:
+                try:
+                    material_code = int(material_id.replace("M", "")) - 1
+                    features = pd.DataFrame([{
+                        "month": date.month,
+                        "day": date.day,
+                        "week": date.isocalendar().week,
+                        "year": date.year,
+                        "material_code": material_code,
+                        "fmcg_demand_multiplier": seasonality
+                    }])
+                    predicted = max(0.0, float(ml_model.predict(features)[0]))
+                    method = "ml_random_forest"
+                except Exception:
+                    predicted = max(0.0, base + growth_rate * day_offset)
+                    predicted *= seasonality
+            else:
+                predicted = max(0.0, base + growth_rate * day_offset)
+                predicted *= seasonality
             band = 1.96 * std
             rows.append(
                 {

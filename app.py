@@ -11,6 +11,9 @@ from urllib.parse import urlparse
 from src.config import PipelineConfig
 from src.product_service import ProductService
 
+import pandas as pd
+pd.set_option('future.no_silent_downcasting', True)
+
 
 ROOT = Path(__file__).resolve().parent
 WEB_ROOT = ROOT / "web"
