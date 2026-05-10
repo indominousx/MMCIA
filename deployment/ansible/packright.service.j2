@@ -1,0 +1,13 @@
+[Unit]
+Description=PackRight Inventory Intelligence Service
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory={{ project_root }}
+ExecStart={{ project_root }}/venv/bin/python {{ project_root }}/app.py --host 0.0.0.0 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

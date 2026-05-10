@@ -1,0 +1,66 @@
+---
+- name: Deploy PackRight Inventory Intelligence
+  hosts: packright
+  become: yes
+  vars:
+    project_root: "/opt/packright"
+    python_version: "python3"
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install system packages
+      apt:
+        name:
+          - python3-pip
+          - python3-venv
+          - git
+        state: present
+
+    - name: Create project directory
+      file:
+        path: "{{ project_root }}"
+        state: directory
+        mode: '0755'
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Sync project files
+      synchronize:
+        src: "../../"
+        dest: "{{ project_root }}"
+        recursive: yes
+        delete: yes
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=venv"
+          - "--exclude=__pycache__"
+
+    - name: Create virtual environment
+      command: "python3 -m venv {{ project_root }}/venv"
+      args:
+        creates: "{{ project_root }}/venv"
+
+    - name: Install requirements
+      pip:
+        requirements: "{{ project_root }}/requirements.txt"
+        virtualenv: "{{ project_root }}/venv"
+
+    - name: Run initial pipeline
+      shell: "{{ project_root }}/venv/bin/python {{ project_root }}/run_pipeline.py"
+      args:
+        chdir: "{{ project_root }}"
+
+    - name: Create systemd service file
+      template:
+        src: packright.service.j2
+        dest: /etc/systemd/system/packright.service
+
+    - name: Reload systemd and start service
+      systemd:
+        name: packright
+        state: restarted
+        enabled: yes
+        daemon_reload: yes
