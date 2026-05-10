@@ -19,6 +19,8 @@
           - git
           - rsync
           - nginx
+          - certbot
+          - python3-certbot-nginx
         state: present
 
     - name: Create project directory
@@ -98,3 +100,8 @@
         name: nginx
         state: restarted
         enabled: yes
+
+    - name: Generate SSL certificate and configure Nginx for HTTPS (Port 443)
+      command: >
+        certbot --nginx -n --agree-tos -d mccia.globians.in -m admin@globians.in --redirect
+      ignore_errors: yes
