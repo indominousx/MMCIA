@@ -404,57 +404,56 @@ function renderInventoryCards() {
     return `${row.material_id} ${row.material_name}`.toLowerCase().includes(needle);
   });
 
-  const ctxScatter = document.getElementById("inventoryScatterChart");
+  const ctxRadar = document.getElementById("inventoryScatterChart");
   if (chartInstances.inventoryScatter) chartInstances.inventoryScatter.destroy();
-  if (ctxScatter && rows.length > 0) {
-    const dataPoints = rows.filter(r => r.days_to_stockout != null && r.total_demand_21d != null).map(r => ({
-      x: Number(r.days_to_stockout),
-      y: Number(r.total_demand_21d),
-      r: (r.under_3_days_stock === true || r.under_3_days_stock === "True") ? 8 : 4,
-      material: r.material_id,
-      name: r.material_name,
-      critical: r.under_3_days_stock === true || r.under_3_days_stock === "True"
-    }));
-    
-    chartInstances.inventoryScatter = new Chart(ctxScatter, {
-      type: 'bubble',
+  if (ctxRadar && rows.length > 0) {
+    // Get top 5 items most at risk (lowest days_to_stockout, highest demand)
+    const topRisks = [...rows]
+      .sort((a, b) => {
+        const aDays = a.days_to_stockout ?? 999;
+        const bDays = b.days_to_stockout ?? 999;
+        if (aDays !== bDays) return aDays - bDays;
+        return (b.total_demand_21d || 0) - (a.total_demand_21d || 0);
+      })
+      .slice(0, 5);
+
+    const maxShortage = Math.max(...topRisks.map(r => r.total_demand_21d || 1), 1);
+    const maxDemand = Math.max(...topRisks.map(r => r.total_demand_21d || 1), 1); // Using demand_21d as proxy if others missing
+
+    chartInstances.inventoryScatter = new Chart(ctxRadar, {
+      type: 'radar',
       data: {
-        datasets: [{
-          label: 'Critical Shortage',
-          data: dataPoints.filter(d => d.critical),
-          backgroundColor: 'rgba(239, 68, 68, 0.7)',
-          borderColor: '#ef4444'
-        }, {
-          label: 'Watchlist',
-          data: dataPoints.filter(d => !d.critical),
-          backgroundColor: 'rgba(59, 130, 246, 0.5)',
-          borderColor: '#3b82f6'
-        }]
+        labels: ['Urgency', 'Shortage Volume', 'Demand Pressure', 'Risk Severity'],
+        datasets: topRisks.map((r, i) => {
+          const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#6366f1'];
+          const days = r.days_to_stockout ?? 30;
+          const urgency = Math.max(0, 100 - (days * 3.33)); // 0 days = 100, 30 days = 0
+          const shortage = ((r.total_demand_21d || 0) / maxShortage) * 100;
+          const demand = ((r.total_demand_21d || 0) / maxDemand) * 100;
+          const severity = (r.under_3_days_stock === true || r.under_3_days_stock === "True") ? 100 : 50;
+
+          return {
+            label: r.material_id,
+            data: [urgency, shortage, demand, severity],
+            backgroundColor: `${colors[i % colors.length]}33`,
+            borderColor: colors[i % colors.length],
+            borderWidth: 2,
+            pointBackgroundColor: colors[i % colors.length]
+          };
+        })
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: '#e2e8f0' } },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                const item = context.raw;
-                return `${item.material} (${item.name}): ${item.x} days left, ${item.y} shortage`;
-              }
-            }
-          }
+          legend: { position: 'right', labels: { color: '#e2e8f0' } }
         },
         scales: {
-          x: { 
-            title: { display: true, text: 'Days to Stockout', color: '#94a3b8' },
-            grid: { color: 'rgba(255,255,255,0.05)' }, 
-            ticks: { color: '#94a3b8' }
-          },
-          y: { 
-            title: { display: true, text: '21D Shortage Qty', color: '#94a3b8' },
-            grid: { color: 'rgba(255,255,255,0.05)' }, 
-            ticks: { color: '#94a3b8' } 
+          r: {
+            angleLines: { color: 'rgba(255,255,255,0.1)' },
+            grid: { color: 'rgba(255,255,255,0.1)' },
+            pointLabels: { color: '#94a3b8', font: { size: 11 } },
+            ticks: { display: false, max: 100, min: 0, stepSize: 20 }
           }
         }
       }
@@ -740,7 +739,7 @@ function renderSupplierExposure(approved, blocked) {
             label: 'Reliability Score',
             data: rows.map(r => {
               const num = Number(r.reliability);
-              return isNaN(num) ? 50 : num;
+              return isNaN(num) ? 50 : num * 100;
             }),
             type: 'line',
             borderColor: '#f59e0b',

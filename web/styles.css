@@ -51,6 +51,10 @@ input {
   border-right: 1px solid var(--line);
   background: linear-gradient(180deg, #0f1b2d 0%, #142640 100%);
   color: #dfe7f2;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
 }
 
 .brand {
