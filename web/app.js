@@ -729,14 +729,12 @@ function renderSupplierExposure(approved, blocked) {
           {
             label: 'Approved Value',
             data: rows.map(r => r.approvedValue),
-            backgroundColor: '#10b981',
-            stack: 'Stack 0',
+            backgroundColor: '#10b981'
           },
           {
             label: 'Blocked Value',
             data: rows.map(r => r.blockedValue),
-            backgroundColor: '#ef4444',
-            stack: 'Stack 0',
+            backgroundColor: '#ef4444'
           },
           {
             label: 'Reliability Score',
@@ -758,12 +756,12 @@ function renderSupplierExposure(approved, blocked) {
         maintainAspectRatio: false,
         plugins: { legend: { labels: { color: '#e2e8f0' } } },
         scales: {
-          x: { stacked: true, grid: { display: false }, ticks: { color: '#94a3b8' } },
+          x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
           y: { 
-            stacked: true, 
+            type: 'logarithmic',
             grid: { color: 'rgba(255,255,255,0.05)' }, 
             ticks: { color: '#94a3b8' },
-            title: { display: true, text: 'Value (INR)', color: '#94a3b8' }
+            title: { display: true, text: 'Value (INR, Log Scale)', color: '#94a3b8' }
           },
           y1: {
             position: 'right',
