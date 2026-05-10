@@ -9,13 +9,18 @@ import pandas as pd
 
 from .alerting import (
     build_alert_digest,
-    build_alert_email,
+    build_daily_report_email,
+    build_role_alert_email,
+    build_role_risk_digest,
+    daily_report_recipients,
     load_email_settings,
+    recipients_for_role,
     send_alert_email,
     with_recipients,
 )
 from .config import PipelineConfig
 from .pipeline import run_inventory_pipeline
+from .reporting import build_daily_report
 from .simulation_engine import run_scenario_simulations, DEFAULT_SCENARIOS
 
 
@@ -363,6 +368,17 @@ class ProductService:
             self._frame("substitution_recommendations"),
         )
 
+    def role_alert_digests(self) -> dict[str, Any]:
+        self.ensure_loaded()
+        frames = self._email_frames()
+        return {
+            "analysisDate": self._analysis_date,
+            "roles": {
+                role: build_role_risk_digest(role, self._analysis_date, frames)
+                for role in ("production", "finance", "procurement")
+            },
+        }
+
     def send_alerts(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
         self.ensure_loaded()
         settings, status = load_email_settings()
@@ -377,29 +393,119 @@ class ProductService:
         if payload and isinstance(payload.get("recipients"), list):
             settings = with_recipients(settings, payload["recipients"])
 
+        frames = self._email_frames()
+        legacy_digest = build_alert_digest(
+            self._analysis_date,
+            frames["stockout_alerts_21d"],
+            frames["procurement_recommendations"],
+            frames["procurement_blocked_by_credit"],
+            frames["credit_summary"],
+            frames["substitution_recommendations"],
+        )
+        sent_roles: list[str] = []
+        skipped_roles: list[dict[str, str]] = []
+        role_recipients: dict[str, list[str]] = {}
+
+        for role in ("production", "finance", "procurement"):
+            digest = build_role_risk_digest(role, self._analysis_date, frames)
+            if not digest.get("hasRisk"):
+                skipped_roles.append({"role": role, "reason": "no_domain_specific_risk"})
+                continue
+            recipients = recipients_for_role(settings, role)
+            if not recipients:
+                skipped_roles.append({"role": role, "reason": "no_recipients_configured"})
+                continue
+            subject, text, html = build_role_alert_email(digest)
+            try:
+                send_alert_email(with_recipients(settings, recipients), subject, text, html)
+            except Exception as exc:
+                return {
+                    "ok": False,
+                    "error": "send_failed",
+                    "role": role,
+                    "detail": str(exc),
+                    "sentRoles": sent_roles,
+                    "skippedRoles": skipped_roles,
+                }
+            sent_roles.append(role)
+            role_recipients[role] = list(recipients)
+
+        return {
+            "ok": True,
+            "recipients": role_recipients,
+            "sentRoles": sent_roles,
+            "skippedRoles": skipped_roles,
+            "summary": legacy_digest.get("summary", {}),
+        }
+
+    def send_daily_report(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        self.ensure_loaded()
+        settings, status = load_email_settings()
+        if settings is None:
+            return {
+                "ok": False,
+                "error": "missing_email_settings",
+                "missing": status.get("missing", []),
+                "status": status,
+            }
+
+        recipients = daily_report_recipients(settings)
+        if payload and isinstance(payload.get("recipients"), list):
+            recipients = tuple(str(item).strip() for item in payload["recipients"] if str(item).strip())
+        if not recipients:
+            return {"ok": False, "error": "missing_daily_report_recipients"}
+
+        frames = self._email_frames()
+        report_path = build_daily_report(
+            self.config.output_dir,
+            frames,
+            pd.to_datetime(self._analysis_date) if self._analysis_date else pd.Timestamp.now(),
+        )
         digest = build_alert_digest(
             self._analysis_date,
-            self._frame("stockout_alerts_21d"),
-            self._frame("procurement_recommendations"),
-            self._frame("procurement_blocked_by_credit"),
-            self._frame("credit_summary"),
-            self._frame("substitution_recommendations"),
+            frames["stockout_alerts_21d"],
+            frames["procurement_recommendations"],
+            frames["procurement_blocked_by_credit"],
+            frames["credit_summary"],
+            frames["substitution_recommendations"],
         )
-        subject, text, html = build_alert_email(digest)
+        subject, text, html = build_daily_report_email(self._analysis_date, digest, report_path)
         try:
-            send_alert_email(settings, subject, text, html)
+            send_alert_email(
+                with_recipients(settings, recipients),
+                subject,
+                text,
+                html,
+                attachments=[report_path],
+            )
         except Exception as exc:
             return {"ok": False, "error": "send_failed", "detail": str(exc)}
 
         return {
             "ok": True,
-            "recipients": list(settings.recipients),
+            "recipients": list(recipients),
+            "reportPath": str(report_path),
             "summary": digest.get("summary", {}),
         }
 
     def report_path(self) -> Path:
         self.ensure_loaded()
         return self.config.output_dir / "weekly_purchase_report.xlsx"
+
+    def daily_report_path(self) -> Path:
+        self.ensure_loaded()
+        return self.config.output_dir / "daily_risk_report.xlsx"
+
+    def _email_frames(self) -> dict[str, pd.DataFrame]:
+        return {
+            "stockout_alerts_21d": self._frame("stockout_alerts_21d"),
+            "procurement_recommendations": self._frame("procurement_recommendations"),
+            "procurement_blocked_by_credit": self._frame("procurement_blocked_by_credit"),
+            "credit_summary": self._frame("credit_summary"),
+            "substitution_recommendations": self._frame("substitution_recommendations"),
+            "slow_moving_watchlist": self._frame("slow_moving_watchlist"),
+            "data_quality_issues": self._frame("data_quality_issues"),
+        }
 
     def _outputs_available(self) -> bool:
         return all((self.config.output_dir / filename).exists() for filename in OUTPUT_FILES.values())

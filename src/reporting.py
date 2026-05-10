@@ -51,6 +51,41 @@ def build_weekly_report(
     return report_path
 
 
+def build_daily_report(
+    output_dir: Path,
+    data_frames: dict[str, pd.DataFrame],
+    analysis_date: pd.Timestamp,
+) -> Path:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    report_path = output_dir / "daily_risk_report.xlsx"
+    with pd.ExcelWriter(report_path, engine="openpyxl") as writer:
+        _executive_summary(data_frames, analysis_date).to_excel(
+            writer, sheet_name="Executive Summary", index=False
+        )
+        _daily_role_risks(data_frames).to_excel(writer, sheet_name="Role Risk Summary", index=False)
+        data_frames.get("stockout_alerts_21d", pd.DataFrame()).to_excel(
+            writer, sheet_name="Stockout Alerts", index=False
+        )
+        data_frames.get("substitution_recommendations", pd.DataFrame()).to_excel(
+            writer, sheet_name="Substitutions", index=False
+        )
+        _immediate_actions(data_frames).to_excel(writer, sheet_name="Immediate Actions", index=False)
+        data_frames.get("procurement_blocked_by_credit", pd.DataFrame()).to_excel(
+            writer, sheet_name="Blocked By Credit", index=False
+        )
+        data_frames.get("slow_moving_watchlist", pd.DataFrame()).to_excel(
+            writer, sheet_name="Slow Moving Watchlist", index=False
+        )
+        data_frames.get("data_quality_issues", pd.DataFrame()).to_excel(
+            writer, sheet_name="Data Quality Notes", index=False
+        )
+
+        workbook = writer.book
+        for sheet in workbook.worksheets:
+            _format_sheet(sheet)
+    return report_path
+
+
 def _executive_summary(data_frames: dict[str, pd.DataFrame], analysis_date: pd.Timestamp) -> pd.DataFrame:
     credit = data_frames.get("credit_summary", pd.DataFrame())
     approved = data_frames.get("procurement_recommendations", pd.DataFrame())
@@ -77,6 +112,47 @@ def _executive_summary(data_frames: dict[str, pd.DataFrame], analysis_date: pd.T
         {"metric": "remaining_available_credit_inr", "value": remaining_credit},
     ]
     return pd.DataFrame(rows)
+
+
+def _daily_role_risks(data_frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    approved = data_frames.get("procurement_recommendations", pd.DataFrame())
+    blocked = data_frames.get("procurement_blocked_by_credit", pd.DataFrame())
+    alerts = data_frames.get("stockout_alerts_21d", pd.DataFrame())
+    substitutions = data_frames.get("substitution_recommendations", pd.DataFrame())
+    credit = data_frames.get("credit_summary", pd.DataFrame())
+
+    credit_row = credit.iloc[0].to_dict() if not credit.empty else {}
+    cap = float(credit_row.get("credit_cap_inr") or 0)
+    utilized = float(credit_row.get("projected_credit_utilized_after_approved_inr") or 0)
+    remaining = float(credit_row.get("remaining_available_credit_inr") or 0)
+    utilization_pct = 0.0 if cap <= 0 else utilized / cap * 100
+
+    production_count = len(alerts) + len(substitutions)
+    procurement_count = len(_immediate_actions(data_frames)) + len(blocked)
+    finance_count = len(blocked) + (1 if utilization_pct >= 90 or remaining <= 100_000 else 0)
+
+    return pd.DataFrame(
+        [
+            {
+                "role": "production",
+                "domain_risk_count": production_count,
+                "risk_basis": "stockout alerts and substitution recommendations",
+                "email_rule": "send only when stockout/substitution risk exists",
+            },
+            {
+                "role": "finance",
+                "domain_risk_count": finance_count,
+                "risk_basis": "credit-blocked lines, low remaining credit, or near-cap utilization",
+                "email_rule": "send only when credit risk exists",
+            },
+            {
+                "role": "procurement",
+                "domain_risk_count": procurement_count,
+                "risk_basis": "immediate PO actions, blocked lines, MOQ and supplier timing risks",
+                "email_rule": "send only when purchase action risk exists",
+            },
+        ]
+    )
 
 
 def _immediate_actions(data_frames: dict[str, pd.DataFrame]) -> pd.DataFrame:

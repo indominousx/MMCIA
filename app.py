@@ -43,6 +43,7 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
             "/api/data-quality": self.service.data_quality,
             "/api/alert-config": self.service.alert_config,
             "/api/alert-digest": self.service.alert_digest,
+            "/api/role-alert-digests": self.service.role_alert_digests,
         }
         if path in routes:
             self._send_json(routes[path]())
@@ -50,6 +51,10 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
 
         if path == "/api/report":
             self._send_report()
+            return
+
+        if path == "/api/daily-report":
+            self._send_daily_report()
             return
 
         if path == "/":
@@ -71,6 +76,10 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/send-alerts":
             payload = self._read_json()
             self._send_json(self.service.send_alerts(payload))
+            return
+        if parsed.path == "/api/send-daily-report":
+            payload = self._read_json()
+            self._send_json(self.service.send_daily_report(payload))
             return
         if parsed.path == "/api/run-scenario":
             payload = self._read_json()
@@ -113,6 +122,22 @@ class InventoryAppHandler(SimpleHTTPRequestHandler):
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
         self.send_header("Content-Disposition", 'attachment; filename="weekly_purchase_report.xlsx"')
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_daily_report(self) -> None:
+        path = self.service.daily_report_path()
+        if not path.exists():
+            self._send_json({"error": "daily_report_not_found"}, HTTPStatus.NOT_FOUND)
+            return
+        body = path.read_bytes()
+        self.send_response(HTTPStatus.OK)
+        self.send_header(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+        self.send_header("Content-Disposition", 'attachment; filename="daily_risk_report.xlsx"')
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)

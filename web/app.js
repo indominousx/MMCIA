@@ -466,12 +466,11 @@ function renderAlertCenter() {
     const type = String(row.alert_type || "");
     return type.includes("less_than_3_days") || row.under_3_days_stock === true || row.under_3_days_stock === "True";
   });
-  const watch = alerts.filter(row => !critical.includes(row));
   const blockedValue = sum(state.procurement.blocked, "recommended_value_inr");
 
   document.getElementById("alertSummary").innerHTML = [
     alertCard("Critical (<3 days)", critical.length, "Immediate escalation", "red"),
-    alertCard("Stockout <=21 days", watch.length, "Expedite supplier plan", "amber"),
+    alertCard("21-day stockout alerts", alerts.length, "Includes critical items", "amber"),
     alertCard("Credit blocked value", inr(blockedValue), `${state.procurement.blocked.length} blocked lines`, "violet")
   ].join("");
 
@@ -493,12 +492,18 @@ function renderEmailPanel() {
   const fromEmail = config.fromEmail || "Not configured";
   const missing = config.missing || [];
   const ready = Boolean(config.enabled);
+  const roleRecipients = config.roleRecipients || {};
 
   document.getElementById("emailRecipients").textContent = recipients;
+  document.getElementById("productionRecipients").textContent = (roleRecipients.production || []).join(", ") || "Not configured";
+  document.getElementById("financeRecipients").textContent = (roleRecipients.finance || []).join(", ") || "Not configured";
+  document.getElementById("procurementRecipients").textContent = (roleRecipients.procurement || []).join(", ") || "Not configured";
   document.getElementById("emailFrom").textContent = fromEmail;
   document.getElementById("emailStatus").textContent = ready ? "Ready" : `Missing ${missing.join(", ")}`;
   const sendButton = document.getElementById("sendAlertButton");
+  const reportButton = document.getElementById("sendDailyReportButton");
   sendButton.disabled = !ready;
+  reportButton.disabled = !ready;
 }
 
 function renderSupplierExposure(approved, blocked) {
@@ -959,7 +964,9 @@ document.getElementById("sendAlertButton").addEventListener("click", async () =>
     });
     if (response.ok) {
       status.textContent = "Sent";
-      log.textContent = `Alert email sent to ${response.recipients.join(", ")}.`;
+      const sent = (response.sentRoles || []).join(", ") || "none";
+      const skipped = (response.skippedRoles || []).map(item => `${item.role}: ${item.reason}`).join("; ");
+      log.textContent = `Sent role alerts: ${sent}.${skipped ? ` Skipped: ${skipped}.` : ""}`;
     } else {
       status.textContent = "Failed";
       log.textContent = response.error === "missing_email_settings"
@@ -972,6 +979,37 @@ document.getElementById("sendAlertButton").addEventListener("click", async () =>
   } finally {
     button.disabled = false;
     button.textContent = "Send alerts";
+  }
+});
+
+document.getElementById("sendDailyReportButton").addEventListener("click", async () => {
+  const button = document.getElementById("sendDailyReportButton");
+  const status = document.getElementById("emailStatus");
+  const log = document.getElementById("emailLog");
+  button.disabled = true;
+  button.textContent = "Sending";
+  status.textContent = "Sending report";
+  try {
+    const response = await api("/api/send-daily-report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
+    });
+    if (response.ok) {
+      status.textContent = "Report sent";
+      log.textContent = `Daily report sent to ${response.recipients.join(", ")}.`;
+    } else {
+      status.textContent = "Failed";
+      log.textContent = response.error === "missing_email_settings"
+        ? `Missing settings: ${response.missing.join(", ")}.`
+        : `Report send failed: ${response.detail || response.error}`;
+    }
+  } catch (error) {
+    status.textContent = "Failed";
+    log.textContent = error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Send daily report";
   }
 });
 
